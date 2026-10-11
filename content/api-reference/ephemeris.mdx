@@ -3,7 +3,7 @@ title: Ephemeris
 description: Ephemeris service contract and runtime-neutral position models.
 ---
 
-{/* Generated from astro-ascendant@4.0.5. Do not edit by hand. Run `make sync-api` to regenerate. */}
+{/* Generated from astro-ascendant@5.1.0. Do not edit by hand. Run `make sync-api` to regenerate. */}
 
 Import from `astro-ascendant/ephemeris`:
 
@@ -16,45 +16,32 @@ import * as Ephemeris from "astro-ascendant/ephemeris";
 ### `Ephemeris`
 
 ```ts
-declare class Ephemeris extends Service_base {}
+declare class Ephemeris extends Service_base {
+}
 ```
 
 ### `EphemerisError`
 
 ```ts
-class EphemerisError extends EphemerisError_base {}
+class EphemerisError extends EphemerisError_base {
+}
 ```
 
 ## Interfaces
 
-### `HouseData`
+### `NativePlanetaryPosition`
 
 ```ts
-interface HouseData {
-  readonly cusps: readonly number[];
-  readonly ascendant: number;
-  readonly mc: number;
-  readonly armc: number;
-  readonly vertex: number;
-  readonly equatorialAscendant: number;
-  readonly coAscendant1: number;
-  readonly coAscendant2: number;
-  readonly polarAscendant: number;
-  readonly houseSystem: typeof HouseSystem.Type;
+interface NativePlanetaryPosition extends Schema.Schema.Type<typeof NativePlanetaryPosition> {
 }
 ```
 
-### `PlanetaryPosition`
+### `PositionCacheOptions`
 
 ```ts
-interface PlanetaryPosition {
-  readonly longitude: number;
-  readonly latitude: number;
-  readonly distance: number;
-  readonly longitudeSpeed: number;
-  readonly latitudeSpeed: number;
-  readonly distanceSpeed: number;
-  readonly flags: number;
+interface PositionCacheOptions {
+    readonly capacity?: number | undefined;
+    readonly timeToLive?: Duration.Input | undefined;
 }
 ```
 
@@ -63,13 +50,58 @@ interface PlanetaryPosition {
 ### `CelestialBody`
 
 ```ts
-const CelestialBody: Schema.Literals<
-  readonly ["Sun", "Moon", "Mars", "Mercury", "Venus", "Jupiter", "Saturn", "TrueNode", "MeanNode"]
->;
+const CelestialBody: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Venus", "Jupiter", "Saturn", "TrueNode", "MeanNode"]>
+```
+
+### `HouseData`
+
+```ts
+const HouseData: Schema.Struct<{
+    readonly cusps: Schema.$Array<Schema.Finite>;
+    readonly ascendant: Schema.Finite;
+    readonly mc: Schema.Finite;
+    readonly armc: Schema.Finite;
+    readonly vertex: Schema.Finite;
+    readonly equatorialAscendant: Schema.Finite;
+    readonly coAscendant1: Schema.Finite;
+    readonly coAscendant2: Schema.Finite;
+    readonly polarAscendant: Schema.Finite;
+    readonly houseSystem: Schema.Literals<readonly ["Placidus", "Koch", "Porphyrius", "Regiomontanus", "Campanus", "Equal", "VehlowEqual", "WholeSign", "Meridian", "Azimuthal", "PolichPage", "Alcabitus", "Morinus"]>;
+}>
 ```
 
 ### `JulianDay`
 
 ```ts
-const JulianDay: Schema.brand<Schema.Finite, "JulianDay">;
+const JulianDay: Schema.brand<Schema.Finite, "JulianDay">
+```
+
+### `NativeHouseData`
+
+```ts
+const NativeHouseData: Schema.Struct<{
+    readonly cusps: Schema.$Array<Schema.Finite>;
+    readonly ascendant: Schema.Finite;
+    readonly mc: Schema.Finite;
+    readonly armc: Schema.Finite;
+    readonly vertex: Schema.Finite;
+    readonly equatorialAscendant: Schema.Finite;
+    readonly coAscendant1: Schema.Finite;
+    readonly coAscendant2: Schema.Finite;
+    readonly polarAscendant: Schema.Finite;
+}>
+```
+
+### `PlanetaryPosition`
+
+```ts
+const PlanetaryPosition: Schema.Struct<{
+    readonly longitude: Schema.Finite;
+    readonly latitude: Schema.Finite;
+    readonly distance: Schema.Finite;
+    readonly longitudeSpeed: Schema.Finite;
+    readonly latitudeSpeed: Schema.Finite;
+    readonly distanceSpeed: Schema.Finite;
+    readonly flags: Schema.Int;
+}>
 ```
