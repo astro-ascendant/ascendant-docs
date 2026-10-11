@@ -22,7 +22,7 @@ import { signShortName } from "@/lib/chart";
 
 function ChartCalculating() {
   return (
-    <Card>
+    <Card className="shadow-none">
       <CardHeader>
         <CardTitle>Calculating planetary positions</CardTitle>
       </CardHeader>
@@ -40,7 +40,7 @@ function ChartFailure() {
     state: { errors },
   } = useChart();
   return (
-    <Alert variant="destructive">
+    <Alert variant="destructive" className="shadow-none">
       <AlertTitle>Calculation did not complete</AlertTitle>
       <AlertDescription>
         {errors.length > 0
