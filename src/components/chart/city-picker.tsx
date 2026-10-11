@@ -55,7 +55,7 @@ export function CityPicker({
     >
       <ComboboxInput
         id="chart-place"
-        placeholder="e.g. Chennai"
+        placeholder="e.g. Satyamangalam"
         className="rounded-md"
         aria-invalid={invalid || undefined}
         aria-describedby={describedBy}
