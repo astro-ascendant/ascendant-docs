@@ -5,24 +5,37 @@ description: Install the Ascendant skill or plugins into Claude.ai, Claude Code,
 
 ## Overview
 
-The **ascendant** skill turns a saved person record and fixed astrological
-methods into a deterministic procedure the agent follows. The person record
-(`persons/<name>/`) is the source of truth for birth data and chart evidence:
-the skill reads it, never re-derives or guesses it. Methods come from the
-bundled KP and Parashari guidebooks (KP predominantly, for timing and yes/no
-questions; Parashari for promise, quality, yogas, and vargas), with one school
-per answer and a provenance check (`school`, `ayanamsa`, `houseSystem`,
-`dashaSystem`) before any placement is used.
+**Ascendant** saves a birth chart once, then answers astrology questions from
+that stored record instead of recalled positions. It runs as an agent skill in
+OpenCode, Claude Code, Codex, and any skill-compatible agent.
 
-This targets three common failures in AI astrology:
+The workflow has two moves:
 
-- **Data mismatch**: every claim cites a chart file (`path:field`), so
-  judgments trace to stored evidence rather than recalled positions.
-- **Method mix-up**: KP placements are never read with Parashari rules in
-  one judgment; each answer names its school once at the top.
-- **Data unavailability**: when evidence is missing or conflicts block
-  judgment, the skill outputs `Insufficient evidence: run init or attach X`
-  instead of hedging.
+1. **Save a chart.** Give a person's birth data; the skill writes a record to
+   `persons/<name>/` and generates the Vedic and KP charts, dashas, and
+   Ashtakavarga its answers draw on. The birth header stays immutable, and
+   confirmed past events accumulate in the record's `MEMORY.md`.
+2. **Ask a question.** Ask in plain words. The reply leads with the judgment,
+   then shows the method and citations underneath.
+
+Each answer commits to one school. **KP** (KrishnamurtiVP291, Placidus,
+Vimshottari) is the default for every question. **Parashari** (Lahiri,
+whole-sign, Vimshottari) applies only on an explicit request, where it covers
+promise, quality, yogas, and divisional charts. The two are never mixed, and
+the answer states its school, ayanamsa, house system, and dasha system up
+front.
+
+Three properties keep readings consistent:
+
+- **Cited evidence**: every claim points to a chart file (`path:field`) and a
+  guidebook section, so judgments trace to the record, not memory.
+- **One method per judgment**: KP placements are never read with Parashari
+  rules.
+- **No hedging**: when evidence is missing or conflicts block judgment, the
+  skill returns `Insufficient evidence: run init or attach X`.
+
+The skill declines to time or assert deaths, serious accidents, or severe
+illnesses.
 
 ## Installation
 
