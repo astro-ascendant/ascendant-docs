@@ -59,14 +59,9 @@ function ChartJaiminiTables() {
     return null;
   }
   return (
-    <Tabs defaultValue="karakas">
-      <TabsList className="max-w-full self-start overflow-x-auto">
-        <TabsTrigger value="karakas">Chara Karakas</TabsTrigger>
-        <TabsTrigger value="arudha">Arudha Pada</TabsTrigger>
-        <TabsTrigger value="karakamsha">Karakamsha and Upapada</TabsTrigger>
-        <TabsTrigger value="drishti">Drishti and Argala</TabsTrigger>
-      </TabsList>
-      <TabsContent value="karakas">
+    <div className="grid items-start gap-4 sm:grid-cols-2">
+      <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+        <h3 className="font-heading text-base font-medium">Chara Karakas</h3>
         <ChartQuote>
           Chara Karakas introduce the cast of your chart. The planet furthest along in its journey
           becomes your Atmakaraka, representing your own soul, and the next strongest steps in as
@@ -88,29 +83,9 @@ function ChartJaiminiTables() {
             ))}
           </TableBody>
         </Table>
-      </TabsContent>
-      <TabsContent value="karakamsha">
-        <ChartQuote>
-          Karakamsha points to what you came here to become: it is read for purpose and livelihood.
-          Upapada is about the person you share life with, so astrologers read it first for
-          marriage.
-        </ChartQuote>
-        <Table>
-          <TableBody tone="muted">
-            <TableRow>
-              <TableHead>Karakamsha</TableHead>
-              <TableCell>
-                {result.jaimini.karakamsha === "" ? "—" : result.jaimini.karakamsha}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead>Upapada</TableHead>
-              <TableCell>{result.jaimini.upapada === "" ? "—" : result.jaimini.upapada}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TabsContent>
-      <TabsContent value="arudha">
+      </section>
+      <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+        <h3 className="font-heading text-base font-medium">Arudha Pada</h3>
         <ChartQuote>
           Arudha pada shows how you are seen. A house says what is true in your life, while its
           arudha says what the world believes about it.
@@ -131,8 +106,31 @@ function ChartJaiminiTables() {
             ))}
           </TableBody>
         </Table>
-      </TabsContent>
-      <TabsContent value="drishti">
+      </section>
+      <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+        <h3 className="font-heading text-base font-medium">Karakamsha and Upapada</h3>
+        <ChartQuote>
+          Karakamsha points to what you came here to become: it is read for purpose and livelihood.
+          Upapada is about the person you share life with, so astrologers read it first for
+          marriage.
+        </ChartQuote>
+        <Table>
+          <TableBody tone="muted">
+            <TableRow>
+              <TableHead>Karakamsha</TableHead>
+              <TableCell>
+                {result.jaimini.karakamsha === "" ? "—" : result.jaimini.karakamsha}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableHead>Upapada</TableHead>
+              <TableCell>{result.jaimini.upapada === "" ? "—" : result.jaimini.upapada}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </section>
+      <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+        <h3 className="font-heading text-base font-medium">Drishti and Argala</h3>
         <ChartQuote>
           Drishti shows which parts of your chart are in conversation with each other. Argala tells
           you who is holding a door open for a house and who is standing in its doorway.
@@ -163,8 +161,8 @@ function ChartJaiminiTables() {
             </TableRow>
           </TableBody>
         </Table>
-      </TabsContent>
-    </Tabs>
+      </section>
+    </div>
   );
 }
 
@@ -293,7 +291,7 @@ function ChartSuccess({ tabListClassName }: { tabListClassName?: string }) {
           <ChartDashaTimelines />
         </TabsContent>
         <TabsContent value="jaimini">
-          <h2 className="sr-only">Jaimini karakas</h2>
+          <h2 className="sr-only">Jaimini</h2>
           <ChartJaiminiTables />
         </TabsContent>
         <TabsContent value="sav">
