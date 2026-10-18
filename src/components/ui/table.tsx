@@ -9,22 +9,15 @@ function Table({
   ...props
 }: React.ComponentProps<"table"> & { size?: "default" | "sm" }) {
   return (
-    <div data-slot="table-container" className="relative w-full">
-      <div data-slot="table-scroll" className="w-full overflow-x-auto">
-        <table
-          data-slot="table"
-          className={cn(
-            "w-full caption-bottom text-sm",
-            size === "sm" && "text-xs [&_th]:h-8 [&_th]:px-2 [&_td]:px-2 [&_td]:py-1",
-            className,
-          )}
-          {...props}
-        />
-      </div>
-      {/* Scroll cue: an always-present soft edge hints at horizontal continuation. */}
-      <div
-        aria-hidden="true"
-        className="from-background pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l"
+    <div data-slot="table-container" className="w-full overflow-x-auto">
+      <table
+        data-slot="table"
+        className={cn(
+          "w-full caption-bottom text-sm",
+          size === "sm" && "text-xs [&_th]:h-8 [&_th]:px-2 [&_td]:px-2 [&_td]:py-1",
+          className,
+        )}
+        {...props}
       />
     </div>
   );
