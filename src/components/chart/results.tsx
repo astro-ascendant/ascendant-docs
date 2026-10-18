@@ -59,8 +59,8 @@ function ChartJaiminiTables() {
     return null;
   }
   return (
-    <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2">
-      <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+    <div className="flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
+      <section className="border-border/70 bg-card/40 flex w-full flex-col gap-4 rounded-xl border p-6 sm:w-[calc(50%-0.5rem)]">
         <h3 className="font-heading text-base font-medium">Chara Karakas</h3>
         <ChartQuote>
           Chara Karakas introduce the cast of your chart. The planet furthest along in its journey
@@ -84,7 +84,7 @@ function ChartJaiminiTables() {
           </TableBody>
         </Table>
       </section>
-      <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+      <section className="border-border/70 bg-card/40 flex w-full flex-col gap-4 rounded-xl border p-6 sm:w-[calc(50%-0.5rem)]">
         <h3 className="font-heading text-base font-medium">Arudha Pada</h3>
         <ChartQuote>
           Arudha pada shows how you are seen. A house says what is true in your life, while its
@@ -107,7 +107,7 @@ function ChartJaiminiTables() {
           </TableBody>
         </Table>
       </section>
-      <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+      <section className="border-border/70 bg-card/40 flex w-full flex-col gap-4 rounded-xl border p-6 sm:w-[calc(50%-0.5rem)]">
         <h3 className="font-heading text-base font-medium">Karakamsha and Upapada</h3>
         <ChartQuote>
           Karakamsha points to what you came here to become: it is read for purpose and livelihood.
@@ -129,7 +129,7 @@ function ChartJaiminiTables() {
           </TableBody>
         </Table>
       </section>
-      <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+      <section className="border-border/70 bg-card/40 flex w-full flex-col gap-4 rounded-xl border p-6 sm:w-[calc(50%-0.5rem)]">
         <h3 className="font-heading text-base font-medium">Drishti and Argala</h3>
         <ChartQuote>
           Drishti shows which parts of your chart are in conversation with each other. Argala tells
