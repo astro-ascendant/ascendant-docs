@@ -194,7 +194,7 @@ export function ChartPage() {
       <div aria-hidden="true" className="paper-grain" />
 
       <header className="border-border/70 border-b px-4">
-        <div className="mx-auto flex w-full max-w-173 items-center gap-3 py-3">
+        <div className="mx-auto flex w-full max-w-173 items-center gap-3 py-2 sm:py-3">
           <Wordmark />
           <nav aria-label="Site" className="ms-auto flex items-center">
             <a
@@ -207,7 +207,7 @@ export function ChartPage() {
         </div>
       </header>
 
-      <section className="border-border/70 bg-card/40 border-b">
+      <section className="border-border/70 bg-card/40 border-b px-4">
         <div className="mx-auto w-full max-w-173 py-8">
           <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-5">
             <div className="min-w-0">
@@ -266,7 +266,8 @@ export function ChartPage() {
         </div>
       </section>
 
-      <main id="content" className="mx-auto w-full max-w-173 py-8 sm:py-10">
+      <main id="content" className="w-full px-4">
+        <div className="mx-auto w-full max-w-173 py-8 sm:py-10">
         {hasSubject ? (
           <>
             <Chart.ResultSwitch tabListClassName={isMobile ? MOBILE_TAB_LIST : undefined} />
@@ -287,6 +288,7 @@ export function ChartPage() {
             </Button>
           </section>
         )}
+        </div>
       </main>
 
       <ChartDetailsEditor open={editorOpen} onOpenChange={setEditorOpen} />
