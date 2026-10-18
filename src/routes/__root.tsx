@@ -3,7 +3,7 @@ import appCss from "@/styles/app.css?url";
 import { RootProvider } from "fumadocs-ui/provider/tanstack";
 import { Banner } from "fumadocs-ui/components/banner";
 import { ArrowRightIcon } from "@phosphor-icons/react";
-import favicon from "../../assets/favicon.svg";
+import favicon from "../../assets/favicon.png";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -34,7 +34,7 @@ export const Route = createRootRoute({
       },
       {
         property: "og:image",
-        content: "https://ascendant-docs.vercel.app/solar-system.png",
+        content: "https://ascendant-docs.vercel.app/solar-system.jpg",
       },
       {
         name: "twitter:card",
@@ -42,12 +42,12 @@ export const Route = createRootRoute({
       },
       {
         name: "twitter:image",
-        content: "https://ascendant-docs.vercel.app/solar-system.png",
+        content: "https://ascendant-docs.vercel.app/solar-system.jpg",
       },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/svg+xml", href: favicon },
+      { rel: "icon", type: "image/png", href: favicon },
     ],
   }),
   component: RootComponent,
