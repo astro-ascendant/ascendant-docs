@@ -4,6 +4,25 @@ import wordmark from "../../assets/wordmark.webp";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
+  head: () => ({
+    meta: [
+      { title: "Free Birth Chart Calculator - Ascendant" },
+      {
+        name: "description",
+        content:
+          "Understand your birth chart with a free Vedic birth chart calculator. Enter your birth date, time, and place to see your ascendant, moon sign, and dashas.",
+      },
+      {
+        property: "og:title",
+        content: "Free Birth Chart Calculator - Ascendant",
+      },
+      {
+        property: "og:description",
+        content:
+          "Understand your birth chart with a free Vedic birth chart calculator. Enter your birth date, time, and place to see your ascendant, moon sign, and dashas.",
+      },
+    ],
+  }),
 });
 
 function LandingPage() {

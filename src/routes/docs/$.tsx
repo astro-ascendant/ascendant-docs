@@ -17,8 +17,35 @@ import { useFumadocsLoader } from "fumadocs-core/source/client";
 import { Suspense } from "react";
 import { useMDXComponents } from "@/components/mdx";
 
+/** Serialized server loader payload; `meta` is sourced from MDX frontmatter. */
+interface DocsLoaderData {
+  path: string;
+  markdownUrl: string;
+  pageTree: Awaited<ReturnType<typeof source.serializePageTree>>;
+  meta: {
+    title: string;
+    description: string | undefined;
+  };
+}
+
 export const Route = createFileRoute("/docs/$")({
   component: Page,
+  head: ({ loaderData }: { loaderData?: DocsLoaderData }) => {
+    const { title, description } = loaderData?.meta ?? {};
+
+    return {
+      meta: [
+        title ? { title: `${title} - Ascendant` } : undefined,
+        description ? { name: "description", content: description } : undefined,
+        title
+          ? { property: "og:title", content: `${title} - Ascendant` }
+          : undefined,
+        description
+          ? { property: "og:description", content: description }
+          : undefined,
+      ].filter((tag) => tag !== undefined),
+    };
+  },
   loader: async ({ params }) => {
     const slugs = params._splat?.split("/") ?? [];
     const data = await serverLoader({ data: slugs });
@@ -39,6 +66,10 @@ const serverLoader = createServerFn({
       path: page.path,
       markdownUrl: slugsToMarkdownPath(page.slugs).url,
       pageTree: await source.serializePageTree(source.getPageTree()),
+      meta: {
+        title: page.data.title,
+        description: page.data.description,
+      },
     };
   });
 
@@ -54,17 +85,14 @@ const clientLoader = browserCollections.docs.createClientLoader({
       path: string;
     },
   ) {
-    const isChartPage = path.replace(/\.mdx?$/, "") === "chart";
     return (
-      <DocsPage toc={toc} footer={{ enabled: !isChartPage }}>
+      <DocsPage toc={toc}>
         <DocsTitle>{frontmatter.title}</DocsTitle>
         <DocsDescription>{frontmatter.description}</DocsDescription>
-        {!isChartPage ? (
-          <div className="flex flex-row gap-2 items-center border-b -mt-4 pb-6">
-            <MarkdownCopyButton markdownUrl={markdownUrl} />
-            <ViewOptionsPopover markdownUrl={markdownUrl} githubUrl={getGitHubUrl(path)} />
-          </div>
-        ) : null}
+        <div className="flex flex-row gap-2 items-center border-b -mt-4 pb-6">
+          <MarkdownCopyButton markdownUrl={markdownUrl} />
+          <ViewOptionsPopover markdownUrl={markdownUrl} githubUrl={getGitHubUrl(path)} />
+        </div>
         <DocsBody>
           <MDX components={useMDXComponents()} />
         </DocsBody>
