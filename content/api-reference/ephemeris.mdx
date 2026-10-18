@@ -16,15 +16,13 @@ import * as Ephemeris from "astro-ascendant/ephemeris";
 ### `Ephemeris`
 
 ```ts
-declare class Ephemeris extends Service_base {
-}
+declare class Ephemeris extends Service_base {}
 ```
 
 ### `EphemerisError`
 
 ```ts
-class EphemerisError extends EphemerisError_base {
-}
+class EphemerisError extends EphemerisError_base {}
 ```
 
 ## Interfaces
@@ -32,16 +30,15 @@ class EphemerisError extends EphemerisError_base {
 ### `NativePlanetaryPosition`
 
 ```ts
-interface NativePlanetaryPosition extends Schema.Schema.Type<typeof NativePlanetaryPosition> {
-}
+interface NativePlanetaryPosition extends Schema.Schema.Type<typeof NativePlanetaryPosition> {}
 ```
 
 ### `PositionCacheOptions`
 
 ```ts
 interface PositionCacheOptions {
-    readonly capacity?: number | undefined;
-    readonly timeToLive?: Duration.Input | undefined;
+  readonly capacity?: number | undefined;
+  readonly timeToLive?: Duration.Input | undefined;
 }
 ```
 
@@ -50,58 +47,76 @@ interface PositionCacheOptions {
 ### `CelestialBody`
 
 ```ts
-const CelestialBody: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Venus", "Jupiter", "Saturn", "TrueNode", "MeanNode"]>
+const CelestialBody: Schema.Literals<
+  readonly ["Sun", "Moon", "Mars", "Mercury", "Venus", "Jupiter", "Saturn", "TrueNode", "MeanNode"]
+>;
 ```
 
 ### `HouseData`
 
 ```ts
 const HouseData: Schema.Struct<{
-    readonly cusps: Schema.$Array<Schema.Finite>;
-    readonly ascendant: Schema.Finite;
-    readonly mc: Schema.Finite;
-    readonly armc: Schema.Finite;
-    readonly vertex: Schema.Finite;
-    readonly equatorialAscendant: Schema.Finite;
-    readonly coAscendant1: Schema.Finite;
-    readonly coAscendant2: Schema.Finite;
-    readonly polarAscendant: Schema.Finite;
-    readonly houseSystem: Schema.Literals<readonly ["Placidus", "Koch", "Porphyrius", "Regiomontanus", "Campanus", "Equal", "VehlowEqual", "WholeSign", "Meridian", "Azimuthal", "PolichPage", "Alcabitus", "Morinus"]>;
-}>
+  readonly cusps: Schema.$Array<Schema.Finite>;
+  readonly ascendant: Schema.Finite;
+  readonly mc: Schema.Finite;
+  readonly armc: Schema.Finite;
+  readonly vertex: Schema.Finite;
+  readonly equatorialAscendant: Schema.Finite;
+  readonly coAscendant1: Schema.Finite;
+  readonly coAscendant2: Schema.Finite;
+  readonly polarAscendant: Schema.Finite;
+  readonly houseSystem: Schema.Literals<
+    readonly [
+      "Placidus",
+      "Koch",
+      "Porphyrius",
+      "Regiomontanus",
+      "Campanus",
+      "Equal",
+      "VehlowEqual",
+      "WholeSign",
+      "Meridian",
+      "Azimuthal",
+      "PolichPage",
+      "Alcabitus",
+      "Morinus",
+    ]
+  >;
+}>;
 ```
 
 ### `JulianDay`
 
 ```ts
-const JulianDay: Schema.brand<Schema.Finite, "JulianDay">
+const JulianDay: Schema.brand<Schema.Finite, "JulianDay">;
 ```
 
 ### `NativeHouseData`
 
 ```ts
 const NativeHouseData: Schema.Struct<{
-    readonly cusps: Schema.$Array<Schema.Finite>;
-    readonly ascendant: Schema.Finite;
-    readonly mc: Schema.Finite;
-    readonly armc: Schema.Finite;
-    readonly vertex: Schema.Finite;
-    readonly equatorialAscendant: Schema.Finite;
-    readonly coAscendant1: Schema.Finite;
-    readonly coAscendant2: Schema.Finite;
-    readonly polarAscendant: Schema.Finite;
-}>
+  readonly cusps: Schema.$Array<Schema.Finite>;
+  readonly ascendant: Schema.Finite;
+  readonly mc: Schema.Finite;
+  readonly armc: Schema.Finite;
+  readonly vertex: Schema.Finite;
+  readonly equatorialAscendant: Schema.Finite;
+  readonly coAscendant1: Schema.Finite;
+  readonly coAscendant2: Schema.Finite;
+  readonly polarAscendant: Schema.Finite;
+}>;
 ```
 
 ### `PlanetaryPosition`
 
 ```ts
 const PlanetaryPosition: Schema.Struct<{
-    readonly longitude: Schema.Finite;
-    readonly latitude: Schema.Finite;
-    readonly distance: Schema.Finite;
-    readonly longitudeSpeed: Schema.Finite;
-    readonly latitudeSpeed: Schema.Finite;
-    readonly distanceSpeed: Schema.Finite;
-    readonly flags: Schema.Int;
-}>
+  readonly longitude: Schema.Finite;
+  readonly latitude: Schema.Finite;
+  readonly distance: Schema.Finite;
+  readonly longitudeSpeed: Schema.Finite;
+  readonly latitudeSpeed: Schema.Finite;
+  readonly distanceSpeed: Schema.Finite;
+  readonly flags: Schema.Int;
+}>;
 ```

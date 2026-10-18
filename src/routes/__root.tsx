@@ -93,7 +93,11 @@ function RootComponent() {
             ]}
             className="banner group h-auto! min-h-[3rem] px-4 py-2 pe-10 text-center text-xs leading-snug font-medium text-balance sm:text-[13px]"
           >
-            <a href="/docs" aria-label="astro-ascendant 5.0 is here: read the docs" className="absolute inset-0" />
+            <a
+              href="/docs"
+              aria-label="astro-ascendant 5.0 is here: read the docs"
+              className="absolute inset-0"
+            />
             <span aria-hidden="true" className="banner-line" />
             <span className="pointer-events-none flex flex-1 items-center justify-center gap-2">
               <span>

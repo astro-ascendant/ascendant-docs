@@ -96,10 +96,7 @@ function LandingPage() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/chart"
-                className="group flex flex-wrap items-center gap-2 py-3.5"
-              >
+              <Link to="/chart" className="group flex flex-wrap items-center gap-2 py-3.5">
                 <span className="min-w-0 text-sm font-medium text-foreground sm:text-base">
                   Chart Generator
                 </span>

@@ -37,12 +37,8 @@ export const Route = createFileRoute("/docs/$")({
       meta: [
         title ? { title: `${title} - Ascendant` } : undefined,
         description ? { name: "description", content: description } : undefined,
-        title
-          ? { property: "og:title", content: `${title} - Ascendant` }
-          : undefined,
-        description
-          ? { property: "og:description", content: description }
-          : undefined,
+        title ? { property: "og:title", content: `${title} - Ascendant` } : undefined,
+        description ? { property: "og:description", content: description } : undefined,
       ].filter((tag) => tag !== undefined),
     };
   },

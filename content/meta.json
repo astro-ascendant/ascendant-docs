@@ -1,8 +1,4 @@
 {
   "title": "Ascendant",
-  "pages": [
-    "index",
-    "skills",
-    "api-reference"
-  ]
+  "pages": ["index", "skills", "api-reference"]
 }

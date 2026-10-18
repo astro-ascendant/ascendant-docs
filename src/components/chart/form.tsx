@@ -293,13 +293,7 @@ export function ChartCalculateButton() {
   } = useChart();
   const busy = status === "calculating";
   return (
-    <Button
-      type="button"
-      disabled={busy}
-      aria-busy={busy}
-      onClick={calculate}
-      className="w-fit"
-    >
+    <Button type="button" disabled={busy} aria-busy={busy} onClick={calculate} className="w-fit">
       {busy ? <CircleNotchIcon className="motion-safe:animate-spin" aria-hidden="true" /> : null}
       Calculate chart
     </Button>

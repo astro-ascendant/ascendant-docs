@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  CalendarBlankIcon,
-  ClockIcon,
-  MapPinIcon,
-  PencilSimpleIcon,
-} from "@phosphor-icons/react";
+import { CalendarBlankIcon, ClockIcon, MapPinIcon, PencilSimpleIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
 import { Chart } from "@/components/chart";
 import { ChatGptIcon } from "@/components/chart/chatgpt-icon";
@@ -91,7 +86,10 @@ function MetaFact({
     <div className="flex max-w-full min-w-0 items-center gap-1.5">
       <Icon aria-hidden="true" className="text-muted-foreground size-3.5 shrink-0" />
       <dt className="sr-only">{label}</dt>
-      <dd className="text-muted-foreground truncate font-mono text-sm tabular-nums" title={title ?? value}>
+      <dd
+        className="text-muted-foreground truncate font-mono text-sm tabular-nums"
+        title={title ?? value}
+      >
         {value}
         {hint ? <span className="text-muted-foreground ms-1.5">{hint}</span> : null}
       </dd>
@@ -146,7 +144,10 @@ function KpiStrip({ items, className }: { items: SummaryItem[]; className?: stri
           <dt className="text-muted-foreground text-[11px] font-medium tracking-[0.14em] uppercase">
             {item.label}
           </dt>
-          <dd className="text-foreground mt-1 truncate font-mono text-sm tabular-nums" title={item.value}>
+          <dd
+            className="text-foreground mt-1 truncate font-mono text-sm tabular-nums"
+            title={item.value}
+          >
             {item.value}
           </dd>
         </div>
@@ -268,26 +269,26 @@ export function ChartPage() {
 
       <main id="content" className="w-full px-4">
         <div className="mx-auto w-full max-w-173 py-8 sm:py-10">
-        {hasSubject ? (
-          <>
-            <Chart.ResultSwitch tabListClassName={isMobile ? MOBILE_TAB_LIST : undefined} />
-            {/* Clearance for the floating tab bar; only where it floats. */}
-            {isMobile ? <div aria-hidden="true" className="h-16" /> : null}
-          </>
-        ) : (
-          <section className="border-border/70 bg-card/40 flex flex-col items-start gap-4 rounded-xl border p-6 sm:p-8">
-            <div className="flex flex-col gap-1.5">
-              <h2 className="font-heading text-base font-medium">No chart yet?</h2>
-              <p className="text-muted-foreground max-w-prose text-sm text-pretty">
-                Enter a birth date, time and place to generate a Rashi chart, Navamsha chart, KP
-                chart, Vimshottari dasha, Jaimini karakas and Sarvashtakavarga.
-              </p>
-            </div>
-            <Button type="button" onClick={() => setEditorOpen(true)}>
-              Enter birth details
-            </Button>
-          </section>
-        )}
+          {hasSubject ? (
+            <>
+              <Chart.ResultSwitch tabListClassName={isMobile ? MOBILE_TAB_LIST : undefined} />
+              {/* Clearance for the floating tab bar; only where it floats. */}
+              {isMobile ? <div aria-hidden="true" className="h-16" /> : null}
+            </>
+          ) : (
+            <section className="border-border/70 bg-card/40 flex flex-col items-start gap-4 rounded-xl border p-6 sm:p-8">
+              <div className="flex flex-col gap-1.5">
+                <h2 className="font-heading text-base font-medium">No chart yet?</h2>
+                <p className="text-muted-foreground max-w-prose text-sm text-pretty">
+                  Enter a birth date, time and place to generate a Rashi chart, Navamsha chart, KP
+                  chart, Vimshottari dasha, Jaimini karakas and Sarvashtakavarga.
+                </p>
+              </div>
+              <Button type="button" onClick={() => setEditorOpen(true)}>
+                Enter birth details
+              </Button>
+            </section>
+          )}
         </div>
       </main>
 

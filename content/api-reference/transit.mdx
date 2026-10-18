@@ -16,41 +16,111 @@ import * as Transit from "astro-ascendant/transit";
 ### `dateTimeFromJd`
 
 ```ts
-function dateTimeFromJd(julianDay: number): DateTime.Utc
+function dateTimeFromJd(julianDay: number): DateTime.Utc;
 ```
 
 ### `findTransits`
 
 ```ts
-const findTransits: (request: TransitRequest) => Effect.Effect<readonly TransitEvent[], import("../chart/error.js").ChartCalculationError | import("../chart/divisional-mapping/error.js").DivisionalMappingError | import("../ephemeris/error.js").EphemerisError | import("../chart/error.js").LocatedMomentValidationError | import("../utils/position.js").LongitudeError | TransitSearchExhausted | TransitValidationError | import("effect/SchemaIssue").Issue, AstroParams | Ephemeris>
+const findTransits: (
+  request: TransitRequest,
+) => Effect.Effect<
+  readonly TransitEvent[],
+  | import("../chart/error.js").ChartCalculationError
+  | import("../chart/divisional-mapping/error.js").DivisionalMappingError
+  | import("../ephemeris/error.js").EphemerisError
+  | import("../chart/error.js").LocatedMomentValidationError
+  | import("../utils/position.js").LongitudeError
+  | TransitSearchExhausted
+  | TransitValidationError
+  | import("effect/SchemaIssue").Issue,
+  AstroParams | Ephemeris
+>;
 ```
 
 ### `millisFromJd`
 
 ```ts
-function millisFromJd(julianDay: number): number
+function millisFromJd(julianDay: number): number;
 ```
 
 ### `normalize360`
 
 ```ts
-function normalize360(degrees: number): Longitude
+function normalize360(degrees: number): Longitude;
 ```
 
 ### `sampleAt`
 
 ```ts
-const sampleAt: (julianDay: number, planet: "Jupiter" | "Ketu" | "Mars" | "Mercury" | "Moon" | "Rahu" | "Saturn" | "Sun" | "Venus", ayanamsa: "Aldebaran15Tau" | "Aryabhata" | "Aryabhata522" | "AryabhataMeanSun" | "B1950" | "BabylBritton" | "BabylEtPSC" | "BabylHuber" | "BabylKugler1" | "BabylKugler2" | "BabylKugler3" | "DeLuce" | "DhruvaGalCenterMulaWilhelm" | "DjwhalKhul" | "FaganBradley" | "GalacticCenter0Sag" | "GalacticCenterCochrane" | "GalacticCenterGilBrand" | "GalacticEquator" | "GalacticEquatorFiorenza" | "GalacticEquatorIAU1958" | "GalacticEquatorMidMula" | "Hipparchos" | "J1900" | "J2000" | "JNBhasin" | "Krishnamurti" | "KrishnamurtiVP291" | "Lahiri" | "Lahiri1940" | "LahiriICRC" | "LahiriVP285" | "Raman" | "SSCitra" | "SSRevati" | "Sassanian" | "Skydram" | "SuryaSiddhanta" | "SuryaSiddhantaMeanSun" | "TrueCitra" | "TrueMula" | "TruePushya" | "TrueRevati" | "TrueSheoran" | "Ushashashi" | "ValensMoon" | "Yukteshwar") => Effect.Effect<{
+const sampleAt: (
+  julianDay: number,
+  planet: "Jupiter" | "Ketu" | "Mars" | "Mercury" | "Moon" | "Rahu" | "Saturn" | "Sun" | "Venus",
+  ayanamsa:
+    | "Aldebaran15Tau"
+    | "Aryabhata"
+    | "Aryabhata522"
+    | "AryabhataMeanSun"
+    | "B1950"
+    | "BabylBritton"
+    | "BabylEtPSC"
+    | "BabylHuber"
+    | "BabylKugler1"
+    | "BabylKugler2"
+    | "BabylKugler3"
+    | "DeLuce"
+    | "DhruvaGalCenterMulaWilhelm"
+    | "DjwhalKhul"
+    | "FaganBradley"
+    | "GalacticCenter0Sag"
+    | "GalacticCenterCochrane"
+    | "GalacticCenterGilBrand"
+    | "GalacticEquator"
+    | "GalacticEquatorFiorenza"
+    | "GalacticEquatorIAU1958"
+    | "GalacticEquatorMidMula"
+    | "Hipparchos"
+    | "J1900"
+    | "J2000"
+    | "JNBhasin"
+    | "Krishnamurti"
+    | "KrishnamurtiVP291"
+    | "Lahiri"
+    | "Lahiri1940"
+    | "LahiriICRC"
+    | "LahiriVP285"
+    | "Raman"
+    | "SSCitra"
+    | "SSRevati"
+    | "Sassanian"
+    | "Skydram"
+    | "SuryaSiddhanta"
+    | "SuryaSiddhantaMeanSun"
+    | "TrueCitra"
+    | "TrueMula"
+    | "TruePushya"
+    | "TrueRevati"
+    | "TrueSheoran"
+    | "Ushashashi"
+    | "ValensMoon"
+    | "Yukteshwar",
+) => Effect.Effect<
+  {
     julianDay: number;
     longitude: number & import("effect/Brand").Brand<"Longitude">;
     speed: number;
-}, import("../ephemeris/error.js").EphemerisError | import("../utils/position.js").LongitudeError | import("effect/SchemaIssue").Issue, Ephemeris>
+  },
+  | import("../ephemeris/error.js").EphemerisError
+  | import("../utils/position.js").LongitudeError
+  | import("effect/SchemaIssue").Issue,
+  Ephemeris
+>;
 ```
 
 ### `wrap180`
 
 ```ts
-function wrap180(degrees: number): number
+function wrap180(degrees: number): number;
 ```
 
 ## Classes
@@ -58,15 +128,13 @@ function wrap180(degrees: number): number
 ### `TransitSearchExhausted`
 
 ```ts
-class TransitSearchExhausted extends TransitSearchExhausted_base {
-}
+class TransitSearchExhausted extends TransitSearchExhausted_base {}
 ```
 
 ### `TransitValidationError`
 
 ```ts
-class TransitValidationError extends TransitValidationError_base {
-}
+class TransitValidationError extends TransitValidationError_base {}
 ```
 
 ## Constants
@@ -74,19 +142,19 @@ class TransitValidationError extends TransitValidationError_base {
 ### `COARSE_STEP_DAYS`
 
 ```ts
-const COARSE_STEP_DAYS: Record<Planets, number>
+const COARSE_STEP_DAYS: Record<Planets, number>;
 ```
 
 ### `JD_UNIX_EPOCH`
 
 ```ts
-const JD_UNIX_EPOCH = 2440587.5
+const JD_UNIX_EPOCH = 2440587.5;
 ```
 
 ### `TransitDirection`
 
 ```ts
-const TransitDirection: Schema.Literals<readonly ["forward", "backward"]>
+const TransitDirection: Schema.Literals<readonly ["forward", "backward"]>;
 ```
 
 ### `TransitEvent`
@@ -118,28 +186,40 @@ const TransitEvent: Schema.Struct<{
 ### `TransitKind`
 
 ```ts
-const TransitKind: Schema.Literals<readonly ["sign-ingress", "cusp-crossing", "longitude-hit", "station"]>
+const TransitKind: Schema.Literals<
+  readonly ["sign-ingress", "cusp-crossing", "longitude-hit", "station"]
+>;
 ```
 
 ### `TransitRequest`
 
 ```ts
 const TransitRequest: Schema.Struct<{
-    readonly planet: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-    readonly from: Schema.Struct<{
-        readonly moment: Schema.Struct<{
-            readonly date: Schema.DateTimeUtc;
-        }>;
-        readonly latitude: Schema.Finite;
-        readonly longitude: Schema.Finite;
+  readonly planet: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+  >;
+  readonly from: Schema.Struct<{
+    readonly moment: Schema.Struct<{
+      readonly date: Schema.DateTimeUtc;
     }>;
-    readonly count: Schema.Int;
-    readonly direction: Schema.Literals<readonly ["forward", "backward"]>;
-    readonly kinds: Schema.NonEmptyArray<Schema.Literals<readonly ["sign-ingress", "cusp-crossing", "longitude-hit", "station"]>>;
-    readonly targetLongitude: Schema.optionalKey<Schema.brand<Schema.Finite, "Longitude">>;
-    readonly house: Schema.optionalKey<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
-    readonly maxYears: Schema.optionalKey<Schema.Finite>;
-    readonly precisionMinutes: Schema.optionalKey<Schema.Finite>;
-    readonly includeCharts: Schema.optionalKey<Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 7, 9, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60]>>>;
-}>
+    readonly latitude: Schema.Finite;
+    readonly longitude: Schema.Finite;
+  }>;
+  readonly count: Schema.Int;
+  readonly direction: Schema.Literals<readonly ["forward", "backward"]>;
+  readonly kinds: Schema.NonEmptyArray<
+    Schema.Literals<readonly ["sign-ingress", "cusp-crossing", "longitude-hit", "station"]>
+  >;
+  readonly targetLongitude: Schema.optionalKey<Schema.brand<Schema.Finite, "Longitude">>;
+  readonly house: Schema.optionalKey<
+    Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>
+  >;
+  readonly maxYears: Schema.optionalKey<Schema.Finite>;
+  readonly precisionMinutes: Schema.optionalKey<Schema.Finite>;
+  readonly includeCharts: Schema.optionalKey<
+    Schema.$Array<
+      Schema.Literals<readonly [1, 2, 3, 4, 7, 9, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60]>
+    >
+  >;
+}>;
 ```

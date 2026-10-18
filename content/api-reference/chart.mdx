@@ -39,17 +39,30 @@ const generate: (input: ChartParams, divisions?: readonly (1 | 2 | 3 | 4 | 7 | 9
 ### `getDivisionalTarget`
 
 ```ts
-const getDivisionalTarget: (longitude: number, division: 1 | 2 | 3 | 4 | 7 | 9 | 10 | 12 | 16 | 20 | 24 | 27 | 30 | 40 | 45 | 60) => Effect.Effect<{
+const getDivisionalTarget: (
+  longitude: number,
+  division: 1 | 2 | 3 | 4 | 7 | 9 | 10 | 12 | 16 | 20 | 24 | 27 | 30 | 40 | 45 | 60,
+) => Effect.Effect<
+  {
     signIndex: number;
     degree: number & import("effect/Brand").Brand<"Degree">;
     longitude: number & import("effect/Brand").Brand<"Longitude">;
-}, DivisionalMappingError | import("../../utils/position.js").LongitudeError, never>
+  },
+  DivisionalMappingError | import("../../utils/position.js").LongitudeError,
+  never
+>;
 ```
 
 ### `project`
 
 ```ts
-const project: (placements: Placements, divisions?: readonly (1 | 2 | 3 | 4 | 7 | 9 | 10 | 12 | 16 | 20 | 24 | 27 | 30 | 40 | 45 | 60)[] | undefined, sex?: "Female" | "Male" | undefined) => Effect.Effect<[Chart, ...Chart[]], ChartCalculationError, never>
+const project: (
+  placements: Placements,
+  divisions?:
+    | readonly (1 | 2 | 3 | 4 | 7 | 9 | 10 | 12 | 16 | 20 | 24 | 27 | 30 | 40 | 45 | 60)[]
+    | undefined,
+  sex?: "Female" | "Male" | undefined,
+) => Effect.Effect<[Chart, ...Chart[]], ChartCalculationError, never>;
 ```
 
 ## Classes
@@ -57,29 +70,25 @@ const project: (placements: Placements, divisions?: readonly (1 | 2 | 3 | 4 | 7 
 ### `ChartCalculationError`
 
 ```ts
-class ChartCalculationError extends ChartCalculationError_base {
-}
+class ChartCalculationError extends ChartCalculationError_base {}
 ```
 
 ### `DivisionalMappingError`
 
 ```ts
-class DivisionalMappingError extends DivisionalMappingError_base {
-}
+class DivisionalMappingError extends DivisionalMappingError_base {}
 ```
 
 ### `LocatedMomentValidationError`
 
 ```ts
-class LocatedMomentValidationError extends LocatedMomentValidationError_base {
-}
+class LocatedMomentValidationError extends LocatedMomentValidationError_base {}
 ```
 
 ### `MissingPlacementError`
 
 ```ts
-class MissingPlacementError extends MissingPlacementError_base {
-}
+class MissingPlacementError extends MissingPlacementError_base {}
 ```
 
 ## Interfaces
@@ -88,9 +97,9 @@ class MissingPlacementError extends MissingPlacementError_base {
 
 ```ts
 interface DivisionalTarget {
-    readonly signIndex: number;
-    readonly degree: Degree;
-    readonly longitude: Longitude;
+  readonly signIndex: number;
+  readonly degree: Degree;
+  readonly longitude: Longitude;
 }
 ```
 
@@ -98,9 +107,9 @@ interface DivisionalTarget {
 
 ```ts
 interface SourcePosition {
-    readonly longitude: Longitude;
-    readonly signIndex: number;
-    readonly degree: Degree;
+  readonly longitude: Longitude;
+  readonly signIndex: number;
+  readonly degree: Degree;
 }
 ```
 
@@ -108,8 +117,8 @@ interface SourcePosition {
 
 ```ts
 interface Subdivision {
-    readonly partIndex: number;
-    readonly degree: number;
+  readonly partIndex: number;
+  readonly degree: number;
 }
 ```
 
@@ -161,15 +170,15 @@ const Chart: Schema.Struct<{
 
 ```ts
 const ChartAngles: Schema.Struct<{
-    readonly ascendant: Schema.brand<Schema.Finite, "CircleAngle">;
-    readonly mc: Schema.brand<Schema.Finite, "CircleAngle">;
-    readonly armc: Schema.brand<Schema.Finite, "CircleAngle">;
-    readonly vertex: Schema.brand<Schema.Finite, "CircleAngle">;
-    readonly equatorialAscendant: Schema.brand<Schema.Finite, "CircleAngle">;
-    readonly coAscendant1: Schema.brand<Schema.Finite, "CircleAngle">;
-    readonly coAscendant2: Schema.brand<Schema.Finite, "CircleAngle">;
-    readonly polarAscendant: Schema.brand<Schema.Finite, "CircleAngle">;
-}>
+  readonly ascendant: Schema.brand<Schema.Finite, "CircleAngle">;
+  readonly mc: Schema.brand<Schema.Finite, "CircleAngle">;
+  readonly armc: Schema.brand<Schema.Finite, "CircleAngle">;
+  readonly vertex: Schema.brand<Schema.Finite, "CircleAngle">;
+  readonly equatorialAscendant: Schema.brand<Schema.Finite, "CircleAngle">;
+  readonly coAscendant1: Schema.brand<Schema.Finite, "CircleAngle">;
+  readonly coAscendant2: Schema.brand<Schema.Finite, "CircleAngle">;
+  readonly polarAscendant: Schema.brand<Schema.Finite, "CircleAngle">;
+}>;
 ```
 
 ### `ChartCalculation`
@@ -218,31 +227,33 @@ const ChartHouses: Schema.$Record<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7,
 
 ```ts
 const ChartParams: Schema.Struct<{
-    readonly moment: Schema.Struct<{
-        readonly date: Schema.DateTimeUtc;
-    }>;
-    readonly latitude: Schema.Finite;
-    readonly longitude: Schema.Finite;
-    readonly sex: Schema.optionalKey<Schema.Literals<readonly ["Male", "Female"]>>;
-}>
+  readonly moment: Schema.Struct<{
+    readonly date: Schema.DateTimeUtc;
+  }>;
+  readonly latitude: Schema.Finite;
+  readonly longitude: Schema.Finite;
+  readonly sex: Schema.optionalKey<Schema.Literals<readonly ["Male", "Female"]>>;
+}>;
 ```
 
 ### `CircleAngle`
 
 ```ts
-const CircleAngle: Schema.brand<Schema.Finite, "CircleAngle">
+const CircleAngle: Schema.brand<Schema.Finite, "CircleAngle">;
 ```
 
 ### `Degree`
 
 ```ts
-const Degree: Schema.brand<Schema.Finite, "Degree">
+const Degree: Schema.brand<Schema.Finite, "Degree">;
 ```
 
 ### `Division`
 
 ```ts
-const Division: Schema.Literals<readonly [1, 2, 3, 4, 7, 9, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60]>
+const Division: Schema.Literals<
+  readonly [1, 2, 3, 4, 7, 9, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60]
+>;
 ```
 
 ### `House`
@@ -269,89 +280,185 @@ const House: Schema.Struct<{
 
 ```ts
 const HOUSE_SIGNIFICATIONS: {
-    readonly 1: readonly ["birth", "head", "physical body", "limbs", "physical features", "livelihood"];
-    readonly 2: readonly ["wealth", "food", "right eye", "face", "speech", "family", "property"];
-    readonly 3: readonly ["courage", "firmness", "right ear", "younger siblings", "heroism", "mental strength"];
-    readonly 4: readonly ["house", "home", "land", "mother", "vehicle", "happiness", "learning"];
-    readonly 5: readonly ["intellect", "children", "son", "belly", "traditional law", "virtuous acts"];
-    readonly 6: readonly ["debt", "wounds", "disease", "enemy", "sin", "fear", "humiliation"];
-    readonly 7: readonly ["desire", "love", "passion", "cohabitation", "partner", "public", "marriage"];
-    readonly 8: readonly ["life", "longevity", "mental pain", "defeat", "sorrow", "scandal", "death", "obstacle"];
-    readonly 9: readonly ["guru", "father", "worship", "virtue", "spiritual initiation", "fortune"];
-    readonly 10: readonly ["livelihood", "work", "commerce", "business", "rank", "honor", "occupation"];
-    readonly 11: readonly ["profit", "gain", "income", "receipt", "fulfillment", "elder siblings", "friends"];
-    readonly 12: readonly ["disappearance", "bondage", "loss", "bed", "poverty", "decline", "left eye", "leg"];
-}
+  readonly 1: readonly [
+    "birth",
+    "head",
+    "physical body",
+    "limbs",
+    "physical features",
+    "livelihood",
+  ];
+  readonly 2: readonly ["wealth", "food", "right eye", "face", "speech", "family", "property"];
+  readonly 3: readonly [
+    "courage",
+    "firmness",
+    "right ear",
+    "younger siblings",
+    "heroism",
+    "mental strength",
+  ];
+  readonly 4: readonly ["house", "home", "land", "mother", "vehicle", "happiness", "learning"];
+  readonly 5: readonly [
+    "intellect",
+    "children",
+    "son",
+    "belly",
+    "traditional law",
+    "virtuous acts",
+  ];
+  readonly 6: readonly ["debt", "wounds", "disease", "enemy", "sin", "fear", "humiliation"];
+  readonly 7: readonly [
+    "desire",
+    "love",
+    "passion",
+    "cohabitation",
+    "partner",
+    "public",
+    "marriage",
+  ];
+  readonly 8: readonly [
+    "life",
+    "longevity",
+    "mental pain",
+    "defeat",
+    "sorrow",
+    "scandal",
+    "death",
+    "obstacle",
+  ];
+  readonly 9: readonly ["guru", "father", "worship", "virtue", "spiritual initiation", "fortune"];
+  readonly 10: readonly [
+    "livelihood",
+    "work",
+    "commerce",
+    "business",
+    "rank",
+    "honor",
+    "occupation",
+  ];
+  readonly 11: readonly [
+    "profit",
+    "gain",
+    "income",
+    "receipt",
+    "fulfillment",
+    "elder siblings",
+    "friends",
+  ];
+  readonly 12: readonly [
+    "disappearance",
+    "bondage",
+    "loss",
+    "bed",
+    "poverty",
+    "decline",
+    "left eye",
+    "leg",
+  ];
+};
 ```
 
 ### `Houses`
 
 ```ts
-const Houses: Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>
+const Houses: Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>;
 ```
 
 ### `HouseSignificators`
 
 ```ts
 const HouseSignificators: Schema.Struct<{
-    readonly house: Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>;
-    readonly level1: Schema.$Array<Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>>;
-    readonly level2: Schema.$Array<Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>>;
-    readonly level3: Schema.$Array<Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>>;
-    readonly level4: Schema.$Array<Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>>;
-}>
+  readonly house: Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>;
+  readonly level1: Schema.$Array<
+    Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >
+  >;
+  readonly level2: Schema.$Array<
+    Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >
+  >;
+  readonly level3: Schema.$Array<
+    Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >
+  >;
+  readonly level4: Schema.$Array<
+    Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >
+  >;
+}>;
 ```
 
 ### `Lagna`
 
 ```ts
 const Lagna: Schema.Struct<{
-    readonly name: Schema.Literal<"Lagna">;
-    readonly longitude: Schema.brand<Schema.Finite, "Longitude">;
-    readonly degree: Schema.brand<Schema.Finite, "Degree">;
-    readonly sign: Schema.Struct<{
-        readonly name: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-        readonly lord: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>;
-    }>;
-}>
+  readonly name: Schema.Literal<"Lagna">;
+  readonly longitude: Schema.brand<Schema.Finite, "Longitude">;
+  readonly degree: Schema.brand<Schema.Finite, "Degree">;
+  readonly sign: Schema.Struct<{
+    readonly name: Schema.Literals<
+      readonly [
+        "Aries",
+        "Taurus",
+        "Gemini",
+        "Cancer",
+        "Leo",
+        "Virgo",
+        "Libra",
+        "Scorpio",
+        "Sagittarius",
+        "Capricorn",
+        "Aquarius",
+        "Pisces",
+      ]
+    >;
+    readonly lord: Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+    >;
+  }>;
+}>;
 ```
 
 ### `LagnaName`
 
 ```ts
-const LagnaName: Schema.Literal<"Lagna">
+const LagnaName: Schema.Literal<"Lagna">;
 ```
 
 ### `LocatedMoment`
 
 ```ts
 const LocatedMoment: Schema.Struct<{
-    readonly moment: Schema.Struct<{
-        readonly date: Schema.DateTimeUtc;
-    }>;
-    readonly latitude: Schema.Finite;
-    readonly longitude: Schema.Finite;
-}>
+  readonly moment: Schema.Struct<{
+    readonly date: Schema.DateTimeUtc;
+  }>;
+  readonly latitude: Schema.Finite;
+  readonly longitude: Schema.Finite;
+}>;
 ```
 
 ### `Longitude`
 
 ```ts
-const Longitude: Schema.brand<Schema.Finite, "Longitude">
+const Longitude: Schema.brand<Schema.Finite, "Longitude">;
 ```
 
 ### `Moment`
 
 ```ts
 const Moment: Schema.Struct<{
-    readonly date: Schema.DateTimeUtc;
-}>
+  readonly date: Schema.DateTimeUtc;
+}>;
 ```
 
 ### `Pada`
 
 ```ts
-const Pada: Schema.Literals<readonly [1, 2, 3, 4]>
+const Pada: Schema.Literals<readonly [1, 2, 3, 4]>;
 ```
 
 ### `Placements`
@@ -380,127 +487,329 @@ const Placements: Schema.Struct<{
 
 ```ts
 const Planet: Schema.Struct<{
-    readonly name: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-    readonly longitude: Schema.brand<Schema.Finite, "Longitude">;
-    readonly degree: Schema.brand<Schema.Finite, "Degree">;
-    readonly is_retrograde: Schema.Boolean;
-    readonly in_sign: Schema.$Array<Schema.Literals<readonly ["EXALTED", "MOOLA_TRIKONA", "OWN", "FRIEND", "NEUTRAL", "ENEMY", "DEBILITATED"]>>;
-    readonly sign: Schema.Struct<{
-        readonly name: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-        readonly lord: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>;
-    }>;
-}>
+  readonly name: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+  >;
+  readonly longitude: Schema.brand<Schema.Finite, "Longitude">;
+  readonly degree: Schema.brand<Schema.Finite, "Degree">;
+  readonly is_retrograde: Schema.Boolean;
+  readonly in_sign: Schema.$Array<
+    Schema.Literals<
+      readonly ["EXALTED", "MOOLA_TRIKONA", "OWN", "FRIEND", "NEUTRAL", "ENEMY", "DEBILITATED"]
+    >
+  >;
+  readonly sign: Schema.Struct<{
+    readonly name: Schema.Literals<
+      readonly [
+        "Aries",
+        "Taurus",
+        "Gemini",
+        "Cancer",
+        "Leo",
+        "Virgo",
+        "Libra",
+        "Scorpio",
+        "Sagittarius",
+        "Capricorn",
+        "Aquarius",
+        "Pisces",
+      ]
+    >;
+    readonly lord: Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+    >;
+  }>;
+}>;
 ```
 
 ### `PlanetDignity`
 
 ```ts
-const PlanetDignity: Schema.Literals<readonly ["EXALTED", "MOOLA_TRIKONA", "OWN", "FRIEND", "NEUTRAL", "ENEMY", "DEBILITATED"]>
+const PlanetDignity: Schema.Literals<
+  readonly ["EXALTED", "MOOLA_TRIKONA", "OWN", "FRIEND", "NEUTRAL", "ENEMY", "DEBILITATED"]
+>;
 ```
 
 ### `Planets`
 
 ```ts
-const Planets: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>
+const Planets: Schema.Literals<
+  readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+>;
 ```
 
 ### `PlanetSignification`
 
 ```ts
 const PlanetSignification: Schema.Struct<{
-    readonly planet: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-    readonly agent: Schema.optionalKey<Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>>;
-    readonly level1: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
-    readonly level2: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
-    readonly level3: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
-    readonly level4: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
-}>
+  readonly planet: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+  >;
+  readonly agent: Schema.optionalKey<
+    Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >
+  >;
+  readonly level1: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
+  readonly level2: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
+  readonly level3: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
+  readonly level4: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
+}>;
 ```
 
 ### `PlanetsLagna`
 
 ```ts
-const PlanetsLagna: Schema.Union<readonly [Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>, Schema.Literal<"Lagna">]>
+const PlanetsLagna: Schema.Union<
+  readonly [
+    Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >,
+    Schema.Literal<"Lagna">,
+  ]
+>;
 ```
 
 ### `Provenance`
 
 ```ts
 const Provenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Ascendant">;
-    readonly method: Schema.Literal<"ascendant-divisional-mapping">;
-    readonly version: Schema.Literal<1>;
-}>
+  readonly school: Schema.Literal<"Ascendant">;
+  readonly method: Schema.Literal<"ascendant-divisional-mapping">;
+  readonly version: Schema.Literal<1>;
+}>;
 ```
 
 ### `RashiLords`
 
 ```ts
-const RashiLords: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>
+const RashiLords: Schema.Literals<
+  readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+>;
 ```
 
 ### `Rashis`
 
 ```ts
-const Rashis: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>
+const Rashis: Schema.Literals<
+  readonly [
+    "Aries",
+    "Taurus",
+    "Gemini",
+    "Cancer",
+    "Leo",
+    "Virgo",
+    "Libra",
+    "Scorpio",
+    "Sagittarius",
+    "Capricorn",
+    "Aquarius",
+    "Pisces",
+  ]
+>;
 ```
 
 ### `Sex`
 
 ```ts
-const Sex: Schema.Literals<readonly ["Male", "Female"]>
+const Sex: Schema.Literals<readonly ["Male", "Female"]>;
 ```
 
 ### `Sign`
 
 ```ts
 const Sign: Schema.Struct<{
-    readonly name: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-    readonly lord: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>;
-}>
+  readonly name: Schema.Literals<
+    readonly [
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
+    ]
+  >;
+  readonly lord: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+  >;
+}>;
 ```
 
 ### `SourceLagna`
 
 ```ts
 const SourceLagna: Schema.Struct<{
-    readonly name: Schema.Literal<"Lagna">;
-    readonly longitude: Schema.brand<Schema.Finite, "Longitude">;
-    readonly star: Schema.Struct<{
-        readonly name: Schema.Literals<readonly ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"]>;
-        readonly lord: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-        readonly pada: Schema.Literals<readonly [1, 2, 3, 4]>;
-    }>;
-}>
+  readonly name: Schema.Literal<"Lagna">;
+  readonly longitude: Schema.brand<Schema.Finite, "Longitude">;
+  readonly star: Schema.Struct<{
+    readonly name: Schema.Literals<
+      readonly [
+        "Ashwini",
+        "Bharani",
+        "Krittika",
+        "Rohini",
+        "Mrigashira",
+        "Ardra",
+        "Punarvasu",
+        "Pushya",
+        "Ashlesha",
+        "Magha",
+        "Purva Phalguni",
+        "Uttara Phalguni",
+        "Hasta",
+        "Chitra",
+        "Swati",
+        "Vishakha",
+        "Anuradha",
+        "Jyeshtha",
+        "Mula",
+        "Purva Ashadha",
+        "Uttara Ashadha",
+        "Shravana",
+        "Dhanishta",
+        "Shatabhisha",
+        "Purva Bhadrapada",
+        "Uttara Bhadrapada",
+        "Revati",
+      ]
+    >;
+    readonly lord: Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >;
+    readonly pada: Schema.Literals<readonly [1, 2, 3, 4]>;
+  }>;
+}>;
 ```
 
 ### `SourcePlanet`
 
 ```ts
 const SourcePlanet: Schema.Struct<{
-    readonly name: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-    readonly longitude: Schema.brand<Schema.Finite, "Longitude">;
-    readonly is_retrograde: Schema.Boolean;
-    readonly star: Schema.Struct<{
-        readonly name: Schema.Literals<readonly ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"]>;
-        readonly lord: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-        readonly pada: Schema.Literals<readonly [1, 2, 3, 4]>;
-    }>;
-}>
+  readonly name: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+  >;
+  readonly longitude: Schema.brand<Schema.Finite, "Longitude">;
+  readonly is_retrograde: Schema.Boolean;
+  readonly star: Schema.Struct<{
+    readonly name: Schema.Literals<
+      readonly [
+        "Ashwini",
+        "Bharani",
+        "Krittika",
+        "Rohini",
+        "Mrigashira",
+        "Ardra",
+        "Punarvasu",
+        "Pushya",
+        "Ashlesha",
+        "Magha",
+        "Purva Phalguni",
+        "Uttara Phalguni",
+        "Hasta",
+        "Chitra",
+        "Swati",
+        "Vishakha",
+        "Anuradha",
+        "Jyeshtha",
+        "Mula",
+        "Purva Ashadha",
+        "Uttara Ashadha",
+        "Shravana",
+        "Dhanishta",
+        "Shatabhisha",
+        "Purva Bhadrapada",
+        "Uttara Bhadrapada",
+        "Revati",
+      ]
+    >;
+    readonly lord: Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >;
+    readonly pada: Schema.Literals<readonly [1, 2, 3, 4]>;
+  }>;
+}>;
 ```
 
 ### `Star`
 
 ```ts
 const Star: Schema.Struct<{
-    readonly name: Schema.Literals<readonly ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"]>;
-    readonly lord: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-    readonly pada: Schema.Literals<readonly [1, 2, 3, 4]>;
-}>
+  readonly name: Schema.Literals<
+    readonly [
+      "Ashwini",
+      "Bharani",
+      "Krittika",
+      "Rohini",
+      "Mrigashira",
+      "Ardra",
+      "Punarvasu",
+      "Pushya",
+      "Ashlesha",
+      "Magha",
+      "Purva Phalguni",
+      "Uttara Phalguni",
+      "Hasta",
+      "Chitra",
+      "Swati",
+      "Vishakha",
+      "Anuradha",
+      "Jyeshtha",
+      "Mula",
+      "Purva Ashadha",
+      "Uttara Ashadha",
+      "Shravana",
+      "Dhanishta",
+      "Shatabhisha",
+      "Purva Bhadrapada",
+      "Uttara Bhadrapada",
+      "Revati",
+    ]
+  >;
+  readonly lord: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+  >;
+  readonly pada: Schema.Literals<readonly [1, 2, 3, 4]>;
+}>;
 ```
 
 ### `Stars`
 
 ```ts
-const Stars: Schema.Literals<readonly ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"]>
+const Stars: Schema.Literals<
+  readonly [
+    "Ashwini",
+    "Bharani",
+    "Krittika",
+    "Rohini",
+    "Mrigashira",
+    "Ardra",
+    "Punarvasu",
+    "Pushya",
+    "Ashlesha",
+    "Magha",
+    "Purva Phalguni",
+    "Uttara Phalguni",
+    "Hasta",
+    "Chitra",
+    "Swati",
+    "Vishakha",
+    "Anuradha",
+    "Jyeshtha",
+    "Mula",
+    "Purva Ashadha",
+    "Uttara Ashadha",
+    "Shravana",
+    "Dhanishta",
+    "Shatabhisha",
+    "Purva Bhadrapada",
+    "Uttara Bhadrapada",
+    "Revati",
+  ]
+>;
 ```
