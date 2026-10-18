@@ -16,13 +16,13 @@ import * as AstroParams from "astro-ascendant/astro-params";
 ### `layer`
 
 ```ts
-function layer(options: Options): Layer.Layer<Service, never, never>
+function layer(options: Options): Layer.Layer<Service, never, never>;
 ```
 
 ### `layerConfig`
 
 ```ts
-function layerConfig(config: Config.Wrap<Options>): Layer.Layer<Service, Config.ConfigError, never>
+function layerConfig(config: Config.Wrap<Options>): Layer.Layer<Service, Config.ConfigError, never>;
 ```
 
 ## Classes
@@ -30,8 +30,7 @@ function layerConfig(config: Config.Wrap<Options>): Layer.Layer<Service, Config.
 ### `AstroParams`
 
 ```ts
-declare class AstroParams extends Service_base {
-}
+declare class AstroParams extends Service_base {}
 ```
 
 ## Constants
@@ -39,26 +38,158 @@ declare class AstroParams extends Service_base {
 ### `Ayanamsa`
 
 ```ts
-const Ayanamsa: Schema.Literals<readonly ["FaganBradley", "Lahiri", "DeLuce", "Raman", "Ushashashi", "Krishnamurti", "DjwhalKhul", "Yukteshwar", "JNBhasin", "BabylKugler1", "BabylKugler2", "BabylKugler3", "BabylHuber", "BabylEtPSC", "Aldebaran15Tau", "Hipparchos", "Sassanian", "GalacticCenter0Sag", "J2000", "J1900", "B1950", "SuryaSiddhanta", "SuryaSiddhantaMeanSun", "Aryabhata", "AryabhataMeanSun", "SSRevati", "SSCitra", "TrueCitra", "TrueRevati", "TruePushya", "GalacticCenterGilBrand", "GalacticEquatorIAU1958", "GalacticEquator", "GalacticEquatorMidMula", "Skydram", "TrueMula", "DhruvaGalCenterMulaWilhelm", "Aryabhata522", "BabylBritton", "TrueSheoran", "GalacticCenterCochrane", "GalacticEquatorFiorenza", "ValensMoon", "Lahiri1940", "LahiriVP285", "KrishnamurtiVP291", "LahiriICRC"]>
+const Ayanamsa: Schema.Literals<
+  readonly [
+    "FaganBradley",
+    "Lahiri",
+    "DeLuce",
+    "Raman",
+    "Ushashashi",
+    "Krishnamurti",
+    "DjwhalKhul",
+    "Yukteshwar",
+    "JNBhasin",
+    "BabylKugler1",
+    "BabylKugler2",
+    "BabylKugler3",
+    "BabylHuber",
+    "BabylEtPSC",
+    "Aldebaran15Tau",
+    "Hipparchos",
+    "Sassanian",
+    "GalacticCenter0Sag",
+    "J2000",
+    "J1900",
+    "B1950",
+    "SuryaSiddhanta",
+    "SuryaSiddhantaMeanSun",
+    "Aryabhata",
+    "AryabhataMeanSun",
+    "SSRevati",
+    "SSCitra",
+    "TrueCitra",
+    "TrueRevati",
+    "TruePushya",
+    "GalacticCenterGilBrand",
+    "GalacticEquatorIAU1958",
+    "GalacticEquator",
+    "GalacticEquatorMidMula",
+    "Skydram",
+    "TrueMula",
+    "DhruvaGalCenterMulaWilhelm",
+    "Aryabhata522",
+    "BabylBritton",
+    "TrueSheoran",
+    "GalacticCenterCochrane",
+    "GalacticEquatorFiorenza",
+    "ValensMoon",
+    "Lahiri1940",
+    "LahiriVP285",
+    "KrishnamurtiVP291",
+    "LahiriICRC",
+  ]
+>;
 ```
 
 ### `DefaultAstroParams`
 
 ```ts
-declare const DefaultAstroParams: Layer.Layer<Service, never, never>
+declare const DefaultAstroParams: Layer.Layer<Service, never, never>;
 ```
 
 ### `HouseSystem`
 
 ```ts
-const HouseSystem: Schema.Literals<readonly ["Placidus", "Koch", "Porphyrius", "Regiomontanus", "Campanus", "Equal", "VehlowEqual", "WholeSign", "Meridian", "Azimuthal", "PolichPage", "Alcabitus", "Morinus"]>
+const HouseSystem: Schema.Literals<
+  readonly [
+    "Placidus",
+    "Koch",
+    "Porphyrius",
+    "Regiomontanus",
+    "Campanus",
+    "Equal",
+    "VehlowEqual",
+    "WholeSign",
+    "Meridian",
+    "Azimuthal",
+    "PolichPage",
+    "Alcabitus",
+    "Morinus",
+  ]
+>;
 ```
 
 ### `Options`
 
 ```ts
 const Options: Schema.Struct<{
-    readonly ayanamsa: Schema.Literals<readonly ["FaganBradley", "Lahiri", "DeLuce", "Raman", "Ushashashi", "Krishnamurti", "DjwhalKhul", "Yukteshwar", "JNBhasin", "BabylKugler1", "BabylKugler2", "BabylKugler3", "BabylHuber", "BabylEtPSC", "Aldebaran15Tau", "Hipparchos", "Sassanian", "GalacticCenter0Sag", "J2000", "J1900", "B1950", "SuryaSiddhanta", "SuryaSiddhantaMeanSun", "Aryabhata", "AryabhataMeanSun", "SSRevati", "SSCitra", "TrueCitra", "TrueRevati", "TruePushya", "GalacticCenterGilBrand", "GalacticEquatorIAU1958", "GalacticEquator", "GalacticEquatorMidMula", "Skydram", "TrueMula", "DhruvaGalCenterMulaWilhelm", "Aryabhata522", "BabylBritton", "TrueSheoran", "GalacticCenterCochrane", "GalacticEquatorFiorenza", "ValensMoon", "Lahiri1940", "LahiriVP285", "KrishnamurtiVP291", "LahiriICRC"]>;
-    readonly houseSystem: Schema.Literals<readonly ["Placidus", "Koch", "Porphyrius", "Regiomontanus", "Campanus", "Equal", "VehlowEqual", "WholeSign", "Meridian", "Azimuthal", "PolichPage", "Alcabitus", "Morinus"]>;
-}>
+  readonly ayanamsa: Schema.Literals<
+    readonly [
+      "FaganBradley",
+      "Lahiri",
+      "DeLuce",
+      "Raman",
+      "Ushashashi",
+      "Krishnamurti",
+      "DjwhalKhul",
+      "Yukteshwar",
+      "JNBhasin",
+      "BabylKugler1",
+      "BabylKugler2",
+      "BabylKugler3",
+      "BabylHuber",
+      "BabylEtPSC",
+      "Aldebaran15Tau",
+      "Hipparchos",
+      "Sassanian",
+      "GalacticCenter0Sag",
+      "J2000",
+      "J1900",
+      "B1950",
+      "SuryaSiddhanta",
+      "SuryaSiddhantaMeanSun",
+      "Aryabhata",
+      "AryabhataMeanSun",
+      "SSRevati",
+      "SSCitra",
+      "TrueCitra",
+      "TrueRevati",
+      "TruePushya",
+      "GalacticCenterGilBrand",
+      "GalacticEquatorIAU1958",
+      "GalacticEquator",
+      "GalacticEquatorMidMula",
+      "Skydram",
+      "TrueMula",
+      "DhruvaGalCenterMulaWilhelm",
+      "Aryabhata522",
+      "BabylBritton",
+      "TrueSheoran",
+      "GalacticCenterCochrane",
+      "GalacticEquatorFiorenza",
+      "ValensMoon",
+      "Lahiri1940",
+      "LahiriVP285",
+      "KrishnamurtiVP291",
+      "LahiriICRC",
+    ]
+  >;
+  readonly houseSystem: Schema.Literals<
+    readonly [
+      "Placidus",
+      "Koch",
+      "Porphyrius",
+      "Regiomontanus",
+      "Campanus",
+      "Equal",
+      "VehlowEqual",
+      "WholeSign",
+      "Meridian",
+      "Azimuthal",
+      "PolichPage",
+      "Alcabitus",
+      "Morinus",
+    ]
+  >;
+}>;
 ```

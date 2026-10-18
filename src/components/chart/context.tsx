@@ -23,6 +23,8 @@ export type ChartStatus = "empty" | "calculating" | "failure" | "success";
 export interface ChartPageState {
   birth: ChartBirthInput;
   selectedPlace: PlaceOption | null;
+  /** IANA zone resolved for the birth place, when the lookup found one. */
+  placeZone: string | null;
   placeOptions: PlaceOption[];
   searchError: string;
   savedProfiles: BirthProfile[];
@@ -229,8 +231,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
     // Respect the saved offset; only label the zone, never auto-apply.
     setPlaceZone(null);
     autoOffset.current = null;
-    void (async () => {
-      const zone = await fetchTimeZone(profile.latitude, profile.longitude);
+    void fetchTimeZone(profile.latitude, profile.longitude).then((zone) => {
       if (selectSequence.current !== sequence || zone === null) {
         return;
       }
@@ -327,6 +328,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
         state: {
           birth,
           selectedPlace,
+          placeZone,
           placeOptions,
           searchError,
           savedProfiles,

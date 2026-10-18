@@ -1,4 +1,6 @@
 export const appName = "Ascendant";
+/** Canonical origin for absolute URLs (canonicals, og:url, sitemap entries). */
+export const siteUrl = "https://ascendant-docs.vercel.app";
 export const docsRoute = "/docs";
 export const docsImageRoute = "/og/docs";
 

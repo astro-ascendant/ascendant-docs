@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ChartQuote } from "@/components/chart/quote";
 import {
   buildSouthIndianChart,
   SOUTH_INDIAN_GRID_TEMPLATE,
@@ -192,9 +193,19 @@ export function ChartSignHouseCharts() {
         <TabsTrigger value="D9">D9 · Navamsha</TabsTrigger>
       </TabsList>
       <TabsContent value="D1">
+        <ChartQuote>
+          D1 is your chart as the sky was at the moment of birth. Every other division in this
+          report zooms into it, so start here for the whole picture: where each planet sat, and the
+          sign that was rising on your eastern horizon.
+        </ChartQuote>
         <SignHouseChart division={1} />
       </TabsContent>
       <TabsContent value="D9">
+        <ChartQuote>
+          D9 is the chart of what ripens underneath the surface. Astrologers read it for marriage
+          and for the true strength of a planet, since a planet that looks powerful in D1 but sits
+          poorly here delivers less in real life.
+        </ChartQuote>
         <SignHouseChart division={9} />
       </TabsContent>
     </Tabs>

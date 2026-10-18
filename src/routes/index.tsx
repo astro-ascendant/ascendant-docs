@@ -1,9 +1,28 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import solarSystem from "../../assets/solar-system.png";
-import wordmark from "../../assets/wordmark.svg";
+import solarSystem from "../../assets/solar-system.webp";
+import wordmark from "../../assets/wordmark.webp";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
+  head: () => ({
+    meta: [
+      { title: "Free Birth Chart Calculator - Ascendant" },
+      {
+        name: "description",
+        content:
+          "Understand your birth chart with a free Vedic birth chart calculator. Enter your birth date, time, and place to see your ascendant, moon sign, and dashas.",
+      },
+      {
+        property: "og:title",
+        content: "Free Birth Chart Calculator - Ascendant",
+      },
+      {
+        property: "og:description",
+        content:
+          "Understand your birth chart with a free Vedic birth chart calculator. Enter your birth date, time, and place to see your ascendant, moon sign, and dashas.",
+      },
+    ],
+  }),
 });
 
 function LandingPage() {
@@ -29,8 +48,7 @@ function LandingPage() {
               </p>
               <div className="mt-6 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
                 <Link
-                  to="/docs/$"
-                  params={{ _splat: "chart" }}
+                  to="/chart"
                   className="bg-primary text-primary-foreground w-fit rounded-lg px-5 py-2 text-sm font-medium transition-transform duration-150 ease-out hover:opacity-90 active:scale-[0.96]"
                 >
                   Generate chart
@@ -39,7 +57,14 @@ function LandingPage() {
             </div>
 
             <div className="order-first lg:order-last">
-              <img src={solarSystem} alt="" aria-hidden="true" className="h-auto w-full" />
+              <img
+                src={solarSystem}
+                alt=""
+                aria-hidden="true"
+                width={1376}
+                height={768}
+                className="h-auto w-full"
+              />
             </div>
           </div>
         </section>
@@ -71,11 +96,7 @@ function LandingPage() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/docs/$"
-                params={{ _splat: "chart" }}
-                className="group flex flex-wrap items-center gap-2 py-3.5"
-              >
+              <Link to="/chart" className="group flex flex-wrap items-center gap-2 py-3.5">
                 <span className="min-w-0 text-sm font-medium text-foreground sm:text-base">
                   Chart Generator
                 </span>

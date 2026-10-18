@@ -1,6 +1,6 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { gitConfig } from "./shared";
-import wordmark from "../../assets/wordmark.svg";
+import wordmark from "../../assets/wordmark.webp";
 
 const npmLogo = (
   <svg aria-label="npm" role="img" viewBox="0 0 2500 2500">

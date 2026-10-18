@@ -16,44 +16,116 @@ import * as Jaimini from "astro-ascendant/argala";
 ### `calculate`
 
 ```ts
-const calculate: (placements: Placements) => Effect.Effect<{
+const calculate: (placements: Placements) => Effect.Effect<
+  {
     provenance: {
-        readonly school: "Jaimini";
-        readonly method: "exact-degree-shared-roles";
-        readonly version: 1;
+      readonly school: "Jaimini";
+      readonly method: "exact-degree-shared-roles";
+      readonly version: 1;
     };
     assignments: {
-        Atmakaraka: readonly [Holder, ...Holder[]];
-        Amatyakaraka: readonly [Holder, ...Holder[]];
-        Bhratrikaraka: readonly [Holder, ...Holder[]];
-        Matrikaraka: readonly [Holder, ...Holder[]];
-        Putrakaraka: readonly [Holder, ...Holder[]];
-        Gnatikaraka: readonly [Holder, ...Holder[]];
-        Darakaraka: readonly [Holder, ...Holder[]];
+      Atmakaraka: readonly [Holder, ...Holder[]];
+      Amatyakaraka: readonly [Holder, ...Holder[]];
+      Bhratrikaraka: readonly [Holder, ...Holder[]];
+      Matrikaraka: readonly [Holder, ...Holder[]];
+      Putrakaraka: readonly [Holder, ...Holder[]];
+      Gnatikaraka: readonly [Holder, ...Holder[]];
+      Darakaraka: readonly [Holder, ...Holder[]];
     };
-}, EvidenceError | ParseError, never>
+  },
+  EvidenceError | ParseError,
+  never
+>;
 ```
 
 ### `compareExactDegrees`
 
 ```ts
-const compareExactDegrees: ((right: ExactDegree) => (left: ExactDegree) => number) & ((left: ExactDegree, right: ExactDegree) => number)
+const compareExactDegrees: ((right: ExactDegree) => (left: ExactDegree) => number) &
+  ((left: ExactDegree, right: ExactDegree) => number);
 ```
 
 ### `exactDegreeOf`
 
 ```ts
-const exactDegreeOf: (longitude: number & import("effect/Brand").Brand<"Longitude">) => Effect.Effect<{
+const exactDegreeOf: (
+  longitude: number & import("effect/Brand").Brand<"Longitude">,
+) => Effect.Effect<
+  {
     coefficient: bigint;
     scale: number;
     value: number & import("effect/Brand").Brand<"Degree">;
-}, ParseError, never>
+  },
+  ParseError,
+  never
+>;
 ```
 
 ### `targetsOf`
 
 ```ts
-const targetsOf: (reference: "Aquarius" | "Aries" | "Cancer" | "Capricorn" | "Gemini" | "Leo" | "Libra" | "Pisces" | "Sagittarius" | "Scorpio" | "Taurus" | "Virgo") => Effect.Effect<readonly ["Aquarius" | "Aries" | "Cancer" | "Capricorn" | "Gemini" | "Leo" | "Libra" | "Pisces" | "Sagittarius" | "Scorpio" | "Taurus" | "Virgo", "Aquarius" | "Aries" | "Cancer" | "Capricorn" | "Gemini" | "Leo" | "Libra" | "Pisces" | "Sagittarius" | "Scorpio" | "Taurus" | "Virgo", "Aquarius" | "Aries" | "Cancer" | "Capricorn" | "Gemini" | "Leo" | "Libra" | "Pisces" | "Sagittarius" | "Scorpio" | "Taurus" | "Virgo"], CalculationError | SignIndexError, never>
+const targetsOf: (
+  reference:
+    | "Aquarius"
+    | "Aries"
+    | "Cancer"
+    | "Capricorn"
+    | "Gemini"
+    | "Leo"
+    | "Libra"
+    | "Pisces"
+    | "Sagittarius"
+    | "Scorpio"
+    | "Taurus"
+    | "Virgo",
+) => Effect.Effect<
+  readonly [
+    (
+      | "Aquarius"
+      | "Aries"
+      | "Cancer"
+      | "Capricorn"
+      | "Gemini"
+      | "Leo"
+      | "Libra"
+      | "Pisces"
+      | "Sagittarius"
+      | "Scorpio"
+      | "Taurus"
+      | "Virgo"
+    ),
+    (
+      | "Aquarius"
+      | "Aries"
+      | "Cancer"
+      | "Capricorn"
+      | "Gemini"
+      | "Leo"
+      | "Libra"
+      | "Pisces"
+      | "Sagittarius"
+      | "Scorpio"
+      | "Taurus"
+      | "Virgo"
+    ),
+    (
+      | "Aquarius"
+      | "Aries"
+      | "Cancer"
+      | "Capricorn"
+      | "Gemini"
+      | "Leo"
+      | "Libra"
+      | "Pisces"
+      | "Sagittarius"
+      | "Scorpio"
+      | "Taurus"
+      | "Virgo"
+    ),
+  ],
+  CalculationError | SignIndexError,
+  never
+>;
 ```
 
 ## Classes
@@ -61,22 +133,19 @@ const targetsOf: (reference: "Aquarius" | "Aries" | "Cancer" | "Capricorn" | "Ge
 ### `CalculationError`
 
 ```ts
-class CalculationError extends CalculationError_base {
-}
+class CalculationError extends CalculationError_base {}
 ```
 
 ### `EvidenceError`
 
 ```ts
-class EvidenceError extends EvidenceError_base {
-}
+class EvidenceError extends EvidenceError_base {}
 ```
 
 ### `ParseError`
 
 ```ts
-class ParseError extends ParseError_base {
-}
+class ParseError extends ParseError_base {}
 ```
 
 ## Interfaces
@@ -85,9 +154,9 @@ class ParseError extends ParseError_base {
 
 ```ts
 interface ExactDegree {
-    readonly coefficient: bigint;
-    readonly scale: number;
-    readonly value: Degree;
+  readonly coefficient: bigint;
+  readonly scale: number;
+  readonly value: Degree;
 }
 ```
 
@@ -95,7 +164,7 @@ interface ExactDegree {
 
 ```ts
 interface RankedHolder extends Holder {
-    readonly exactDegree: ExactDegree;
+  readonly exactDegree: ExactDegree;
 }
 ```
 
@@ -104,7 +173,7 @@ interface RankedHolder extends Holder {
 ### `Role`
 
 ```ts
-type Role = typeof Roles.Type
+type Role = typeof Roles.Type;
 ```
 
 ## Constants
@@ -112,79 +181,156 @@ type Role = typeof Roles.Type
 ### `Assignments`
 
 ```ts
-const Assignments: Schema.$Record<Schema.Literals<readonly ["Atmakaraka", "Amatyakaraka", "Bhratrikaraka", "Matrikaraka", "Putrakaraka", "Gnatikaraka", "Darakaraka"]>, Schema.NonEmptyArray<Schema.Struct<{
-    readonly planet: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>;
-    readonly degree: Schema.brand<Schema.Finite, "Degree">;
-}>>>
+const Assignments: Schema.$Record<
+  Schema.Literals<
+    readonly [
+      "Atmakaraka",
+      "Amatyakaraka",
+      "Bhratrikaraka",
+      "Matrikaraka",
+      "Putrakaraka",
+      "Gnatikaraka",
+      "Darakaraka",
+    ]
+  >,
+  Schema.NonEmptyArray<
+    Schema.Struct<{
+      readonly planet: Schema.Literals<
+        readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+      >;
+      readonly degree: Schema.brand<Schema.Finite, "Degree">;
+    }>
+  >
+>;
 ```
 
 ### `ClassicalPlanets`
 
 ```ts
-const ClassicalPlanets: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>
+const ClassicalPlanets: Schema.Literals<
+  readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+>;
 ```
 
 ### `Holder`
 
 ```ts
 const Holder: Schema.Struct<{
-    readonly planet: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>;
-    readonly degree: Schema.brand<Schema.Finite, "Degree">;
-}>
+  readonly planet: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+  >;
+  readonly degree: Schema.brand<Schema.Finite, "Degree">;
+}>;
 ```
 
 ### `KetuReference`
 
 ```ts
 const KetuReference: Schema.Struct<{
-    readonly kind: Schema.Literal<"Ketu">;
-}>
+  readonly kind: Schema.Literal<"Ketu">;
+}>;
 ```
 
 ### `Placement`
 
 ```ts
 const Placement: Schema.Struct<{
-    readonly planet: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>;
-    readonly sign: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-}>
+  readonly planet: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+  >;
+  readonly sign: Schema.Literals<
+    readonly [
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
+    ]
+  >;
+}>;
 ```
 
 ### `Positions`
 
 ```ts
-const Positions: Schema.Literals<readonly [2, 4, 11, 12, 10, 3, 5, 9]>
+const Positions: Schema.Literals<readonly [2, 4, 11, 12, 10, 3, 5, 9]>;
 ```
 
 ### `Provenance`
 
 ```ts
 const Provenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"structural-positions">;
-    readonly version: Schema.Literal<1>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"structural-positions">;
+  readonly version: Schema.Literal<1>;
+}>;
 ```
 
 ### `Reference`
 
 ```ts
-const Reference: Schema.Union<readonly [Schema.Struct<{
-    readonly kind: Schema.Literal<"Sign">;
-    readonly sign: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-}>, Schema.Struct<{
-    readonly kind: Schema.Literal<"Ketu">;
-}>]>
+const Reference: Schema.Union<
+  readonly [
+    Schema.Struct<{
+      readonly kind: Schema.Literal<"Sign">;
+      readonly sign: Schema.Literals<
+        readonly [
+          "Aries",
+          "Taurus",
+          "Gemini",
+          "Cancer",
+          "Leo",
+          "Virgo",
+          "Libra",
+          "Scorpio",
+          "Sagittarius",
+          "Capricorn",
+          "Aquarius",
+          "Pisces",
+        ]
+      >;
+    }>,
+    Schema.Struct<{
+      readonly kind: Schema.Literal<"Ketu">;
+    }>,
+  ]
+>;
 ```
 
 ### `Relation`
 
 ```ts
 const Relation: Schema.Struct<{
-    readonly position: Schema.Literals<readonly [2, 4, 11, 12, 10, 3, 5, 9]>;
-    readonly sign: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-    readonly planets: Schema.$Array<Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>>;
-}>
+  readonly position: Schema.Literals<readonly [2, 4, 11, 12, 10, 3, 5, 9]>;
+  readonly sign: Schema.Literals<
+    readonly [
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
+    ]
+  >;
+  readonly planets: Schema.$Array<
+    Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >
+  >;
+}>;
 ```
 
 ### `Result`
@@ -217,14 +363,39 @@ const Result: Schema.Struct<{
 ### `Roles`
 
 ```ts
-const Roles: Schema.Literals<readonly ["Atmakaraka", "Amatyakaraka", "Bhratrikaraka", "Matrikaraka", "Putrakaraka", "Gnatikaraka", "Darakaraka"]>
+const Roles: Schema.Literals<
+  readonly [
+    "Atmakaraka",
+    "Amatyakaraka",
+    "Bhratrikaraka",
+    "Matrikaraka",
+    "Putrakaraka",
+    "Gnatikaraka",
+    "Darakaraka",
+  ]
+>;
 ```
 
 ### `SignReference`
 
 ```ts
 const SignReference: Schema.Struct<{
-    readonly kind: Schema.Literal<"Sign">;
-    readonly sign: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-}>
+  readonly kind: Schema.Literal<"Sign">;
+  readonly sign: Schema.Literals<
+    readonly [
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
+    ]
+  >;
+}>;
 ```

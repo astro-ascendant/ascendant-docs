@@ -16,7 +16,7 @@ import * as Provenance from "astro-ascendant/provenance";
 ### `MethodId`
 
 ```ts
-type MethodId = keyof typeof methods
+type MethodId = keyof typeof methods;
 ```
 
 ## Constants
@@ -25,253 +25,290 @@ type MethodId = keyof typeof methods
 
 ```ts
 const CalculationProvenance: Schema.Struct<{
-    readonly school: Schema.String;
-    readonly method: Schema.String;
-    readonly version: Schema.Union<readonly [Schema.String, Schema.Int]>;
-}>
+  readonly school: Schema.String;
+  readonly method: Schema.String;
+  readonly version: Schema.Union<readonly [Schema.String, Schema.Int]>;
+}>;
 ```
 
 ### `charaDasha`
 
 ```ts
 const charaDasha: {
-    readonly provenance: {
-        readonly school: "Jaimini";
-        readonly method: "kn-rao-co-lord-strength";
-        readonly version: 2;
-    };
-    readonly steps: readonly [{
-        readonly id: "derive-direction";
-        readonly description: "Set direction from the ninth sign's pada group.";
-    }, {
-        readonly id: "resolve-co-lords";
-        readonly description: "Resolve Scorpio and Aquarius co-lords by occupation, association count, and exact degree.";
-    }, {
-        readonly id: "build-periods";
-        readonly description: "Build sign periods and equal-twelfth antardashas.";
-    }];
-    readonly verification: readonly ["All twelve sign periods are contiguous.", "Scorpio and Aquarius co-lord resolution is deterministic."];
-}
+  readonly provenance: {
+    readonly school: "Jaimini";
+    readonly method: "kn-rao-co-lord-strength";
+    readonly version: 2;
+  };
+  readonly steps: readonly [
+    {
+      readonly id: "derive-direction";
+      readonly description: "Set direction from the ninth sign's pada group.";
+    },
+    {
+      readonly id: "resolve-co-lords";
+      readonly description: "Resolve Scorpio and Aquarius co-lords by occupation, association count, and exact degree.";
+    },
+    {
+      readonly id: "build-periods";
+      readonly description: "Build sign periods and equal-twelfth antardashas.";
+    },
+  ];
+  readonly verification: readonly [
+    "All twelve sign periods are contiguous.",
+    "Scorpio and Aquarius co-lord resolution is deterministic.",
+  ];
+};
 ```
 
 ### `CharaDashaProvenance`
 
 ```ts
 const CharaDashaProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"kn-rao-co-lord-strength">;
-    readonly version: Schema.Literal<2>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"kn-rao-co-lord-strength">;
+  readonly version: Schema.Literal<2>;
+}>;
 ```
 
 ### `chartProjection`
 
 ```ts
 const chartProjection: {
-    readonly provenance: {
-        readonly school: "Ascendant";
-        readonly method: "ascendant-divisional-mapping";
-        readonly version: 1;
-    };
-    readonly steps: readonly [{
-        readonly id: "map-longitudes";
-        readonly description: "Map Lagna and planets into the requested division.";
-    }, {
-        readonly id: "build-whole-sign-houses";
-        readonly description: "Build twelve houses from the mapped Lagna.";
-    }];
-    readonly verification: readonly ["D1 is an identity projection.", "Requested divisions are unique and ordered."];
-}
+  readonly provenance: {
+    readonly school: "Ascendant";
+    readonly method: "ascendant-divisional-mapping";
+    readonly version: 1;
+  };
+  readonly steps: readonly [
+    {
+      readonly id: "map-longitudes";
+      readonly description: "Map Lagna and planets into the requested division.";
+    },
+    {
+      readonly id: "build-whole-sign-houses";
+      readonly description: "Build twelve houses from the mapped Lagna.";
+    },
+  ];
+  readonly verification: readonly [
+    "D1 is an identity projection.",
+    "Requested divisions are unique and ordered.",
+  ];
+};
 ```
 
 ### `ChartProjectionProvenance`
 
 ```ts
 const ChartProjectionProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Ascendant">;
-    readonly method: Schema.Literal<"ascendant-divisional-mapping">;
-    readonly version: Schema.Literal<1>;
-}>
+  readonly school: Schema.Literal<"Ascendant">;
+  readonly method: Schema.Literal<"ascendant-divisional-mapping">;
+  readonly version: Schema.Literal<1>;
+}>;
 ```
 
 ### `jaiminiArgala`
 
 ```ts
 const jaiminiArgala: {
-    readonly provenance: {
-        readonly school: "Jaimini";
-        readonly method: "structural-positions";
-        readonly version: 1;
-    };
-    readonly steps: readonly [{
-        readonly id: "validate-placements";
-        readonly description: "Require one placement for every planet.";
-    }, {
-        readonly id: "derive-relations";
-        readonly description: "Calculate supporting and obstructing sign positions.";
-    }];
-    readonly verification: readonly ["Ketu reference reverses direction.", "Supporting and obstructing positions are fixed."];
-}
+  readonly provenance: {
+    readonly school: "Jaimini";
+    readonly method: "structural-positions";
+    readonly version: 1;
+  };
+  readonly steps: readonly [
+    {
+      readonly id: "validate-placements";
+      readonly description: "Require one placement for every planet.";
+    },
+    {
+      readonly id: "derive-relations";
+      readonly description: "Calculate supporting and obstructing sign positions.";
+    },
+  ];
+  readonly verification: readonly [
+    "Ketu reference reverses direction.",
+    "Supporting and obstructing positions are fixed.",
+  ];
+};
 ```
 
 ### `JaiminiArgalaProvenance`
 
 ```ts
 const JaiminiArgalaProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"structural-positions">;
-    readonly version: Schema.Literal<1>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"structural-positions">;
+  readonly version: Schema.Literal<1>;
+}>;
 ```
 
 ### `jaiminiArudhaPada`
 
 ```ts
 const jaiminiArudhaPada: {
-    readonly provenance: {
-        readonly school: "Jaimini";
-        readonly method: "plain-projection";
-        readonly version: 1;
-    };
-    readonly steps: readonly [{
-        readonly id: "derive-source";
-        readonly description: "Find the source sign and its lord for the requested house.";
-    }, {
-        readonly id: "project";
-        readonly description: "Project the lord's distance from the source sign.";
-    }];
-    readonly verification: readonly ["Exactly one placement is required for the house lord."];
-}
+  readonly provenance: {
+    readonly school: "Jaimini";
+    readonly method: "plain-projection";
+    readonly version: 1;
+  };
+  readonly steps: readonly [
+    {
+      readonly id: "derive-source";
+      readonly description: "Find the source sign and its lord for the requested house.";
+    },
+    {
+      readonly id: "project";
+      readonly description: "Project the lord's distance from the source sign.";
+    },
+  ];
+  readonly verification: readonly ["Exactly one placement is required for the house lord."];
+};
 ```
 
 ### `JaiminiArudhaPadaProvenance`
 
 ```ts
 const JaiminiArudhaPadaProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"plain-projection">;
-    readonly version: Schema.Literal<1>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"plain-projection">;
+  readonly version: Schema.Literal<1>;
+}>;
 ```
 
 ### `jaiminiCharaKarakas`
 
 ```ts
 const jaiminiCharaKarakas: {
-    readonly provenance: {
-        readonly school: "Jaimini";
-        readonly method: "exact-degree-shared-roles";
-        readonly version: 1;
-    };
-    readonly steps: readonly [{
-        readonly id: "rank";
-        readonly description: "Rank classical planets by exact degree within their signs.";
-    }, {
-        readonly id: "assign";
-        readonly description: "Assign Karaka roles, sharing every role at an exact tie.";
-    }];
-    readonly verification: readonly ["All seven classical planet placements are required.", "Exact ties share roles."];
-}
+  readonly provenance: {
+    readonly school: "Jaimini";
+    readonly method: "exact-degree-shared-roles";
+    readonly version: 1;
+  };
+  readonly steps: readonly [
+    {
+      readonly id: "rank";
+      readonly description: "Rank classical planets by exact degree within their signs.";
+    },
+    {
+      readonly id: "assign";
+      readonly description: "Assign Karaka roles, sharing every role at an exact tie.";
+    },
+  ];
+  readonly verification: readonly [
+    "All seven classical planet placements are required.",
+    "Exact ties share roles.",
+  ];
+};
 ```
 
 ### `JaiminiCharaKarakasProvenance`
 
 ```ts
 const JaiminiCharaKarakasProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"exact-degree-shared-roles">;
-    readonly version: Schema.Literal<1>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"exact-degree-shared-roles">;
+  readonly version: Schema.Literal<1>;
+}>;
 ```
 
 ### `jaiminiKarakamsha`
 
 ```ts
 const jaiminiKarakamsha: {
-    readonly provenance: {
-        readonly school: "Jaimini";
-        readonly method: "atmakaraka-d9-sign";
-        readonly version: 1;
-    };
-    readonly steps: readonly [{
-        readonly id: "select-atmakaraka";
-        readonly description: "Use the Chara Karaka Atmakaraka assignment.";
-    }, {
-        readonly id: "map-d9";
-        readonly description: "Map each Atmakaraka to its D9 sign.";
-    }];
-    readonly verification: readonly ["Every tied Atmakaraka is reported."];
-}
+  readonly provenance: {
+    readonly school: "Jaimini";
+    readonly method: "atmakaraka-d9-sign";
+    readonly version: 1;
+  };
+  readonly steps: readonly [
+    {
+      readonly id: "select-atmakaraka";
+      readonly description: "Use the Chara Karaka Atmakaraka assignment.";
+    },
+    {
+      readonly id: "map-d9";
+      readonly description: "Map each Atmakaraka to its D9 sign.";
+    },
+  ];
+  readonly verification: readonly ["Every tied Atmakaraka is reported."];
+};
 ```
 
 ### `JaiminiKarakamshaProvenance`
 
 ```ts
 const JaiminiKarakamshaProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"atmakaraka-d9-sign">;
-    readonly version: Schema.Literal<1>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"atmakaraka-d9-sign">;
+  readonly version: Schema.Literal<1>;
+}>;
 ```
 
 ### `jaiminiRashiDrishti`
 
 ```ts
 const jaiminiRashiDrishti: {
-    readonly provenance: {
-        readonly school: "Jaimini";
-        readonly method: "movable-fixed-dual";
-        readonly version: 1;
-    };
-    readonly steps: readonly [{
-        readonly id: "classify-reference";
-        readonly description: "Classify the reference sign as movable, fixed, or dual.";
-    }, {
-        readonly id: "derive-targets";
-        readonly description: "Return the three signs receiving its Rashi Drishti.";
-    }];
-    readonly verification: readonly ["Every reference sign has exactly three targets."];
-}
+  readonly provenance: {
+    readonly school: "Jaimini";
+    readonly method: "movable-fixed-dual";
+    readonly version: 1;
+  };
+  readonly steps: readonly [
+    {
+      readonly id: "classify-reference";
+      readonly description: "Classify the reference sign as movable, fixed, or dual.";
+    },
+    {
+      readonly id: "derive-targets";
+      readonly description: "Return the three signs receiving its Rashi Drishti.";
+    },
+  ];
+  readonly verification: readonly ["Every reference sign has exactly three targets."];
+};
 ```
 
 ### `JaiminiRashiDrishtiProvenance`
 
 ```ts
 const JaiminiRashiDrishtiProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"movable-fixed-dual">;
-    readonly version: Schema.Literal<1>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"movable-fixed-dual">;
+  readonly version: Schema.Literal<1>;
+}>;
 ```
 
 ### `jaiminiUpapada`
 
 ```ts
 const jaiminiUpapada: {
-    readonly provenance: {
-        readonly school: "Jaimini";
-        readonly method: "twelfth-house-plain-projection";
-        readonly version: 1;
-    };
-    readonly steps: readonly [{
-        readonly id: "fix-house";
-        readonly description: "Use the twelfth house as the Arudha source.";
-    }, {
-        readonly id: "project";
-        readonly description: "Apply the plain Arudha projection to that source.";
-    }];
-    readonly verification: readonly ["The result always reports house twelve."];
-}
+  readonly provenance: {
+    readonly school: "Jaimini";
+    readonly method: "twelfth-house-plain-projection";
+    readonly version: 1;
+  };
+  readonly steps: readonly [
+    {
+      readonly id: "fix-house";
+      readonly description: "Use the twelfth house as the Arudha source.";
+    },
+    {
+      readonly id: "project";
+      readonly description: "Apply the plain Arudha projection to that source.";
+    },
+  ];
+  readonly verification: readonly ["The result always reports house twelve."];
+};
 ```
 
 ### `JaiminiUpapadaProvenance`
 
 ```ts
 const JaiminiUpapadaProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"twelfth-house-plain-projection">;
-    readonly version: Schema.Literal<1>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"twelfth-house-plain-projection">;
+  readonly version: Schema.Literal<1>;
+}>;
 ```
 
 ### `methods`
@@ -319,87 +356,102 @@ const methods: {
 
 ```ts
 const MethodSpecification: Schema.Struct<{
-    readonly provenance: Schema.Struct<{
-        readonly school: Schema.String;
-        readonly method: Schema.String;
-        readonly version: Schema.Union<readonly [Schema.String, Schema.Int]>;
-    }>;
-    readonly steps: Schema.NonEmptyArray<Schema.Struct<{
-        readonly id: Schema.String;
-        readonly description: Schema.String;
-    }>>;
-    readonly verification: Schema.NonEmptyArray<Schema.String>;
-}>
+  readonly provenance: Schema.Struct<{
+    readonly school: Schema.String;
+    readonly method: Schema.String;
+    readonly version: Schema.Union<readonly [Schema.String, Schema.Int]>;
+  }>;
+  readonly steps: Schema.NonEmptyArray<
+    Schema.Struct<{
+      readonly id: Schema.String;
+      readonly description: Schema.String;
+    }>
+  >;
+  readonly verification: Schema.NonEmptyArray<Schema.String>;
+}>;
 ```
 
 ### `MethodStep`
 
 ```ts
 const MethodStep: Schema.Struct<{
-    readonly id: Schema.String;
-    readonly description: Schema.String;
-}>
+  readonly id: Schema.String;
+  readonly description: Schema.String;
+}>;
 ```
 
 ### `sthiraDasha`
 
 ```ts
 const sthiraDasha: {
-    readonly provenance: {
-        readonly school: "Jaimini";
-        readonly method: "bv-raman-koch-brahma-strength";
-        readonly version: 2;
-    };
-    readonly steps: readonly [{
-        readonly id: "select-reference";
-        readonly description: "Compare Lagna and seventh-sign Rashi Bala.";
-    }, {
-        readonly id: "select-brahma";
-        readonly description: "Score eligible sixth, eighth, and twelfth lords by Graha Bala.";
-    }, {
-        readonly id: "build-periods";
-        readonly description: "Start at Brahma's sign and assign 7, 8, or 9 years by modality.";
-    }];
-    readonly verification: readonly ["Brahma scorecards expose all candidate scores.", "Exact-degree then natural-strength breaks score ties."];
-}
+  readonly provenance: {
+    readonly school: "Jaimini";
+    readonly method: "bv-raman-koch-brahma-strength";
+    readonly version: 2;
+  };
+  readonly steps: readonly [
+    {
+      readonly id: "select-reference";
+      readonly description: "Compare Lagna and seventh-sign Rashi Bala.";
+    },
+    {
+      readonly id: "select-brahma";
+      readonly description: "Score eligible sixth, eighth, and twelfth lords by Graha Bala.";
+    },
+    {
+      readonly id: "build-periods";
+      readonly description: "Start at Brahma's sign and assign 7, 8, or 9 years by modality.";
+    },
+  ];
+  readonly verification: readonly [
+    "Brahma scorecards expose all candidate scores.",
+    "Exact-degree then natural-strength breaks score ties.",
+  ];
+};
 ```
 
 ### `SthiraDashaProvenance`
 
 ```ts
 const SthiraDashaProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"bv-raman-koch-brahma-strength">;
-    readonly version: Schema.Literal<2>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"bv-raman-koch-brahma-strength">;
+  readonly version: Schema.Literal<2>;
+}>;
 ```
 
 ### `transitSearch`
 
 ```ts
 const transitSearch: {
-    readonly provenance: {
-        readonly school: "Ascendant";
-        readonly method: "transit-sample-bisect";
-        readonly version: 1;
-    };
-    readonly steps: readonly [{
-        readonly id: "sample-coarse";
-        readonly description: "Step per-planet coarse intervals from the located moment.";
-    }, {
-        readonly id: "bisect-brackets";
-        readonly description: "Bisect each bracketed crossing to one-minute precision.";
-    }];
-    readonly verification: readonly ["Every zero-crossing counts in strict time order.", "Exhausted searches fail typed instead of returning short lists."];
-}
+  readonly provenance: {
+    readonly school: "Ascendant";
+    readonly method: "transit-sample-bisect";
+    readonly version: 1;
+  };
+  readonly steps: readonly [
+    {
+      readonly id: "sample-coarse";
+      readonly description: "Step per-planet coarse intervals from the located moment.";
+    },
+    {
+      readonly id: "bisect-brackets";
+      readonly description: "Bisect each bracketed crossing to one-minute precision.";
+    },
+  ];
+  readonly verification: readonly [
+    "Every zero-crossing counts in strict time order.",
+    "Exhausted searches fail typed instead of returning short lists.",
+  ];
+};
 ```
 
 ### `TransitSearchProvenance`
 
 ```ts
 const TransitSearchProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Ascendant">;
-    readonly method: Schema.Literal<"transit-sample-bisect">;
-    readonly version: Schema.Literal<1>;
-}>
+  readonly school: Schema.Literal<"Ascendant">;
+  readonly method: Schema.Literal<"transit-sample-bisect">;
+  readonly version: Schema.Literal<1>;
+}>;
 ```

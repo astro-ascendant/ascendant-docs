@@ -50,15 +50,13 @@ const at: (timeline: readonly {
 ### `DashaCalculationError`
 
 ```ts
-class DashaCalculationError extends DashaCalculationError_base {
-}
+class DashaCalculationError extends DashaCalculationError_base {}
 ```
 
 ### `DashaEvidenceError`
 
 ```ts
-class DashaEvidenceError extends DashaEvidenceError_base {
-}
+class DashaEvidenceError extends DashaEvidenceError_base {}
 ```
 
 ## Types
@@ -66,7 +64,7 @@ class DashaEvidenceError extends DashaEvidenceError_base {
 ### `EligibleBrahmaPlanet`
 
 ```ts
-type EligibleBrahmaPlanet = typeof EligibleBrahmaPlanets.Type
+type EligibleBrahmaPlanet = typeof EligibleBrahmaPlanets.Type;
 ```
 
 ## Constants
@@ -75,11 +73,15 @@ type EligibleBrahmaPlanet = typeof EligibleBrahmaPlanets.Type
 
 ```ts
 const AntarDasha: Schema.Struct<{
-    readonly mahadasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-    readonly antardasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-    readonly start: Schema.DateTimeUtc;
-    readonly end: Schema.DateTimeUtc;
-}>
+  readonly mahadasha: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+  >;
+  readonly antardasha: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+  >;
+  readonly start: Schema.DateTimeUtc;
+  readonly end: Schema.DateTimeUtc;
+}>;
 ```
 
 ### `Brahma`
@@ -112,18 +114,47 @@ const Brahma: Schema.Struct<{
 
 ```ts
 const BrahmaCandidateScore: Schema.Struct<{
-    readonly planet: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus"]>;
-    readonly sign: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-    readonly dignity: Schema.Literals<readonly ["EXALTED", "MOOLA_TRIKONA", "OWN", "FRIEND", "NEUTRAL", "ENEMY", "DEBILITATED"]>;
-    readonly dignityBala: Schema.Finite;
-    readonly charaKarakaRoles: Schema.$Array<Schema.Literals<readonly ["Atmakaraka", "Amatyakaraka", "Bhratrikaraka", "Matrikaraka", "Putrakaraka", "Gnatikaraka", "Darakaraka"]>>;
-    readonly charaKarakaBala: Schema.Finite;
-    readonly kendradiHouseFromAtmakaraka: Schema.Int;
-    readonly kendradiBala: Schema.Finite;
-    readonly exactDegreeWithinSign: Schema.brand<Schema.Finite, "Degree">;
-    readonly naturalStrength: Schema.Int;
-    readonly total: Schema.Finite;
-}>
+  readonly planet: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus"]>;
+  readonly sign: Schema.Literals<
+    readonly [
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
+    ]
+  >;
+  readonly dignity: Schema.Literals<
+    readonly ["EXALTED", "MOOLA_TRIKONA", "OWN", "FRIEND", "NEUTRAL", "ENEMY", "DEBILITATED"]
+  >;
+  readonly dignityBala: Schema.Finite;
+  readonly charaKarakaRoles: Schema.$Array<
+    Schema.Literals<
+      readonly [
+        "Atmakaraka",
+        "Amatyakaraka",
+        "Bhratrikaraka",
+        "Matrikaraka",
+        "Putrakaraka",
+        "Gnatikaraka",
+        "Darakaraka",
+      ]
+    >
+  >;
+  readonly charaKarakaBala: Schema.Finite;
+  readonly kendradiHouseFromAtmakaraka: Schema.Int;
+  readonly kendradiBala: Schema.Finite;
+  readonly exactDegreeWithinSign: Schema.brand<Schema.Finite, "Degree">;
+  readonly naturalStrength: Schema.Int;
+  readonly total: Schema.Finite;
+}>;
 ```
 
 ### `BrahmaSelection`
@@ -157,130 +188,327 @@ const BrahmaSelection: Schema.Struct<{
 
 ```ts
 const CharaDasha: Schema.Struct<{
-    readonly system: Schema.Literal<"Chara">;
-    readonly provenance: Schema.Struct<{
-        readonly school: Schema.Literal<"Jaimini">;
-        readonly method: Schema.Literal<"kn-rao-co-lord-strength">;
-        readonly version: Schema.Literal<2>;
-    }>;
-    readonly mahadashas: Schema.$Array<Schema.Struct<{
-        readonly mahadasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-        readonly start: Schema.DateTimeUtc;
-        readonly end: Schema.DateTimeUtc;
-        readonly antardashas: Schema.$Array<Schema.Struct<{
-            readonly mahadasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-            readonly antardasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-            readonly start: Schema.DateTimeUtc;
-            readonly end: Schema.DateTimeUtc;
-        }>>;
-    }>>;
-}>
+  readonly system: Schema.Literal<"Chara">;
+  readonly provenance: Schema.Struct<{
+    readonly school: Schema.Literal<"Jaimini">;
+    readonly method: Schema.Literal<"kn-rao-co-lord-strength">;
+    readonly version: Schema.Literal<2>;
+  }>;
+  readonly mahadashas: Schema.$Array<
+    Schema.Struct<{
+      readonly mahadasha: Schema.Literals<
+        readonly [
+          "Aries",
+          "Taurus",
+          "Gemini",
+          "Cancer",
+          "Leo",
+          "Virgo",
+          "Libra",
+          "Scorpio",
+          "Sagittarius",
+          "Capricorn",
+          "Aquarius",
+          "Pisces",
+        ]
+      >;
+      readonly start: Schema.DateTimeUtc;
+      readonly end: Schema.DateTimeUtc;
+      readonly antardashas: Schema.$Array<
+        Schema.Struct<{
+          readonly mahadasha: Schema.Literals<
+            readonly [
+              "Aries",
+              "Taurus",
+              "Gemini",
+              "Cancer",
+              "Leo",
+              "Virgo",
+              "Libra",
+              "Scorpio",
+              "Sagittarius",
+              "Capricorn",
+              "Aquarius",
+              "Pisces",
+            ]
+          >;
+          readonly antardasha: Schema.Literals<
+            readonly [
+              "Aries",
+              "Taurus",
+              "Gemini",
+              "Cancer",
+              "Leo",
+              "Virgo",
+              "Libra",
+              "Scorpio",
+              "Sagittarius",
+              "Capricorn",
+              "Aquarius",
+              "Pisces",
+            ]
+          >;
+          readonly start: Schema.DateTimeUtc;
+          readonly end: Schema.DateTimeUtc;
+        }>
+      >;
+    }>
+  >;
+}>;
 ```
 
 ### `CharaDashaProvenance`
 
 ```ts
 const CharaDashaProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"kn-rao-co-lord-strength">;
-    readonly version: Schema.Literal<2>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"kn-rao-co-lord-strength">;
+  readonly version: Schema.Literal<2>;
+}>;
 ```
 
 ### `CurrentDasha`
 
 ```ts
 const CurrentDasha: Schema.Struct<{
-    readonly mahadasha: Schema.Struct<{
-        readonly mahadasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
+  readonly mahadasha: Schema.Struct<{
+    readonly mahadasha: Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >;
+    readonly start: Schema.DateTimeUtc;
+    readonly end: Schema.DateTimeUtc;
+    readonly antardashas: Schema.$Array<
+      Schema.Struct<{
+        readonly mahadasha: Schema.Literals<
+          readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+        >;
+        readonly antardasha: Schema.Literals<
+          readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+        >;
         readonly start: Schema.DateTimeUtc;
         readonly end: Schema.DateTimeUtc;
-        readonly antardashas: Schema.$Array<Schema.Struct<{
-            readonly mahadasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-            readonly antardasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-            readonly start: Schema.DateTimeUtc;
-            readonly end: Schema.DateTimeUtc;
-        }>>;
-    }>;
-    readonly antardasha: Schema.Struct<{
-        readonly mahadasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-        readonly antardasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-        readonly start: Schema.DateTimeUtc;
-        readonly end: Schema.DateTimeUtc;
-    }>;
-}>
+      }>
+    >;
+  }>;
+  readonly antardasha: Schema.Struct<{
+    readonly mahadasha: Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >;
+    readonly antardasha: Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >;
+    readonly start: Schema.DateTimeUtc;
+    readonly end: Schema.DateTimeUtc;
+  }>;
+}>;
 ```
 
 ### `CurrentRashiDasha`
 
 ```ts
 const CurrentRashiDasha: Schema.Struct<{
-    readonly system: Schema.Literals<readonly ["Chara", "Sthira"]>;
-    readonly mahadasha: Schema.Struct<{
-        readonly mahadasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
+  readonly system: Schema.Literals<readonly ["Chara", "Sthira"]>;
+  readonly mahadasha: Schema.Struct<{
+    readonly mahadasha: Schema.Literals<
+      readonly [
+        "Aries",
+        "Taurus",
+        "Gemini",
+        "Cancer",
+        "Leo",
+        "Virgo",
+        "Libra",
+        "Scorpio",
+        "Sagittarius",
+        "Capricorn",
+        "Aquarius",
+        "Pisces",
+      ]
+    >;
+    readonly start: Schema.DateTimeUtc;
+    readonly end: Schema.DateTimeUtc;
+    readonly antardashas: Schema.$Array<
+      Schema.Struct<{
+        readonly mahadasha: Schema.Literals<
+          readonly [
+            "Aries",
+            "Taurus",
+            "Gemini",
+            "Cancer",
+            "Leo",
+            "Virgo",
+            "Libra",
+            "Scorpio",
+            "Sagittarius",
+            "Capricorn",
+            "Aquarius",
+            "Pisces",
+          ]
+        >;
+        readonly antardasha: Schema.Literals<
+          readonly [
+            "Aries",
+            "Taurus",
+            "Gemini",
+            "Cancer",
+            "Leo",
+            "Virgo",
+            "Libra",
+            "Scorpio",
+            "Sagittarius",
+            "Capricorn",
+            "Aquarius",
+            "Pisces",
+          ]
+        >;
         readonly start: Schema.DateTimeUtc;
         readonly end: Schema.DateTimeUtc;
-        readonly antardashas: Schema.$Array<Schema.Struct<{
-            readonly mahadasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-            readonly antardasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-            readonly start: Schema.DateTimeUtc;
-            readonly end: Schema.DateTimeUtc;
-        }>>;
-    }>;
-    readonly antardasha: Schema.Struct<{
-        readonly mahadasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-        readonly antardasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-        readonly start: Schema.DateTimeUtc;
-        readonly end: Schema.DateTimeUtc;
-    }>;
-}>
+      }>
+    >;
+  }>;
+  readonly antardasha: Schema.Struct<{
+    readonly mahadasha: Schema.Literals<
+      readonly [
+        "Aries",
+        "Taurus",
+        "Gemini",
+        "Cancer",
+        "Leo",
+        "Virgo",
+        "Libra",
+        "Scorpio",
+        "Sagittarius",
+        "Capricorn",
+        "Aquarius",
+        "Pisces",
+      ]
+    >;
+    readonly antardasha: Schema.Literals<
+      readonly [
+        "Aries",
+        "Taurus",
+        "Gemini",
+        "Cancer",
+        "Leo",
+        "Virgo",
+        "Libra",
+        "Scorpio",
+        "Sagittarius",
+        "Capricorn",
+        "Aquarius",
+        "Pisces",
+      ]
+    >;
+    readonly start: Schema.DateTimeUtc;
+    readonly end: Schema.DateTimeUtc;
+  }>;
+}>;
 ```
 
 ### `EligibleBrahmaPlanets`
 
 ```ts
-const EligibleBrahmaPlanets: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus"]>
+const EligibleBrahmaPlanets: Schema.Literals<
+  readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus"]
+>;
 ```
 
 ### `MahaDasha`
 
 ```ts
 const MahaDasha: Schema.Struct<{
-    readonly mahadasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-    readonly start: Schema.DateTimeUtc;
-    readonly end: Schema.DateTimeUtc;
-    readonly antardashas: Schema.$Array<Schema.Struct<{
-        readonly mahadasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-        readonly antardasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-        readonly start: Schema.DateTimeUtc;
-        readonly end: Schema.DateTimeUtc;
-    }>>;
-}>
+  readonly mahadasha: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+  >;
+  readonly start: Schema.DateTimeUtc;
+  readonly end: Schema.DateTimeUtc;
+  readonly antardashas: Schema.$Array<
+    Schema.Struct<{
+      readonly mahadasha: Schema.Literals<
+        readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      >;
+      readonly antardasha: Schema.Literals<
+        readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      >;
+      readonly start: Schema.DateTimeUtc;
+      readonly end: Schema.DateTimeUtc;
+    }>
+  >;
+}>;
 ```
 
 ### `RashiAntarDasha`
 
 ```ts
 const RashiAntarDasha: Schema.Struct<{
-    readonly mahadasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-    readonly antardasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-    readonly start: Schema.DateTimeUtc;
-    readonly end: Schema.DateTimeUtc;
-}>
+  readonly mahadasha: Schema.Literals<
+    readonly [
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
+    ]
+  >;
+  readonly antardasha: Schema.Literals<
+    readonly [
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
+    ]
+  >;
+  readonly start: Schema.DateTimeUtc;
+  readonly end: Schema.DateTimeUtc;
+}>;
 ```
 
 ### `RashiBala`
 
 ```ts
 const RashiBala: Schema.Struct<{
-    readonly sign: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-    readonly charaBala: Schema.Finite;
-    readonly sthiraBala: Schema.Finite;
-    readonly drishtiBala: Schema.Finite;
-    readonly planetCount: Schema.Int;
-    readonly aspectingPlanets: Schema.$Array<Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>>;
-    readonly total: Schema.Finite;
-}>
+  readonly sign: Schema.Literals<
+    readonly [
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
+    ]
+  >;
+  readonly charaBala: Schema.Finite;
+  readonly sthiraBala: Schema.Finite;
+  readonly drishtiBala: Schema.Finite;
+  readonly planetCount: Schema.Int;
+  readonly aspectingPlanets: Schema.$Array<
+    Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >
+  >;
+  readonly total: Schema.Finite;
+}>;
 ```
 
 ### `RashiDasha`
@@ -319,16 +547,63 @@ const RashiDasha: Schema.toTaggedUnion<"system", readonly [Schema.Struct<{
 
 ```ts
 const RashiMahaDasha: Schema.Struct<{
-    readonly mahadasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-    readonly start: Schema.DateTimeUtc;
-    readonly end: Schema.DateTimeUtc;
-    readonly antardashas: Schema.$Array<Schema.Struct<{
-        readonly mahadasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-        readonly antardasha: Schema.Literals<readonly ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]>;
-        readonly start: Schema.DateTimeUtc;
-        readonly end: Schema.DateTimeUtc;
-    }>>;
-}>
+  readonly mahadasha: Schema.Literals<
+    readonly [
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
+    ]
+  >;
+  readonly start: Schema.DateTimeUtc;
+  readonly end: Schema.DateTimeUtc;
+  readonly antardashas: Schema.$Array<
+    Schema.Struct<{
+      readonly mahadasha: Schema.Literals<
+        readonly [
+          "Aries",
+          "Taurus",
+          "Gemini",
+          "Cancer",
+          "Leo",
+          "Virgo",
+          "Libra",
+          "Scorpio",
+          "Sagittarius",
+          "Capricorn",
+          "Aquarius",
+          "Pisces",
+        ]
+      >;
+      readonly antardasha: Schema.Literals<
+        readonly [
+          "Aries",
+          "Taurus",
+          "Gemini",
+          "Cancer",
+          "Leo",
+          "Virgo",
+          "Libra",
+          "Scorpio",
+          "Sagittarius",
+          "Capricorn",
+          "Aquarius",
+          "Pisces",
+        ]
+      >;
+      readonly start: Schema.DateTimeUtc;
+      readonly end: Schema.DateTimeUtc;
+    }>
+  >;
+}>;
 ```
 
 ### `SthiraDasha`
@@ -363,24 +638,34 @@ const SthiraDasha: Schema.Struct<{
 
 ```ts
 const SthiraDashaProvenance: Schema.Struct<{
-    readonly school: Schema.Literal<"Jaimini">;
-    readonly method: Schema.Literal<"bv-raman-koch-brahma-strength">;
-    readonly version: Schema.Literal<2>;
-}>
+  readonly school: Schema.Literal<"Jaimini">;
+  readonly method: Schema.Literal<"bv-raman-koch-brahma-strength">;
+  readonly version: Schema.Literal<2>;
+}>;
 ```
 
 ### `VimshottariDasha`
 
 ```ts
-const VimshottariDasha: Schema.$Array<Schema.Struct<{
-    readonly mahadasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
+const VimshottariDasha: Schema.$Array<
+  Schema.Struct<{
+    readonly mahadasha: Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    >;
     readonly start: Schema.DateTimeUtc;
     readonly end: Schema.DateTimeUtc;
-    readonly antardashas: Schema.$Array<Schema.Struct<{
-        readonly mahadasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
-        readonly antardasha: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]>;
+    readonly antardashas: Schema.$Array<
+      Schema.Struct<{
+        readonly mahadasha: Schema.Literals<
+          readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+        >;
+        readonly antardasha: Schema.Literals<
+          readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+        >;
         readonly start: Schema.DateTimeUtc;
         readonly end: Schema.DateTimeUtc;
-    }>>;
-}>>
+      }>
+    >;
+  }>
+>;
 ```

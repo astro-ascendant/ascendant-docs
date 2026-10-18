@@ -3,12 +3,24 @@ title: Getting started
 description: Install Ascendant and run your first Effect-based chart calculation.
 ---
 
+import { Callout } from "fumadocs-ui/components/callout";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 
 Ascendant is an Effect-first TypeScript library for sidereal astrology.
 Start by calculating D1 and D9 for a UTC moment and location. The result
 contains shared **Placements** and cusp-aware **Charts** that you can reuse
 with the other calculation modules.
+
+<Callout
+  type="warn"
+  title="Python SDK is not recommended"
+  className="leading-7 [&_p]:leading-7 [&_strong]:leading-7 [&>svg]:mt-1"
+>
+  The Python SDK ([`astro-ascendant`](https://pypi.org/project/astro-ascendant/) on PyPI) shares its
+  name with the TypeScript SDK but is **not at feature parity** and is **not actively developed**.
+  Use the TypeScript SDK instead. If you need it maintained, [fork it on
+  GitHub](https://github.com/thaletto/ascendant).
+</Callout>
 
 ## Install
 

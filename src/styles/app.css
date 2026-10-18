@@ -43,10 +43,10 @@
   --secondary: var(--gray-3);
   --secondary-foreground: var(--gray-11);
   --muted: var(--gray-3);
-  --muted-foreground: var(--gray-8);
+  --muted-foreground: oklch(0.53 0 95);
   --accent: var(--gray-3);
   --accent-foreground: var(--gray-11);
-  --destructive: oklch(0.577 0.245 27.325);
+  --destructive: oklch(0.53 0.2 27.325);
   --destructive-foreground: oklch(1 0 0);
   --border: var(--gray-4);
   --input: var(--gray-4);
@@ -132,7 +132,7 @@
   --secondary: var(--gray-3);
   --secondary-foreground: var(--gray-11);
   --muted: var(--gray-3);
-  --muted-foreground: var(--gray-8);
+  --muted-foreground: var(--gray-9);
   --accent: var(--gray-3);
   --accent-foreground: var(--gray-11);
   --destructive: oklch(0.704 0.191 22.216);
@@ -180,7 +180,6 @@
 
 html {
   scrollbar-gutter: stable;
-  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -10,17 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChartRouteImport } from './routes/chart'
 import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as ApiChartRouteImport } from './routes/api/chart'
 import { Route as ApiSearchRouteImport } from './routes/api/search'
 import { Route as ApiTimezoneRouteImport } from './routes/api/timezone'
 import { Route as DocsSplatRouteImport } from './routes/docs/$'
+import { Route as DocsChartRouteImport } from './routes/docs/chart'
 import { Route as DocsChar123Char125DotmdRouteImport } from './routes/docs/{$}[.]md'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChartRoute = ChartRouteImport.update({
+  id: '/chart',
+  path: '/chart',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
@@ -53,6 +60,11 @@ const DocsSplatRoute = DocsSplatRouteImport.update({
   path: '/docs/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocsChartRoute = DocsChartRouteImport.update({
+  id: '/docs/chart',
+  path: '/docs/chart',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DocsChar123Char125DotmdRoute = DocsChar123Char125DotmdRouteImport.update({
   id: '/docs/{$}.md',
   path: '/docs/{$}.md',
@@ -61,76 +73,90 @@ const DocsChar123Char125DotmdRoute = DocsChar123Char125DotmdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chart': typeof ChartRoute
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/api/chart': typeof ApiChartRoute
   '/api/search': typeof ApiSearchRoute
   '/api/timezone': typeof ApiTimezoneRoute
   '/docs/$': typeof DocsSplatRoute
+  '/docs/chart': typeof DocsChartRoute
   '/docs/{$}.md': typeof DocsChar123Char125DotmdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chart': typeof ChartRoute
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/api/chart': typeof ApiChartRoute
   '/api/search': typeof ApiSearchRoute
   '/api/timezone': typeof ApiTimezoneRoute
   '/docs/$': typeof DocsSplatRoute
+  '/docs/chart': typeof DocsChartRoute
   '/docs/{$}.md': typeof DocsChar123Char125DotmdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chart': typeof ChartRoute
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/api/chart': typeof ApiChartRoute
   '/api/search': typeof ApiSearchRoute
   '/api/timezone': typeof ApiTimezoneRoute
   '/docs/$': typeof DocsSplatRoute
+  '/docs/chart': typeof DocsChartRoute
   '/docs/{$}.md': typeof DocsChar123Char125DotmdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/chart'
     | '/llms-full.txt'
     | '/llms.txt'
     | '/api/chart'
     | '/api/search'
     | '/api/timezone'
     | '/docs/$'
+    | '/docs/chart'
     | '/docs/{$}.md'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/chart'
     | '/llms-full.txt'
     | '/llms.txt'
     | '/api/chart'
     | '/api/search'
     | '/api/timezone'
     | '/docs/$'
+    | '/docs/chart'
     | '/docs/{$}.md'
   id:
     | '__root__'
     | '/'
+    | '/chart'
     | '/llms-full.txt'
     | '/llms.txt'
     | '/api/chart'
     | '/api/search'
     | '/api/timezone'
     | '/docs/$'
+    | '/docs/chart'
     | '/docs/{$}.md'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChartRoute: typeof ChartRoute
   LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   ApiChartRoute: typeof ApiChartRoute
   ApiSearchRoute: typeof ApiSearchRoute
   ApiTimezoneRoute: typeof ApiTimezoneRoute
   DocsSplatRoute: typeof DocsSplatRoute
+  DocsChartRoute: typeof DocsChartRoute
   DocsChar123Char125DotmdRoute: typeof DocsChar123Char125DotmdRoute
 }
 
@@ -141,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chart': {
+      id: '/chart'
+      path: '/chart'
+      fullPath: '/chart'
+      preLoaderRoute: typeof ChartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/llms-full.txt': {
@@ -185,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/docs/chart': {
+      id: '/docs/chart'
+      path: '/docs/chart'
+      fullPath: '/docs/chart'
+      preLoaderRoute: typeof DocsChartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/docs/{$}.md': {
       id: '/docs/{$}.md'
       path: '/docs/{$}.md'
@@ -197,12 +237,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChartRoute: ChartRoute,
   LlmsFullDottxtRoute: LlmsFullDottxtRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   ApiChartRoute: ApiChartRoute,
   ApiSearchRoute: ApiSearchRoute,
   ApiTimezoneRoute: ApiTimezoneRoute,
   DocsSplatRoute: DocsSplatRoute,
+  DocsChartRoute: DocsChartRoute,
   DocsChar123Char125DotmdRoute: DocsChar123Char125DotmdRoute,
 }
 export const routeTree = rootRouteImport
