@@ -59,109 +59,116 @@ function ChartJaiminiTables() {
     return null;
   }
   return (
-    <div className="flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
-      <section className="border-border/70 bg-card/40 flex w-full flex-col gap-4 rounded-xl border p-6 sm:w-[calc(50%-0.5rem)]">
-        <h3 className="font-heading text-base font-medium">Chara Karakas</h3>
-        <ChartQuote>
-          Chara Karakas introduce the cast of your chart. The planet furthest along in its journey
-          becomes your Atmakaraka, representing your own soul, and the next strongest steps in as
-          your advisor.
-        </ChartQuote>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Role</TableHead>
-              <TableHead>Planet</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody tone="muted">
-            {result.jaimini.karakas.map((karaka) => (
-              <TableRow key={karaka.role}>
-                <TableCell>{karaka.role}</TableCell>
-                <TableCell>{karaka.planet}</TableCell>
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+      {/* Two stacks pair the cards so neither column trails the other by a tall gap. */}
+      <div className="flex flex-col gap-4 sm:w-[calc(50%-0.5rem)]">
+        <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+          <h3 className="font-heading text-base font-medium">Chara Karakas</h3>
+          <ChartQuote>
+            Chara Karakas introduce the cast of your chart. The planet furthest along in its journey
+            becomes your Atmakaraka, representing your own soul, and the next strongest steps in as
+            your advisor.
+          </ChartQuote>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Role</TableHead>
+                <TableHead>Planet</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </section>
-      <section className="border-border/70 bg-card/40 flex w-full flex-col gap-4 rounded-xl border p-6 sm:w-[calc(50%-0.5rem)]">
-        <h3 className="font-heading text-base font-medium">Arudha Pada</h3>
-        <ChartQuote>
-          Arudha pada shows how you are seen. A house says what is true in your life, while its
-          arudha says what the world believes about it.
-        </ChartQuote>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>House</TableHead>
-              <TableHead>Pada</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody tone="muted">
-            {result.jaimini.arudha.map((entry) => (
-              <TableRow key={entry.house}>
-                <TableCell>{entry.house}</TableCell>
-                <TableCell>{entry.pada === "" ? "—" : entry.pada}</TableCell>
+            </TableHeader>
+            <TableBody tone="muted">
+              {result.jaimini.karakas.map((karaka) => (
+                <TableRow key={karaka.role}>
+                  <TableCell>{karaka.role}</TableCell>
+                  <TableCell>{karaka.planet}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </section>
+        <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+          <h3 className="font-heading text-base font-medium">Karakamsha and Upapada</h3>
+          <ChartQuote>
+            Karakamsha points to what you came here to become: it is read for purpose and
+            livelihood. Upapada is about the person you share life with, so astrologers read it
+            first for marriage.
+          </ChartQuote>
+          <Table>
+            <TableBody tone="muted">
+              <TableRow>
+                <TableHead>Karakamsha</TableHead>
+                <TableCell>
+                  {result.jaimini.karakamsha === "" ? "—" : result.jaimini.karakamsha}
+                </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </section>
-      <section className="border-border/70 bg-card/40 flex w-full flex-col gap-4 rounded-xl border p-6 sm:w-[calc(50%-0.5rem)]">
-        <h3 className="font-heading text-base font-medium">Karakamsha and Upapada</h3>
-        <ChartQuote>
-          Karakamsha points to what you came here to become: it is read for purpose and livelihood.
-          Upapada is about the person you share life with, so astrologers read it first for
-          marriage.
-        </ChartQuote>
-        <Table>
-          <TableBody tone="muted">
-            <TableRow>
-              <TableHead>Karakamsha</TableHead>
-              <TableCell>
-                {result.jaimini.karakamsha === "" ? "—" : result.jaimini.karakamsha}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead>Upapada</TableHead>
-              <TableCell>{result.jaimini.upapada === "" ? "—" : result.jaimini.upapada}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </section>
-      <section className="border-border/70 bg-card/40 flex w-full flex-col gap-4 rounded-xl border p-6 sm:w-[calc(50%-0.5rem)]">
-        <h3 className="font-heading text-base font-medium">Drishti and Argala</h3>
-        <ChartQuote>
-          Drishti shows which parts of your chart are in conversation with each other. Argala tells
-          you who is holding a door open for a house and who is standing in its doorway.
-        </ChartQuote>
-        <Table>
-          <TableBody tone="muted">
-            <TableRow>
-              <TableHead>Rashi Drishti on Lagna</TableHead>
-              <TableCell>
-                {result.jaimini.drishti.length > 0 ? result.jaimini.drishti.join(", ") : "—"}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead>Supporting Argala</TableHead>
-              <TableCell>
-                {result.jaimini.argala.supporting.length > 0
-                  ? result.jaimini.argala.supporting.join(", ")
-                  : "—"}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead>Obstructing Argala</TableHead>
-              <TableCell>
-                {result.jaimini.argala.obstructing.length > 0
-                  ? result.jaimini.argala.obstructing.join(", ")
-                  : "—"}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </section>
+              <TableRow>
+                <TableHead>Upapada</TableHead>
+                <TableCell>
+                  {result.jaimini.upapada === "" ? "—" : result.jaimini.upapada}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </section>
+      </div>
+      <div className="flex flex-col gap-4 sm:w-[calc(50%-0.5rem)]">
+        <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+          <h3 className="font-heading text-base font-medium">Arudha Pada</h3>
+          <ChartQuote>
+            Arudha pada shows how you are seen. A house says what is true in your life, while its
+            arudha says what the world believes about it.
+          </ChartQuote>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>House</TableHead>
+                <TableHead>Pada</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody tone="muted">
+              {result.jaimini.arudha.map((entry) => (
+                <TableRow key={entry.house}>
+                  <TableCell>{entry.house}</TableCell>
+                  <TableCell>{entry.pada === "" ? "—" : entry.pada}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </section>
+        <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
+          <h3 className="font-heading text-base font-medium">Drishti and Argala</h3>
+          <ChartQuote>
+            Drishti shows which parts of your chart are in conversation with each other. Argala
+            tells you who is holding a door open for a house and who is standing in its doorway.
+          </ChartQuote>
+          <Table>
+            <TableBody tone="muted">
+              <TableRow>
+                <TableHead>Rashi Drishti on Lagna</TableHead>
+                <TableCell>
+                  {result.jaimini.drishti.length > 0 ? result.jaimini.drishti.join(", ") : "—"}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableHead>Supporting Argala</TableHead>
+                <TableCell>
+                  {result.jaimini.argala.supporting.length > 0
+                    ? result.jaimini.argala.supporting.join(", ")
+                    : "—"}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableHead>Obstructing Argala</TableHead>
+                <TableCell>
+                  {result.jaimini.argala.obstructing.length > 0
+                    ? result.jaimini.argala.obstructing.join(", ")
+                    : "—"}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </section>
+      </div>
     </div>
   );
 }
@@ -200,9 +207,7 @@ function ChartSavTable() {
   if (!result) {
     return null;
   }
-  const peakByPlanet = new Map(
-    result.sav.rows.map((row) => [row.planet, Math.max(...row.points)]),
-  );
+  const peakByPlanet = new Map(result.sav.rows.map((row) => [row.planet, Math.max(...row.points)]));
   const troughByPlanet = new Map(
     result.sav.rows.map((row) => [row.planet, Math.min(...row.points)]),
   );
