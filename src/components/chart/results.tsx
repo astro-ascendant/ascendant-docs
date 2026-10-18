@@ -59,7 +59,7 @@ function ChartJaiminiTables() {
     return null;
   }
   return (
-    <div className="grid items-start gap-4 sm:grid-cols-2">
+    <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2">
       <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
         <h3 className="font-heading text-base font-medium">Chara Karakas</h3>
         <ChartQuote>
