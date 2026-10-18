@@ -1,0 +1,32 @@
+{
+  "jsPlugins": ["@shadcn/lint"],
+  "rules": {
+    "shadcn/no-restyle": [
+      "warn",
+      {
+        "allow": ["layout"],
+        "contracts": [
+          { "pattern": "^Input$", "allow": ["layout", "rounded-md"] },
+          { "pattern": "^InputGroup$", "allow": ["layout", "rounded-md"] },
+          { "pattern": "^ComboboxInput$", "allow": ["layout", "rounded-md"] },
+          { "pattern": "^PopoverContent$", "allow": ["layout", "p-0"] },
+          { "pattern": "^Card$", "allow": ["layout", "shadow-none"] },
+          { "pattern": "^CardContent$", "allow": ["layout", "gap-3"] },
+          { "pattern": "^TableRow$", "allow": ["layout", "bg-accent/60", "font-medium"] },
+          { "pattern": "^TableCell$", "allow": ["layout", "tabular-nums"] },
+          { "pattern": "^Accordion$", "allow": ["layout", "border-0"] },
+          { "pattern": "^AccordionTrigger$", "allow": ["layout", "spacing", "typography"] },
+          { "pattern": "^AccordionContent$", "allow": ["layout", "pb-2"] }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/components/ui/**"],
+      "rules": {
+        "shadcn/no-restyle": "off"
+      }
+    }
+  ]
+}

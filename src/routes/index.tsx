@@ -29,8 +29,7 @@ function LandingPage() {
               </p>
               <div className="mt-6 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
                 <Link
-                  to="/docs/$"
-                  params={{ _splat: "chart" }}
+                  to="/chart"
                   className="bg-primary text-primary-foreground w-fit rounded-lg px-5 py-2 text-sm font-medium transition-transform duration-150 ease-out hover:opacity-90 active:scale-[0.96]"
                 >
                   Generate chart
@@ -79,8 +78,7 @@ function LandingPage() {
             </li>
             <li>
               <Link
-                to="/docs/$"
-                params={{ _splat: "chart" }}
+                to="/chart"
                 className="group flex flex-wrap items-center gap-2 py-3.5"
               >
                 <span className="min-w-0 text-sm font-medium text-foreground sm:text-base">

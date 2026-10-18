@@ -196,7 +196,7 @@ export function ChartTimeField() {
 const SEX_OPTIONS = [
   { value: "Male", label: "Male" },
   { value: "Female", label: "Female" },
-  { value: "", label: "Unspecified" },
+  { value: "", label: "Prefer not to say" },
 ] as const;
 
 export function ChartSexField() {
@@ -206,15 +206,15 @@ export function ChartSexField() {
   } = useChart();
   const selected = birth.sex ?? "";
   return (
-    <fieldset className="m-0 flex flex-col gap-1.5 border-0 p-0">
-      <legend className="text-sm font-medium">Gender</legend>
-      <div className="bg-input/50 grid h-9 grid-cols-3 gap-1 rounded-md p-1">
+    <fieldset className="m-0 flex flex-col border-0 p-0">
+      <legend className="mb-1.5 text-sm font-medium">Gender</legend>
+      <div className="bg-input/50 grid min-h-9 grid-cols-3 gap-1 rounded-full p-1">
         {SEX_OPTIONS.map((option) => {
           const checked = selected === option.value;
           return (
             <label
               key={option.label}
-              className={`flex cursor-pointer items-center justify-center rounded-sm px-2 text-sm transition-colors focus-within:ring-2 focus-within:ring-ring ${
+              className={`flex cursor-pointer items-center justify-center rounded-full px-2 py-1 text-center text-xs leading-tight transition-colors focus-within:ring-2 focus-within:ring-ring ${
                 checked
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -298,9 +298,9 @@ export function ChartCalculateButton() {
       disabled={busy}
       aria-busy={busy}
       onClick={calculate}
-      className="w-fit rounded-md"
+      className="w-fit"
     >
-      {busy ? <CircleNotchIcon className="animate-spin" aria-hidden="true" /> : null}
+      {busy ? <CircleNotchIcon className="motion-safe:animate-spin" aria-hidden="true" /> : null}
       Calculate chart
     </Button>
   );

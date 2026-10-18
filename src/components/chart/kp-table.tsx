@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table";
 import { useChart } from "@/components/chart/context";
 import { formatSignifyingHouses } from "@/lib/chart";
+import { ChartCode, ChartQuote } from "@/components/chart/quote";
 
 export function ChartKpCaption() {
   const {
@@ -17,10 +18,14 @@ export function ChartKpCaption() {
     return null;
   }
   return (
-    <p className="text-muted-foreground m-0! text-sm">
-      Calculated with <span className="font-mono">{result.kp.astroParams.ayanamsa}</span> ayanamsa
-      and <span className="font-mono">{result.kp.astroParams.houseSystem}</span> houses.
-    </p>
+    <ChartQuote>
+      Krishnamurthi Paddhathi is a modern astrological system designed to analyse charts with
+      greater precision. It uses the <ChartCode>{result.kp.astroParams.ayanamsa}</ChartCode>{" "}
+      ayanamsa and the{" "}
+      <ChartCode>{result.kp.astroParams.houseSystem}</ChartCode> cusp-based house system. While it
+      can be applied to a wide range of astrological questions, it is particularly effective for
+      questions involving timing.
+    </ChartQuote>
   );
 }
 
@@ -45,7 +50,7 @@ export function ChartKpCuspTable() {
             <TableHead>Sub-Sub Lord</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody tone="muted">
           {result.kp.cusps.map((cusp) => (
             <TableRow key={cusp.house}>
               <TableCell>{cusp.house}</TableCell>
@@ -82,7 +87,7 @@ export function ChartKpTable() {
             <TableHead>Signifying Houses</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody tone="muted">
           {result.kp.rows.map((row) => (
             <TableRow key={row.name}>
               <TableCell>{row.name}</TableCell>

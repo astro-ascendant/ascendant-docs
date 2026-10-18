@@ -12,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   findCurrentPeriodIndex,
@@ -21,6 +20,16 @@ import {
   type ChartDashaPeriod,
 } from "@/lib/chart";
 import { useChart } from "@/components/chart/context";
+import { ChartQuote } from "@/components/chart/quote";
+
+const dashaIntros: Record<string, string> = {
+  Vimshottari:
+    "Vimshottari breaks your life into planetary periods. The period running now is the planet steering your life, and this table shows when each hand on the wheel changes.",
+  Chara:
+    "Chara dasha treats your life as chapters, each owned by a zodiac sign. The sign in charge today shows the area of life in the spotlight right now.",
+  Sthira:
+    "Sthira dasha walks your chart through the fixed signs. It is the reading astrologers lean on when the question is about health, stability and how long something will last.",
+};
 
 function periodKey(period: ChartDashaPeriod): string {
   return `${period.mahadasha}-${period.start}`;
@@ -32,32 +41,25 @@ function AntardashaTable({ period, now }: { period: ChartDashaPeriod; now: strin
   }
   const current = findCurrentPeriodIndex(period.antardashas, now);
   return (
-    <Table className="text-xs">
+    <Table size="sm">
       <TableHeader>
         <TableRow>
-          <TableHead className="h-8 px-2">Antardasha</TableHead>
-          <TableHead className="h-8 px-2">Start</TableHead>
-          <TableHead className="h-8 px-2">End</TableHead>
-          <TableHead className="h-8 px-2">Duration</TableHead>
+          <TableHead>Antardasha</TableHead>
+          <TableHead>Start</TableHead>
+          <TableHead>End</TableHead>
+          <TableHead>Duration</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
+      <TableBody tone="muted">
         {period.antardashas.map((antar, index) => (
           <TableRow
             key={`${antar.antardasha}-${antar.start}`}
-            className={index === current ? "bg-accent/60 font-medium" : ""}
+            tone={index === current ? "current" : "default"}
           >
-            <TableCell className="px-2 py-1">
-              <span className="inline-flex items-center gap-1.5">
-                {antar.antardasha}
-                {index === current ? <Badge variant="secondary">Current</Badge> : null}
-              </span>
-            </TableCell>
-            <TableCell className="px-2 py-1">{formatDashaDate(antar.start)}</TableCell>
-            <TableCell className="px-2 py-1">{formatDashaDate(antar.end)}</TableCell>
-            <TableCell className="px-2 py-1">
-              {formatDashaDuration(antar.start, antar.end)}
-            </TableCell>
+            <TableCell>{antar.antardasha}</TableCell>
+            <TableCell>{formatDashaDate(antar.start)}</TableCell>
+            <TableCell>{formatDashaDate(antar.end)}</TableCell>
+            <TableCell>{formatDashaDuration(antar.start, antar.end)}</TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -72,7 +74,7 @@ function DashaSystemTable({ periods, now }: { periods: ChartDashaPeriod[]; now: 
   }
   return (
     <div className="flex flex-col gap-1">
-      <div className="text-muted-foreground grid h-8 grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2 px-2 pr-8 text-xs font-medium">
+      <div className="text-primary grid h-8 grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2 px-2 pr-8 text-xs font-semibold">
         <span>Mahadasha</span>
         <span>Start</span>
         <span>End</span>
@@ -83,29 +85,15 @@ function DashaSystemTable({ periods, now }: { periods: ChartDashaPeriod[]; now: 
         className="border-0"
       >
         {periods.map((period, index) => {
-          const currentAntarIndex =
-            index === current ? findCurrentPeriodIndex(period.antardashas, now) : -1;
-          const currentAntar =
-            currentAntarIndex === -1 ? undefined : period.antardashas[currentAntarIndex];
           return (
             <AccordionItem key={periodKey(period)} value={periodKey(period)}>
               <AccordionTrigger className="items-center gap-1 px-2 py-1 text-xs hover:no-underline **:data-[slot=accordion-trigger-icon]:size-3">
                 <span
                   className={`grid w-full grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] gap-2 pr-1 text-left font-normal ${
-                    index === current ? "text-foreground" : "text-muted-foreground"
+                    index === current ? "text-primary" : "text-muted-foreground"
                   }`}
                 >
-                  <span className={index === current ? "font-medium" : ""}>
-                    <span className="inline-flex flex-wrap items-center gap-1.5">
-                      {period.mahadasha}
-                      {index === current ? <Badge variant="secondary">Current</Badge> : null}
-                    </span>
-                    {currentAntar ? (
-                      <span className="text-muted-foreground block text-[11px] font-normal">
-                        {currentAntar.antardasha} antardasha
-                      </span>
-                    ) : null}
-                  </span>
+                  <span>{period.mahadasha}</span>
                   <span>{formatDashaDate(period.start)}</span>
                   <span>{formatDashaDate(period.end)}</span>
                   <span>{formatDashaDuration(period.start, period.end)}</span>
@@ -146,6 +134,7 @@ export function ChartDashaTimelines() {
       </TabsList>
       {systems.map((system) => (
         <TabsContent key={system.name} value={system.name}>
+          <ChartQuote>{dashaIntros[system.name]}</ChartQuote>
           <DashaSystemTable periods={system.periods} now={now} />
         </TabsContent>
       ))}
