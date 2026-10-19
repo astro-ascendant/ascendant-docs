@@ -86,10 +86,7 @@ function MetaFact({
     <div className="flex max-w-full min-w-0 items-center gap-1.5">
       <Icon aria-hidden="true" className="text-muted-foreground size-3.5 shrink-0" />
       <dt className="sr-only">{label}</dt>
-      <dd
-        className="text-muted-foreground truncate font-mono text-sm tabular-nums"
-        title={title ?? value}
-      >
+      <dd className="text-muted-foreground truncate text-sm tabular-nums" title={title ?? value}>
         {value}
         {hint ? <span className="text-muted-foreground ms-1.5">{hint}</span> : null}
       </dd>
@@ -144,10 +141,7 @@ function KpiStrip({ items, className }: { items: SummaryItem[]; className?: stri
           <dt className="text-muted-foreground text-[11px] font-medium tracking-[0.14em] uppercase">
             {item.label}
           </dt>
-          <dd
-            className="text-foreground mt-1 truncate font-mono text-sm tabular-nums"
-            title={item.value}
-          >
+          <dd className="text-foreground mt-1 truncate text-sm tabular-nums" title={item.value}>
             {item.value}
           </dd>
         </div>
