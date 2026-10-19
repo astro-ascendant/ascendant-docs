@@ -41,7 +41,7 @@ function AntardashaTable({ period, now }: { period: ChartDashaPeriod; now: strin
   }
   const current = findCurrentPeriodIndex(period.antardashas, now);
   return (
-    <Table size="sm">
+    <Table>
       <TableHeader>
         <TableRow>
           <TableHead>Antardasha</TableHead>
@@ -74,7 +74,7 @@ function DashaSystemTable({ periods, now }: { periods: ChartDashaPeriod[]; now: 
   }
   return (
     <div className="flex flex-col gap-1">
-      <div className="text-primary grid h-8 grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2 px-2 pr-8 text-xs font-semibold">
+      <div className="text-primary grid h-12 grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2 whitespace-nowrap px-3 pr-8 text-sm font-semibold">
         <span>Mahadasha</span>
         <span>Start</span>
         <span>End</span>
@@ -87,9 +87,9 @@ function DashaSystemTable({ periods, now }: { periods: ChartDashaPeriod[]; now: 
         {periods.map((period, index) => {
           return (
             <AccordionItem key={periodKey(period)} value={periodKey(period)}>
-              <AccordionTrigger className="items-center gap-1 px-2 py-1 text-xs hover:no-underline **:data-[slot=accordion-trigger-icon]:size-3">
+              <AccordionTrigger className="items-center gap-1 px-3 py-3 text-sm hover:no-underline **:data-[slot=accordion-trigger-icon]:size-4">
                 <span
-                  className={`grid w-full grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] gap-2 pr-1 text-left font-normal ${
+                  className={`grid w-full grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] gap-2 whitespace-nowrap pr-1 text-left text-sm font-normal ${
                     index === current ? "text-primary" : "text-muted-foreground"
                   }`}
                 >
