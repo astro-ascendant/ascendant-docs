@@ -89,8 +89,10 @@ function DashaSystemTable({ periods, now }: { periods: ChartDashaPeriod[]; now: 
             <AccordionItem key={periodKey(period)} value={periodKey(period)}>
               <AccordionTrigger className="items-center gap-1 px-3 py-3 text-sm hover:no-underline **:data-[slot=accordion-trigger-icon]:size-4">
                 <span
-                  className={`grid w-full grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] gap-2 whitespace-nowrap pr-1 text-left text-sm font-normal ${
-                    index === current ? "text-primary" : "text-muted-foreground"
+                  className={`grid w-full grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] gap-2 whitespace-nowrap pr-1 text-left text-sm ${
+                    index === current
+                      ? "font-semibold text-primary"
+                      : "font-normal text-muted-foreground"
                   }`}
                 >
                   <span>{period.mahadasha}</span>
