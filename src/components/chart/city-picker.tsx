@@ -60,7 +60,7 @@ export function CityPicker({
         aria-invalid={invalid || undefined}
         aria-describedby={describedBy}
       />
-      <ComboboxContent>
+      <ComboboxContent positionMethod="fixed" collisionPadding={16}>
         <ComboboxList>
           {(option: PlaceOption) => (
             <ComboboxItem key={option.id} value={option}>
