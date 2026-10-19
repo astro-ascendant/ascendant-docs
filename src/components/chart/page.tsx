@@ -233,7 +233,7 @@ export function ChartPage() {
                 <p className="text-muted-foreground mt-2 max-w-prose text-sm text-pretty">
                   Create your birth chart and uncover personalised insights about your career,
                   relationships, timing, and life patterns with{" "}
-                  <span className="text-primary whitespace-nowrap">
+                  <span className="text-primary font-semibold whitespace-nowrap">
                     <ChatGptIcon
                       aria-hidden="true"
                       className="me-1 inline-block size-4 align-[-0.125em]"
