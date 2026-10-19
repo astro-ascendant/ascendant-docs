@@ -91,7 +91,13 @@ function ComboboxContent({
 }: ComboboxPrimitive.Popup.Props &
   Pick<
     ComboboxPrimitive.Positioner.Props,
-    "side" | "align" | "sideOffset" | "alignOffset" | "anchor" | "positionMethod" | "collisionPadding"
+    | "side"
+    | "align"
+    | "sideOffset"
+    | "alignOffset"
+    | "anchor"
+    | "positionMethod"
+    | "collisionPadding"
   >) {
   return (
     <ComboboxPrimitive.Portal>
