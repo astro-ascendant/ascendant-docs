@@ -8,7 +8,7 @@ Ashtakavarga, and Jaimini results, and you can use those results with coding
 agents.
 
 Python has its own docs in the
-[ascendant repo](https://github.com/thaletto/ascendant/tree/main/docs/content).
+[ascendant repo](https://github.com/astro-ascendant/ascendant/tree/main/docs/content).
 
 ## What you can learn
 

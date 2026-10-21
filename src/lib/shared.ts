@@ -5,13 +5,13 @@ export const docsRoute = "/docs";
 export const docsImageRoute = "/og/docs";
 
 export const gitConfig = {
-  user: "thaletto",
+  user: "astro-ascendant",
   repo: "ascendant-ts",
   branch: "main",
 };
 
 export const agentGitConfig = {
-  user: "thaletto",
+  user: "astro-ascendant",
   repo: "ascendant-agents",
   branch: "main",
 };

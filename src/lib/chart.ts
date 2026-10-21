@@ -997,8 +997,8 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
     return "—";
   };
   const prompt = [
-    "Read the skill here: https://raw.githubusercontent.com/thaletto/ascendant-agents/refs/heads/main/skills/ascendant/SKILL.md",
-    "https://github.com/thaletto/ascendant-agents/tree/main/skills/ascendant/references",
+    "Read the skill here: https://raw.githubusercontent.com/astro-ascendant/ascendant-agents/refs/heads/main/skills/ascendant/SKILL.md",
+    "https://github.com/astro-ascendant/ascendant-agents/tree/main/skills/ascendant/references",
     "",
     ...(result.birth.name.trim() !== "" ? [`Name: ${result.birth.name}`, ""] : []),
     "#D1",

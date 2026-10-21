@@ -2,7 +2,7 @@
 
 Thanks for helping with Ascendant’s TypeScript docs. This repo is the
 documentation site and the in-browser birth chart calculator. Python docs live
-in the [ascendant repo](https://github.com/thaletto/ascendant/tree/main/docs/content),
+in the [ascendant repo](https://github.com/astro-ascendant/ascendant/tree/main/docs/content),
 not here.
 
 Please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
@@ -62,7 +62,7 @@ Keep the voice friendly and plain. Prefer everyday words over jargon like
 - A reading is guidance, not certainty, and not a substitute for medical,
   legal, or financial advice. Do not write copy that implies otherwise.
 - This site is TypeScript only. If you need to mention Python, link to
-  [its docs in the library repo](https://github.com/thaletto/ascendant/tree/main/docs/content).
+  [its docs in the library repo](https://github.com/astro-ascendant/ascendant/tree/main/docs/content).
 
 ## Pull requests
 
