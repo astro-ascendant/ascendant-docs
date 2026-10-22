@@ -75,13 +75,29 @@ function LandingPage() {
           </h2>
           <ul className="mt-2 flex flex-col">
             <li>
+              <a href="/docs" className="group flex flex-wrap items-center gap-2 py-3.5">
+                <span className="min-w-0 text-sm font-medium text-foreground sm:text-base">
+                  Getting Started
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="hidden shrink-0 text-sm text-muted-foreground sm:inline"
+                >
+                  /
+                </span>
+                <span className="min-w-0 basis-full text-sm text-muted-foreground transition-colors duration-150 ease-out group-hover:text-foreground sm:basis-auto sm:flex-1">
+                  Install Ascendant and run your first chart calculation
+                </span>
+              </a>
+            </li>
+            <li>
               <Link
                 to="/docs/$"
                 params={{ _splat: "skills" }}
                 className="group flex flex-wrap items-center gap-2 py-3.5"
               >
                 <span className="min-w-0 text-sm font-medium text-foreground sm:text-base">
-                  Skills
+                  Skills and Plugins
                 </span>
                 <span
                   aria-hidden="true"
@@ -89,24 +105,8 @@ function LandingPage() {
                 >
                   /
                 </span>
-                <span className="min-w-0 basis-full truncate text-sm text-muted-foreground transition-colors duration-150 ease-out group-hover:text-foreground sm:basis-auto sm:flex-1">
-                  Install the skill into Claude, Codex, or any agent
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/chart" className="group flex flex-wrap items-center gap-2 py-3.5">
-                <span className="min-w-0 text-sm font-medium text-foreground sm:text-base">
-                  Chart Generator
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="hidden shrink-0 text-sm text-muted-foreground sm:inline"
-                >
-                  /
-                </span>
-                <span className="min-w-0 basis-full truncate text-sm text-muted-foreground transition-colors duration-150 ease-out group-hover:text-foreground sm:basis-auto sm:flex-1">
-                  Generate a full chart from date, time, and place
+                <span className="min-w-0 basis-full text-sm text-muted-foreground transition-colors duration-150 ease-out group-hover:text-foreground sm:basis-auto sm:flex-1">
+                  Install plugin and skills for OpenCode and more
                 </span>
               </Link>
             </li>
@@ -125,7 +125,7 @@ function LandingPage() {
                 >
                   /
                 </span>
-                <span className="min-w-0 basis-full truncate text-sm text-muted-foreground transition-colors duration-150 ease-out group-hover:text-foreground sm:basis-auto sm:flex-1">
+                <span className="min-w-0 basis-full text-sm text-muted-foreground transition-colors duration-150 ease-out group-hover:text-foreground sm:basis-auto sm:flex-1">
                   Effect services for charts, dashas, and transits
                 </span>
               </Link>
