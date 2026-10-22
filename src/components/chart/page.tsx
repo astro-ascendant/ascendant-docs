@@ -188,8 +188,8 @@ export function ChartPage() {
       </a>
       <div aria-hidden="true" className="paper-grain" />
 
-      <header className="border-border/70 border-b px-4">
-        <div className="mx-auto flex w-full max-w-173 items-center gap-3 py-2 sm:py-3">
+      <header className="border-border/70 border-b">
+        <div className="mx-auto flex w-full max-w-173 items-center gap-3 px-4 py-2 sm:py-3 lg:max-w-4xl">
           <Wordmark />
           <nav aria-label="Site" className="ms-auto flex items-center">
             <a
@@ -203,7 +203,7 @@ export function ChartPage() {
       </header>
 
       <section className="border-border/70 bg-card/40 mx-4 my-4 rounded-xl border sm:mx-0 sm:my-0 sm:rounded-none sm:border-x-0 sm:border-t-0">
-        <div className="mx-auto w-full max-w-173 px-4 py-8 sm:px-0">
+        <div className="mx-auto w-full max-w-173 px-4 py-8 lg:max-w-4xl">
           <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-5">
             <div className="min-w-0">
               <h1 className="font-heading text-2xl font-medium tracking-tight text-balance sm:text-3xl">
@@ -261,8 +261,8 @@ export function ChartPage() {
         </div>
       </section>
 
-      <main id="content" className="w-full px-4">
-        <div className="mx-auto w-full max-w-173 py-8 sm:py-10">
+      <main id="content" className="w-full">
+        <div className="mx-auto w-full max-w-173 px-4 py-8 sm:py-10 lg:max-w-4xl">
           {hasSubject ? (
             <>
               <Chart.ResultSwitch tabListClassName={isMobile ? MOBILE_TAB_LIST : undefined} />
