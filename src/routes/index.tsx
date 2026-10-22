@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import solarSystem from "../../assets/solar-system.webp";
 import wordmark from "../../assets/wordmark.webp";
 
 export const Route = createFileRoute("/")({
@@ -57,7 +56,7 @@ function LandingPage() {
 
             <div className="order-first lg:order-last">
               <img
-                src={solarSystem}
+                src="/solar-system.jpg"
                 alt=""
                 aria-hidden="true"
                 width={1376}
