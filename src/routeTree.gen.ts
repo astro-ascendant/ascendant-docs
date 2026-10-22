@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChartRouteImport } from './routes/chart'
 import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ApiChartRouteImport } from './routes/api/chart'
 import { Route as ApiSearchRouteImport } from './routes/api/search'
 import { Route as ApiTimezoneRouteImport } from './routes/api/timezone'
@@ -38,6 +40,16 @@ const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
 const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
   id: '/llms.txt',
   path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChartRoute = ApiChartRouteImport.update({
@@ -76,6 +88,8 @@ export interface FileRoutesByFullPath {
   '/chart': typeof ChartRoute
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chart': typeof ApiChartRoute
   '/api/search': typeof ApiSearchRoute
   '/api/timezone': typeof ApiTimezoneRoute
@@ -88,6 +102,8 @@ export interface FileRoutesByTo {
   '/chart': typeof ChartRoute
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chart': typeof ApiChartRoute
   '/api/search': typeof ApiSearchRoute
   '/api/timezone': typeof ApiTimezoneRoute
@@ -101,6 +117,8 @@ export interface FileRoutesById {
   '/chart': typeof ChartRoute
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/chart': typeof ApiChartRoute
   '/api/search': typeof ApiSearchRoute
   '/api/timezone': typeof ApiTimezoneRoute
@@ -115,6 +133,8 @@ export interface FileRouteTypes {
     | '/chart'
     | '/llms-full.txt'
     | '/llms.txt'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/api/chart'
     | '/api/search'
     | '/api/timezone'
@@ -127,6 +147,8 @@ export interface FileRouteTypes {
     | '/chart'
     | '/llms-full.txt'
     | '/llms.txt'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/api/chart'
     | '/api/search'
     | '/api/timezone'
@@ -139,6 +161,8 @@ export interface FileRouteTypes {
     | '/chart'
     | '/llms-full.txt'
     | '/llms.txt'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/api/chart'
     | '/api/search'
     | '/api/timezone'
@@ -152,6 +176,8 @@ export interface RootRouteChildren {
   ChartRoute: typeof ChartRoute
   LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiChartRoute: typeof ApiChartRoute
   ApiSearchRoute: typeof ApiSearchRoute
   ApiTimezoneRoute: typeof ApiTimezoneRoute
@@ -188,6 +214,20 @@ declare module '@tanstack/react-router' {
       path: '/llms.txt'
       fullPath: '/llms.txt'
       preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/chart': {
@@ -240,6 +280,8 @@ const rootRouteChildren: RootRouteChildren = {
   ChartRoute: ChartRoute,
   LlmsFullDottxtRoute: LlmsFullDottxtRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiChartRoute: ApiChartRoute,
   ApiSearchRoute: ApiSearchRoute,
   ApiTimezoneRoute: ApiTimezoneRoute,
