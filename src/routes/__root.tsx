@@ -53,7 +53,7 @@ export const Route = createRootRoute({
         },
         {
           property: "og:image",
-          content: `${siteUrl}/solar-system.jpg`,
+          content: `${siteUrl}/solar-system.webp`,
         },
         {
           name: "twitter:card",
@@ -61,7 +61,7 @@ export const Route = createRootRoute({
         },
         {
           name: "twitter:image",
-          content: `${siteUrl}/solar-system.jpg`,
+          content: `${siteUrl}/solar-system.webp`,
         },
       ],
       links: [

@@ -56,7 +56,7 @@ function LandingPage() {
 
             <div className="order-first lg:order-last">
               <img
-                src="/solar-system.jpg"
+                src="/solar-system.webp"
                 alt=""
                 aria-hidden="true"
                 width={1376}
