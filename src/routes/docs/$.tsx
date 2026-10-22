@@ -1,5 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import { DocsLayout } from "fumadocs-ui/layouts/glass";
 import { createServerFn } from "@tanstack/react-start";
 import { slugsToMarkdownPath, source } from "@/lib/source";
 import browserCollections from "collections/browser";
@@ -10,7 +10,7 @@ import {
   DocsTitle,
   MarkdownCopyButton,
   ViewOptionsPopover,
-} from "fumadocs-ui/layouts/docs/page";
+} from "fumadocs-ui/layouts/glass/page";
 import { baseOptions } from "@/lib/layout.shared";
 import { gitConfig, skillsGitConfig } from "@/lib/shared";
 import { useFumadocsLoader } from "fumadocs-core/source/client";

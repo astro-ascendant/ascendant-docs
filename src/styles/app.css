@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@import "fumadocs-ui/css/shadcn.css";
+@import "fumadocs-ui/css/generated/glass.css";
+@import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -302,6 +303,32 @@ body {
   }
   html {
     @apply font-sans;
+  }
+}
+
+/*
+ * Glass docs layout: its floating header and panels are pinned to the viewport
+ * edge, so offset them by the sticky announcement banner's height.
+ */
+#fd-glass-layout {
+  --fd-glass-banner-offset: var(--fd-banner-height, 0px);
+}
+
+#fd-glass-layout #nd-sidebar {
+  top: calc(var(--fd-glass-banner-offset) + 0.5rem);
+  height: calc(100dvh - var(--fd-glass-banner-offset) - 1rem);
+}
+
+@media (min-width: 48rem) {
+  #fd-glass-layout > div.sticky {
+    top: var(--fd-glass-banner-offset);
+  }
+}
+
+@media (min-width: 80rem) {
+  #fd-glass-layout #nd-toc {
+    top: calc(var(--fd-glass-banner-offset) + 2.5rem);
+    height: calc(100dvh - var(--fd-glass-banner-offset) - 2.5rem);
   }
 }
 
