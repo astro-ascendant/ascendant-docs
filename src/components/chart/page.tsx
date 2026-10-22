@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { CalendarBlankIcon, ClockIcon, MapPinIcon, PencilSimpleIcon } from "@phosphor-icons/react";
+import {
+  BookOpenIcon,
+  CalendarBlankIcon,
+  ClockIcon,
+  MapPinIcon,
+  PencilSimpleIcon,
+} from "@phosphor-icons/react";
 import { cn } from "cn";
 import { Chart } from "@/components/chart";
 import { ChatGptIcon } from "@/components/chart/chatgpt-icon";
@@ -194,8 +200,9 @@ export function ChartPage() {
           <nav aria-label="Site" className="ms-auto flex items-center">
             <a
               href="/docs"
-              className="text-muted-foreground hover:text-foreground rounded-full px-2.5 py-1.5 text-sm transition-colors"
+              className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm transition-colors"
             >
+              <BookOpenIcon aria-hidden="true" className="size-4" />
               Docs
             </a>
           </nav>
