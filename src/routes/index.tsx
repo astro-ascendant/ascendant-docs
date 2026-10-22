@@ -43,8 +43,7 @@ function LandingPage() {
               <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
                 Unlike the broad and vague magazine horoscopes that only use your{" "}
                 <span className="font-serif italic">sun sign</span>, we use a complete picture of
-                the sky when and where you were born to generate your full birth{" "}
-                <span className="font-mono">chart</span>.
+                the sky when and where you were born to generate your full birth chart.
               </p>
               <div className="mt-6 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
                 <Link
