@@ -29,18 +29,18 @@ function LandingPage() {
   return (
     <main className="bg-background text-foreground flex min-h-screen flex-col pb-20 antialiased">
       <div aria-hidden="true" className="paper-grain" />
-      <div className="mx-auto w-full max-w-173 flex-1 px-4 pt-14">
+      <div className="mx-auto w-full max-w-173 flex-1 px-4 pt-14 lg:max-w-4xl">
         <a href="/" aria-label="Ascendant home" className="inline-block">
           <img src={wordmark} alt="Ascendant" height={32} className="h-8 w-auto" />
         </a>
 
         <section aria-label="Ascendant birth chart calculator" className="mt-10">
-          <div className="grid w-full items-start gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-10">
+          <div className="grid w-full items-start gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
             <div className="flex flex-col items-start">
               <h1 className="font-sans text-lg font-medium tracking-tight text-foreground sm:text-xl">
                 Understand your birth chart.
               </h1>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <p className="mt-4 max-w-prose text-sm leading-relaxed text-pretty text-muted-foreground sm:text-base">
                 Unlike the broad and vague magazine horoscopes that only use your{" "}
                 <span className="font-serif italic">sun sign</span>, we use a complete picture of
                 the sky when and where you were born to generate your full birth chart.
