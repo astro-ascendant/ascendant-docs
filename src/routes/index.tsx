@@ -31,7 +31,7 @@ function LandingPage() {
       <div aria-hidden="true" className="paper-grain" />
       <div className="mx-auto w-full max-w-173 flex-1 px-4 pt-14 lg:max-w-4xl">
         <a href="/" aria-label="Ascendant home" className="inline-block">
-          <img src={wordmark} alt="Ascendant" height={32} className="h-8 w-auto" />
+          <img src={wordmark} alt="Ascendant" width={973} height={200} className="h-8 w-auto" />
         </a>
 
         <section aria-label="Ascendant birth chart calculator" className="mt-10">

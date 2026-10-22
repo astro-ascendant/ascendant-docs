@@ -18,7 +18,7 @@ function Wordmark() {
       aria-label="Ascendant home"
       className="focus-visible:ring-ring inline-flex shrink-0 items-center rounded-sm focus-visible:ring-2 focus-visible:outline-none"
     >
-      <img src={wordmark} alt="Ascendant" height={24} className="h-6 w-auto" />
+      <img src={wordmark} alt="Ascendant" width={973} height={200} className="h-6 w-auto" />
     </a>
   );
 }
