@@ -207,7 +207,7 @@ export function ChartPage() {
           <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-5">
             <div className="min-w-0">
               <h1 className="font-heading text-2xl font-medium tracking-tight text-balance sm:text-3xl">
-                {hasSubject ? birth.name || "Untitled chart" : "Birth chart"}
+                {hasSubject ? birth.name || "Untitled chart" : "Create Horoscope"}
               </h1>
               {hasSubject ? (
                 <dl className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
@@ -230,8 +230,8 @@ export function ChartPage() {
                   />
                 </dl>
               ) : (
-                <p className="text-muted-foreground mt-2 max-w-prose text-sm text-pretty">
-                  Create your birth chart and uncover personalised insights about your career,
+                <p className="text-muted-foreground mt-2 max-w-prose text-sm leading-relaxed text-pretty sm:text-base">
+                  Create your horoscope and uncover personalised insights about your career,
                   relationships, timing, and life patterns with{" "}
                   <span className="text-primary font-semibold whitespace-nowrap">
                     <ChatGptIcon
@@ -272,7 +272,7 @@ export function ChartPage() {
           ) : (
             <section className="border-border/70 bg-card/40 flex flex-col items-start gap-4 rounded-xl border p-6 sm:p-8">
               <div className="flex flex-col gap-1.5">
-                <h2 className="font-heading text-base font-medium">No chart yet?</h2>
+                <h2 className="font-heading text-base font-medium">No horoscope yet?</h2>
                 <p className="text-muted-foreground max-w-prose text-sm text-pretty">
                   Enter a birth date, time and place to generate a Rashi chart, Navamsha chart, KP
                   chart, Vimshottari dasha, Jaimini karakas and Sarvashtakavarga.

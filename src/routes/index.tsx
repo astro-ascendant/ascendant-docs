@@ -6,20 +6,20 @@ export const Route = createFileRoute("/")({
   component: LandingPage,
   head: () => ({
     meta: [
-      { title: "Free Birth Chart Calculator - Ascendant" },
+      { title: "Free Horoscope Calculator - Ascendant" },
       {
         name: "description",
         content:
-          "Understand your birth chart with a free Vedic birth chart calculator. Enter your birth date, time, and place to see your ascendant, moon sign, and dashas.",
+          "Understand your horoscope with a free Vedic horoscope calculator. Enter your birth date, time, and place to see your ascendant, moon sign, and dashas.",
       },
       {
         property: "og:title",
-        content: "Free Birth Chart Calculator - Ascendant",
+        content: "Free Horoscope Calculator - Ascendant",
       },
       {
         property: "og:description",
         content:
-          "Understand your birth chart with a free Vedic birth chart calculator. Enter your birth date, time, and place to see your ascendant, moon sign, and dashas.",
+          "Understand your horoscope with a free Vedic horoscope calculator. Enter your birth date, time, and place to see your ascendant, moon sign, and dashas.",
       },
     ],
   }),
@@ -34,23 +34,23 @@ function LandingPage() {
           <img src={wordmark} alt="Ascendant" width={973} height={200} className="h-8 w-auto" />
         </a>
 
-        <section aria-label="Ascendant birth chart calculator" className="mt-10">
+        <section aria-label="Ascendant horoscope calculator" className="mt-10">
           <div className="grid w-full items-start gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
             <div className="flex flex-col items-start">
               <h1 className="font-sans text-lg font-medium tracking-tight text-foreground sm:text-xl">
-                Understand your birth chart.
+                Understand your horoscope.
               </h1>
               <p className="mt-4 max-w-prose text-sm leading-relaxed text-pretty text-muted-foreground sm:text-base">
                 Unlike the broad and vague magazine horoscopes that only use your{" "}
                 <span className="font-serif italic">sun sign</span>, we use a complete picture of
-                the sky when and where you were born to generate your full birth chart.
+                the sky when and where you were born to generate your full horoscope.
               </p>
               <div className="mt-6 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
                 <Link
                   to="/chart"
                   className="bg-primary text-primary-foreground w-fit rounded-lg px-5 py-2 text-sm font-medium transition-transform duration-150 ease-out hover:opacity-90 active:scale-[0.96]"
                 >
-                  Generate chart
+                  Create Horoscope
                 </Link>
               </div>
             </div>

@@ -715,7 +715,7 @@ export function buildHouseChartRows(result: ChartResult, division: number): Hous
 
 export function buildChartMarkdown(result: ChartResult): string {
   const lines: string[] = [
-    "# Birth Chart",
+    "# Horoscope",
     "",
     ...(result.birth.name.trim() !== "" ? [`- Name: ${result.birth.name}`] : []),
     `- Place: ${result.birth.place}`,

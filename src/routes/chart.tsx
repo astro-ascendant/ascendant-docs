@@ -6,20 +6,20 @@ export const Route = createFileRoute("/chart")({
   component: ChartRoute,
   head: () => ({
     meta: [
-      { title: "Calculate Birth Chart - Ascendant" },
+      { title: "Calculate Horoscope - Ascendant" },
       {
         name: "description",
         content:
-          "Calculate your birth chart online for free. Enter a birth date, time, and place to get your Rashi chart, Navamsha, Vimshottari Dasha, and Jaimini karakas.",
+          "Calculate your horoscope online for free. Enter a birth date, time, and place to get your Rashi chart, Navamsha, Vimshottari Dasha, and Jaimini karakas.",
       },
       {
         property: "og:title",
-        content: "Calculate Birth Chart - Ascendant",
+        content: "Calculate Horoscope - Ascendant",
       },
       {
         property: "og:description",
         content:
-          "Calculate your birth chart online for free. Enter a birth date, time, and place to get your Rashi chart, Navamsha, Vimshottari Dasha, and Jaimini karakas.",
+          "Calculate your horoscope online for free. Enter a birth date, time, and place to get your Rashi chart, Navamsha, Vimshottari Dasha, and Jaimini karakas.",
       },
     ],
   }),
