@@ -52,7 +52,7 @@ opencode plugin add opencode-ascendant
 Run these commands inside Claude Code:
 
 ```text
-/plugin marketplace add astro-ascendant/ascendant-agents
+/plugin marketplace add astro-ascendant/skills
 /plugin install ascendant@ascendant
 /reload-plugins
 ```
@@ -62,7 +62,7 @@ Run these commands inside Claude Code:
 Run:
 
 ```bash
-codex plugin marketplace add astro-ascendant/ascendant-agents --ref main
+codex plugin marketplace add astro-ascendant/skills --ref main
 codex plugin add ascendant@ascendant
 ```
 
@@ -71,5 +71,5 @@ codex plugin add ascendant@ascendant
 From the working directory where you want to use Ascendant, run:
 
 ```bash
-npx skills add astro-ascendant/ascendant-agents
+npx skills add astro-ascendant/skills
 ```

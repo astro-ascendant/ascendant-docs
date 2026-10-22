@@ -10,9 +10,9 @@ export const gitConfig = {
   branch: "main",
 };
 
-export const agentGitConfig = {
+export const skillsGitConfig = {
   user: "astro-ascendant",
-  repo: "ascendant-agents",
+  repo: "skills",
   branch: "main",
 };
 

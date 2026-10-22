@@ -12,7 +12,7 @@ import {
   ViewOptionsPopover,
 } from "fumadocs-ui/layouts/docs/page";
 import { baseOptions } from "@/lib/layout.shared";
-import { agentGitConfig, gitConfig } from "@/lib/shared";
+import { gitConfig, skillsGitConfig } from "@/lib/shared";
 import { useFumadocsLoader } from "fumadocs-core/source/client";
 import { Suspense } from "react";
 import { useMDXComponents } from "@/components/mdx";
@@ -103,8 +103,8 @@ function getGitHubUrl(path: string) {
   const revisionUrl = `${repositoryUrl}/blob/${gitConfig.branch}`;
 
   if (skill) {
-    const agentRepositoryUrl = `https://github.com/${agentGitConfig.user}/${agentGitConfig.repo}`;
-    return `${agentRepositoryUrl}/blob/${agentGitConfig.branch}/plugins/agent/ascendant/skills/${skill}/SKILL.md`;
+    const skillsRepositoryUrl = `https://github.com/${skillsGitConfig.user}/${skillsGitConfig.repo}`;
+    return `${skillsRepositoryUrl}/blob/${skillsGitConfig.branch}/skills/${skill}/SKILL.md`;
   }
   return `${revisionUrl}/content/${path}`;
 }
