@@ -115,6 +115,10 @@ export interface KpChart {
   };
   rows: KpSignificatorRow[];
   cusps: KpCuspRow[];
+  /** Vimshottari periods from the KP calculation's own Moon position. */
+  dasha: {
+    vimshottari: ChartDashaPeriod[];
+  };
 }
 
 export interface ChartResult {

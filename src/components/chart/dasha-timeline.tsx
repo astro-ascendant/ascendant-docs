@@ -143,3 +143,18 @@ export function ChartDashaTimelines() {
     </Tabs>
   );
 }
+
+/**
+ * Vimshottari periods for the KP chart. Same engine and same period maths as
+ * the Dasha tab, but fed by the KP calculation's own Moon position, so the
+ * nakshatra balance follows the KP ayanamsa.
+ */
+export function ChartKpDashaTimeline() {
+  const {
+    state: { result },
+  } = useChart();
+  if (!result) {
+    return null;
+  }
+  return <DashaSystemTable periods={result.kp.dasha.vimshottari} now={new Date().toISOString()} />;
+}

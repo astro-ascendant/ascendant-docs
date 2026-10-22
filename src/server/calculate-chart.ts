@@ -307,7 +307,10 @@ function planetSignification(
   return chart.planetSignifications?.[planet as Chart.Planets];
 }
 
-function readKpChart(calculation: Chart.ChartCalculation): ChartResult["kp"] {
+function readKpChart(
+  calculation: Chart.ChartCalculation,
+  vimshottari: ChartDashaPeriod[],
+): ChartResult["kp"] {
   const d1 = calculation.charts.find((chart) => chart.division === 1) ?? calculation.charts[0];
   const sourceByName = new Map(
     calculation.placements.planets.map((planet) => [planet.name, planet]),
@@ -374,6 +377,7 @@ function readKpChart(calculation: Chart.ChartCalculation): ChartResult["kp"] {
     },
     rows,
     cusps,
+    dasha: { vimshottari },
   };
 }
 
@@ -392,6 +396,9 @@ export function calculateChart(
     });
     const calculation = yield* Chart.generate(chartInput, [...ALL_DIVISIONS]);
     const kpCalculation = yield* Chart.generate(chartInput, [1]).pipe(Effect.provide(KpAstroLayer));
+    // The KP dasha follows the KP chart's own ayanamsa, so its period
+    // boundaries can differ from the Lahiri timeline.
+    const kpVimshottari = yield* Effect.option(Dasha.calculate(moment, kpCalculation.placements));
     const placements = calculation.placements;
 
     const d1 = calculation.charts.find((chart) => chart.division === 1) ?? calculation.charts[0];
@@ -460,7 +467,7 @@ export function calculateChart(
         degree: lagnaDegree,
         house: 1,
       },
-      kp: readKpChart(kpCalculation),
+      kp: readKpChart(kpCalculation, toDashaPeriods(Option.getOrElse(kpVimshottari, () => []))),
       divisions: readDivisions(calculation, placements.planets),
       dasha: {
         vimshottari: toDashaPeriods(Option.getOrElse(vimshottari, () => [])),

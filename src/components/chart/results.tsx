@@ -16,7 +16,7 @@ import { useChart } from "@/components/chart/context";
 import { ChartQuote } from "@/components/chart/quote";
 import { ChartAskChatGPTButton, ChartSavePdfButton } from "@/components/chart/actions";
 import { ChartSignHouseCharts } from "@/components/chart/sign-house-chart";
-import { ChartDashaTimelines } from "@/components/chart/dasha-timeline";
+import { ChartDashaTimelines, ChartKpDashaTimeline } from "@/components/chart/dasha-timeline";
 import { ChartKpCaption, ChartKpCuspTable, ChartKpTable } from "@/components/chart/kp-table";
 import { ChartKpCircularChart } from "@/components/chart/kp-circular-chart";
 
@@ -186,6 +186,7 @@ function ChartKpTabs() {
         <TabsTrigger value="wheel">Circular Chart</TabsTrigger>
         <TabsTrigger value="planets">Planets</TabsTrigger>
         <TabsTrigger value="cusps">Cusps</TabsTrigger>
+        <TabsTrigger value="dasha">Dasha</TabsTrigger>
       </TabsList>
       <TabsContent value="wheel">
         <ChartKpCircularChart />
@@ -195,6 +196,9 @@ function ChartKpTabs() {
       </TabsContent>
       <TabsContent value="cusps">
         <ChartKpCuspTable />
+      </TabsContent>
+      <TabsContent value="dasha">
+        <ChartKpDashaTimeline />
       </TabsContent>
     </Tabs>
   );
