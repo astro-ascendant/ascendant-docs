@@ -1,11 +1,11 @@
 import { ChatGptIcon } from "@/components/chart/chatgpt-icon";
-import { useChart } from "@/components/chart/context";
+import { useChartSession } from "@/components/chart/context";
 import { Button } from "@/components/ui/button";
 
 export function ChartSavePdfButton() {
   const {
     actions: { savePdf },
-  } = useChart();
+  } = useChartSession();
   return (
     <Button
       type="button"
@@ -21,7 +21,7 @@ export function ChartSavePdfButton() {
 export function ChartAskChatGPTButton() {
   const {
     actions: { askChatGPT },
-  } = useChart();
+  } = useChartSession();
   return (
     <Button
       type="button"

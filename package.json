@@ -8,6 +8,7 @@
     "build": "vite build",
     "start": "vite preview",
     "preview": "vite preview",
+    "test": "bun test",
     "types:check": "fumadocs-mdx && tsc --noEmit",
     "postinstall": "fumadocs-mdx",
     "fmt": "oxfmt",

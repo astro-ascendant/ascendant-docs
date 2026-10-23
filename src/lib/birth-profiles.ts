@@ -2,7 +2,6 @@ export interface BirthProfile {
   name: string;
   date: string;
   time: string;
-  utcOffsetMinutes: number;
   place: string;
   latitude: number;
   longitude: number;

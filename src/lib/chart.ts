@@ -1,14 +1,14 @@
+import { formatLongitude } from "./longitude";
+
 export interface ChartBirthInput {
   name: string;
   date: string;
   time: string;
-  utcOffsetMinutes: number;
   place: string;
   latitude: number;
   longitude: number;
   sex?: "Male" | "Female";
 }
-
 export type ChartFieldKey = "name" | "date" | "time" | "place";
 
 export interface ChartInputValidation {
@@ -43,25 +43,12 @@ export function validateChartInput(input: ChartBirthInput): ChartInputValidation
   return { ok: Object.keys(fields).length === 0, fields };
 }
 
-export function toUtcIso(input: { date: string; time: string; utcOffsetMinutes: number }): string {
-  const local = new Date(
-    Date.UTC(
-      Number(input.date.slice(0, 4)),
-      Number(input.date.slice(5, 7)) - 1,
-      Number(input.date.slice(8, 10)),
-      Number(input.time.slice(0, 2)),
-      Number(input.time.slice(3, 5)),
-    ),
-  );
-  return new Date(local.getTime() - input.utcOffsetMinutes * 60_000).toISOString();
-}
-
 export const ALL_DIVISIONS = [1, 2, 3, 4, 7, 9, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60] as const;
 
 export interface ChartPlacement {
   body: string;
   sign: string;
-  degree: string;
+  longitude: number | null;
   house: number;
   star: string;
   pada: number | null;
@@ -71,7 +58,7 @@ export interface ChartPlacement {
 export interface ChartHouse {
   number: number;
   sign: string;
-  cusp: string;
+  cusp: number | null;
   lord: string;
   occupants: string[];
   significators: string[];
@@ -101,7 +88,7 @@ export interface KpSignificatorRow {
 export interface KpCuspRow {
   house: number;
   sign: string;
-  degree: string;
+  longitude: number | null;
   signLord: string;
   starLord: string;
   subLord: string;
@@ -125,6 +112,14 @@ export interface ChartResult {
   birth: {
     name: string;
     utcIso: string;
+    /** Wall-clock birth date as entered, YYYY-MM-DD. */
+    date: string;
+    /** Wall-clock birth time as entered, HH:MM(:SS). */
+    time: string;
+    /** IANA zone resolved from the birth coordinates, when known. */
+    timeZone: string | null;
+    /** Verbatim offset the instant was built from, e.g. "+03:00", when known. */
+    utcOffset: string | null;
     place: string;
     latitude: number;
     longitude: number;
@@ -135,7 +130,7 @@ export interface ChartResult {
   };
   lagna: {
     sign: string;
-    degree: string;
+    longitude: number | null;
     house: number;
   };
   kp: KpChart;
@@ -192,7 +187,7 @@ export function toPlacementRows(result: ChartResult, division: number): ChartPla
     {
       body: "Lagna",
       sign: result.lagna.sign,
-      degree: result.lagna.degree,
+      longitude: result.lagna.longitude,
       house: result.lagna.house,
       star: "",
       pada: null,
@@ -200,66 +195,6 @@ export function toPlacementRows(result: ChartResult, division: number): ChartPla
     },
     ...match.placements,
   ];
-}
-
-const SIGN_ORDER = [
-  "Aries",
-  "Taurus",
-  "Gemini",
-  "Cancer",
-  "Leo",
-  "Virgo",
-  "Libra",
-  "Scorpio",
-  "Sagittarius",
-  "Capricorn",
-  "Aquarius",
-  "Pisces",
-];
-
-function parseDegreeStart(value: string): number {
-  const parsed = Number.parseFloat(value);
-  return Number.isFinite(parsed) ? parsed : 0;
-}
-
-/**
- * Rows for the sign/house chart: every house 1..12 in order, each with its
- * cusp starting degree and its occupants (RISING first in house 1, then
- * planets by longitude). Empty houses render a single blank row so all 12
- * houses are always visible. Adjacent rows sharing a sign or belonging to
- * the same house merge via signSpan/houseSpan (0 = merged into the row
- * above). The D1 lagna comes from the result; other divisions read house 1.
- */
-export interface HouseChartRow {
-  label: string;
-  sign: string; // sign of the displayed body
-  degree: string; // degree of displayed body
-  house: number; // house containing displayed body
-  cusp: string; // cusp of the house
-  cuspSign: string; // sign containing the cusp
-  empty: boolean;
-  signSpan: number;
-  houseSpan: number;
-}
-
-/** Absolute cusp longitude ("151.9") -> sign-relative degree ("1.9°"). */
-export function formatCuspDegree(cusp: string): string {
-  const longitude = Number.parseFloat(cusp);
-  if (!Number.isFinite(longitude)) {
-    return "";
-  }
-  const within = ((longitude % 30) + 30) % 30;
-  const rounded = Math.round(within * 10) / 10;
-  return `${Number.isInteger(rounded) ? rounded.toFixed(0) : rounded.toFixed(1)}°`;
-}
-
-/** Within-sign degree ("22.4") -> "22.4°". */
-export function formatPlanetDegree(degree: string): string {
-  const value = Number.parseFloat(degree);
-  if (!Number.isFinite(value)) {
-    return degree;
-  }
-  return `${degree.trim()}°`;
 }
 
 const SIGN_SHORT: Record<string, string> = {
@@ -277,453 +212,29 @@ const SIGN_SHORT: Record<string, string> = {
   Pisces: "Pis",
 };
 
-const BODY_SHORT: Record<string, string> = {
-  Sun: "Su",
-  Moon: "Mo",
-  Mars: "Ma",
-  Mercury: "Me",
-  Jupiter: "Ju",
-  Venus: "Ve",
-  Saturn: "Sa",
-  Rahu: "Ra",
-  Ketu: "Ke",
-  Lagna: "As",
-  RISING: "As",
-};
-
-/** Fixed South Indian rasi boxes, clockwise from Pisces at top-left. */
-export const SOUTH_INDIAN_LAYOUT = [
-  { sign: "Pisces", area: "pisces" },
-  { sign: "Aries", area: "aries" },
-  { sign: "Taurus", area: "taurus" },
-  { sign: "Gemini", area: "gemini" },
-  { sign: "Cancer", area: "cancer" },
-  { sign: "Leo", area: "leo" },
-  { sign: "Virgo", area: "virgo" },
-  { sign: "Libra", area: "libra" },
-  { sign: "Scorpio", area: "scorpio" },
-  { sign: "Sagittarius", area: "sagittarius" },
-  { sign: "Capricorn", area: "capricorn" },
-  { sign: "Aquarius", area: "aquarius" },
-] as const;
-
-export const SOUTH_INDIAN_GRID_TEMPLATE = `
-"pisces aries taurus gemini"
-"aquarius center center cancer"
-"capricorn center center leo"
-"sagittarius scorpio libra virgo"
-`;
-
-export interface SouthIndianOccupant {
-  body: string;
-  short: string;
-  degree: string;
-  retrograde: boolean;
-  isLagna: boolean;
-}
-
-export interface SouthIndianCell {
-  sign: string;
-  area: string;
-  signShort: string;
-  house: number | null;
-  isLagna: boolean;
-  occupants: SouthIndianOccupant[];
-}
-
-export interface SouthIndianChart {
-  division: number;
-  title: string;
-  lagnaSign: string;
-  lagnaDegree: string;
-  cells: SouthIndianCell[];
-}
-
-export function bodyShortName(body: string): string {
-  return BODY_SHORT[body] ?? body.slice(0, 2);
-}
-
+/** Short rasi label used by the text summaries. */
 export function signShortName(sign: string): string {
   return SIGN_SHORT[sign] ?? sign.slice(0, 3);
 }
 
-function divisionTitle(division: number): string {
-  if (division === 1) {
-    return "Rashi";
-  }
-  if (division === 9) {
-    return "Navamsha";
-  }
-  return `D${division}`;
-}
-
-/**
- * Sign-fixed South Indian chart: twelve rasi boxes stay in place, lagna
- * and planets sit in the sign they occupy. House numbers are counted
- * from the lagna sign when the division includes house data.
- */
-export function buildSouthIndianChart(
-  result: ChartResult,
-  division: number,
-): SouthIndianChart | null {
-  const match = result.divisions.find((entry) => entry.division === division);
-  if (!match) {
-    return null;
-  }
-
-  const lagnaHouse = match.houses.find((house) => house.number === 1);
-  const lagnaSign = division === 1 ? result.lagna.sign : (lagnaHouse?.sign ?? result.lagna.sign);
-  const lagnaDegree =
-    division === 1
-      ? formatPlanetDegree(result.lagna.degree)
-      : formatCuspDegree(lagnaHouse?.cusp ?? "");
-
-  const cells = SOUTH_INDIAN_LAYOUT.map((slot) => {
-    const house = match.houses.find((entry) => entry.sign === slot.sign);
-    const occupants: SouthIndianOccupant[] = match.placements
-      .filter((planet) => planet.sign === slot.sign)
-      .sort((a, b) => parseDegreeStart(a.degree) - parseDegreeStart(b.degree))
-      .map((planet) => ({
-        body: planet.body,
-        short: bodyShortName(planet.body),
-        degree: formatPlanetDegree(planet.degree),
-        retrograde: planet.state === "Retrograde",
-        isLagna: false,
-      }));
-
-    if (slot.sign === lagnaSign) {
-      occupants.unshift({
-        body: "Lagna",
-        short: "As",
-        degree: lagnaDegree,
-        retrograde: false,
-        isLagna: true,
-      });
-    }
-
-    return {
-      sign: slot.sign,
-      area: slot.area,
-      signShort: signShortName(slot.sign),
-      house: house?.number ?? (slot.sign === lagnaSign ? 1 : null),
-      isLagna: slot.sign === lagnaSign,
-      occupants,
-    };
-  });
-
-  return {
-    division,
-    title: divisionTitle(division),
-    lagnaSign,
-    lagnaDegree,
-    cells,
-  };
-}
-
-/**
- * Sign-fixed South Indian chart of the KP house cusps: twelve rasi boxes
- * stay in place and each house cusp sits in the sign containing it, shown
- * as its house number with the cusp degree. Unequal houses mean a sign can
- * hold several cusps or none.
- */
-export function buildKpSouthIndianChart(result: ChartResult): SouthIndianChart | null {
-  if (result.kp.cusps.length === 0) {
-    return null;
-  }
-  const first = result.kp.cusps.find((cusp) => cusp.house === 1);
-  const lagnaSign = first?.sign ?? "";
-  const lagnaDegree = first === undefined ? "" : formatPlanetDegree(first.degree);
-  const d1 = result.divisions.find((entry) => entry.division === 1);
-
-  const cells = SOUTH_INDIAN_LAYOUT.map((slot) => {
-    const occupants: SouthIndianOccupant[] = [
-      ...result.kp.cusps
-        .filter((cusp) => cusp.sign === slot.sign)
-        .map((cusp) => ({
-          order: cusp.degree === "" ? Number.POSITIVE_INFINITY : parseDegreeStart(cusp.degree),
-          occupant: {
-            body: `House ${cusp.house} cusp`,
-            short: `H${cusp.house}`,
-            degree: cusp.degree === "" ? "—" : formatPlanetDegree(cusp.degree),
-            retrograde: false,
-            isLagna: cusp.house === 1,
-          },
-        })),
-      ...(d1?.placements
-        .filter((planet) => planet.sign === slot.sign)
-        .map((planet) => ({
-          order: parseDegreeStart(planet.degree),
-          occupant: {
-            body: planet.body,
-            short: bodyShortName(planet.body),
-            degree: formatPlanetDegree(planet.degree),
-            retrograde: planet.state === "Retrograde",
-            isLagna: false,
-          },
-        })) ?? []),
-    ]
-      .sort((a, b) => a.order - b.order)
-      .map((entry) => entry.occupant);
-
-    return {
-      sign: slot.sign,
-      area: slot.area,
-      signShort: signShortName(slot.sign),
-      house: null,
-      isLagna: slot.sign === lagnaSign,
-      occupants,
-    };
-  });
-
-  return {
-    division: 1,
-    title: "KP Cusps",
-    lagnaSign,
-    lagnaDegree,
-    cells,
-  };
-}
-
-export interface KpCircularCusp {
-  house: number;
-  sign: string;
-  degree: string;
-  longitude: number;
-}
-
-export interface KpCircularPlanet {
-  body: string;
-  short: string;
-  degree: string;
-  longitude: number;
-  retrograde: boolean;
-}
-
-export interface KpCircularChart {
-  ascendant: number;
-  lagnaSign: string;
-  lagnaDegree: string;
-  cusps: KpCircularCusp[];
-  planets: KpCircularPlanet[];
-}
-
-function absoluteLongitude(sign: string, degree: string): number | null {
-  const index = SIGN_ORDER.indexOf(sign);
-  const value = Number.parseFloat(degree);
-  if (index === -1 || !Number.isFinite(value)) {
-    return null;
-  }
-  return (index * 30 + value + 360) % 360;
-}
-
-/** Fixed zodiac frame: Aries 0° at the top, longitudes running counterclockwise. */
-export function fixedZodiacAngleFor(longitude: number): number {
-  return (((90 + longitude) % 360) + 360) % 360;
-}
-
-/** Midpoint from angle a to angle b in increasing-longitude direction. */
-export function circularMidAngle(a: number, b: number): number {
-  const delta = (((b - a) % 360) + 360) % 360;
-  return (a + delta / 2) % 360;
-}
-
-/**
- * Circular KP wheel data: unequal Placidus house cusps as absolute sidereal
- * longitudes plus D1 planet longitudes. Cusps or planets without a usable
- * degree are skipped.
- */
-export function buildKpCircularChart(result: ChartResult): KpCircularChart | null {
-  const cusps: KpCircularCusp[] = [];
-  for (const cusp of result.kp.cusps) {
-    const longitude = absoluteLongitude(cusp.sign, cusp.degree);
-    if (longitude === null) {
-      continue;
-    }
-    cusps.push({
-      house: cusp.house,
-      sign: cusp.sign,
-      degree: formatPlanetDegree(cusp.degree),
-      longitude,
-    });
-  }
-  if (cusps.length === 0) {
-    return null;
-  }
-  const first = cusps.find((cusp) => cusp.house === 1) ?? cusps[0];
-  const d1 = result.divisions.find((entry) => entry.division === 1);
-  const planets: KpCircularPlanet[] = [];
-  for (const planet of d1?.placements ?? []) {
-    const longitude = absoluteLongitude(planet.sign, planet.degree);
-    if (longitude === null) {
-      continue;
-    }
-    planets.push({
-      body: planet.body,
-      short: bodyShortName(planet.body),
-      degree: formatPlanetDegree(planet.degree),
-      longitude,
-      retrograde: planet.state === "Retrograde",
-    });
-  }
-  return {
-    ascendant: first?.longitude ?? 0,
-    lagnaSign: first?.sign ?? "",
-    lagnaDegree: first?.degree ?? "",
-    cusps,
-    planets,
-  };
-}
-
-/**
- * Rows for the sign/house chart: every house 1..12 in order, each with its
- * cusp starting degree and its occupants (RISING first in house 1, then
- * planets by longitude). Empty houses render a single blank row so all 12
- * houses are always visible. Adjacent rows sharing a sign or belonging to
- * the same house merge via signSpan/houseSpan (0 = merged into the row
- * above). The D1 lagna comes from the result; other divisions read house 1.
- */
-export function buildHouseChartRows(result: ChartResult, division: number): HouseChartRow[] {
-  const match = result.divisions.find((entry) => entry.division === division);
-
-  if (!match) {
-    return [];
-  }
-
-  const houses = [...match.houses].sort((a, b) => a.number - b.number);
-
-  if (houses.length === 0) {
-    return [];
-  }
-
-  const lagnaSign =
-    division === 1
-      ? result.lagna.sign
-      : houses.find((house) => house.number === 1)?.sign || result.lagna.sign;
-
-  const baseRows: Omit<HouseChartRow, "signSpan" | "houseSpan">[] = [];
-
-  for (const house of houses) {
-    const cusp = formatCuspDegree(house.cusp);
-    const cuspSign = house.sign;
-
-    const occupants = match.placements
-      .filter((planet) => planet.house === house.number)
-      .sort(
-        (a, b) =>
-          SIGN_ORDER.indexOf(a.sign) * 30 +
-          parseDegreeStart(a.degree) -
-          (SIGN_ORDER.indexOf(b.sign) * 30 + parseDegreeStart(b.degree)),
-      );
-
-    if (house.number === 1) {
-      baseRows.push({
-        label: "RISING",
-        sign: lagnaSign,
-        degree: cusp,
-        house: house.number,
-        cusp,
-        cuspSign,
-        empty: false,
-      });
-    }
-
-    if (occupants.length === 0 && house.number !== 1) {
-      baseRows.push({
-        label: "",
-        sign: cuspSign,
-        degree: "",
-        house: house.number,
-        cusp,
-        cuspSign,
-        empty: true,
-      });
-
-      continue;
-    }
-
-    /*
-     * If the house cusp falls in a different sign from the first
-     * occupant, create a dedicated cusp row.
-     *
-     * Example:
-     *
-     * 10th cusp = Cancer 27.5°
-     * Sun       = Leo 2.1°
-     *
-     * The cusp must appear on a Cancer row before the Leo planets.
-     */
-    if (occupants.length > 0 && occupants[0].sign !== cuspSign) {
-      baseRows.push({
-        label: "",
-        sign: cuspSign,
-        degree: "",
-        house: house.number,
-        cusp,
-        cuspSign,
-        empty: true,
-      });
-    }
-
-    for (const planet of occupants) {
-      baseRows.push({
-        label: planet.body,
-        sign: planet.sign,
-        degree: formatPlanetDegree(planet.degree),
-        house: house.number,
-        cusp,
-        cuspSign,
-        empty: false,
-      });
-    }
-  }
-
-  return baseRows.map((row, index) => {
-    let signSpan = 0;
-    let houseSpan = 0;
-
-    if (index === 0 || baseRows[index - 1].sign !== row.sign) {
-      signSpan = 1;
-
-      for (
-        let next = index + 1;
-        next < baseRows.length && baseRows[next].sign === row.sign;
-        next += 1
-      ) {
-        signSpan += 1;
-      }
-    }
-
-    if (index === 0 || baseRows[index - 1].house !== row.house) {
-      houseSpan = 1;
-
-      for (
-        let next = index + 1;
-        next < baseRows.length && baseRows[next].house === row.house;
-        next += 1
-      ) {
-        houseSpan += 1;
-      }
-    }
-
-    return {
-      ...row,
-      signSpan,
-      houseSpan,
-    };
-  });
-}
-
 export function buildChartMarkdown(result: ChartResult): string {
+  const offset =
+    result.birth.utcOffset === null
+      ? ""
+      : ` (UTC${result.birth.utcOffset}${
+          result.birth.timeZone === null ? "" : `, ${result.birth.timeZone}`
+        })`;
   const lines: string[] = [
     "# Horoscope",
     "",
     ...(result.birth.name.trim() !== "" ? [`- Name: ${result.birth.name}`] : []),
+    ...(result.birth.date === "" ? [] : [`- Birth: ${result.birth.date} ${result.birth.time}`]),
     `- Place: ${result.birth.place}`,
-    `- UTC: ${result.birth.utcIso}`,
+    `- UTC: ${result.birth.utcIso}${offset}`,
     `- Coordinates: ${result.birth.latitude}, ${result.birth.longitude}`,
     `- Ayanamsa: ${result.astroParams.ayanamsa}`,
     `- House system: ${result.astroParams.houseSystem}`,
-    `- Lagna: ${result.lagna.sign} ${result.lagna.degree}`,
+    `- Lagna: ${result.lagna.sign} ${formatLongitude(result.lagna.longitude)}`,
     "",
     "## Placements",
     "",
@@ -732,7 +243,7 @@ export function buildChartMarkdown(result: ChartResult): string {
   ];
   for (const row of toPlacementRows(result, 1)) {
     lines.push(
-      `| ${row.body} | ${row.sign} | ${row.degree} | ${row.house} | ${row.star}${row.pada === null ? "" : ` ${row.pada}`} | ${row.state} |`,
+      `| ${row.body} | ${row.sign} | ${formatLongitude(row.longitude)} | ${row.house} | ${row.star}${row.pada === null ? "" : ` ${row.pada}`} | ${row.state} |`,
     );
   }
   lines.push("", "## Vimshottari Dasha", "");
@@ -767,12 +278,14 @@ export function buildChartMarkdown(result: ChartResult): string {
       if (row.body === "Lagna") {
         continue;
       }
-      lines.push(`| ${row.body} | ${row.sign} | ${row.degree} | ${row.house} | ${row.state} |`);
+      lines.push(
+        `| ${row.body} | ${row.sign} | ${formatLongitude(row.longitude)} | ${row.house} | ${row.state} |`,
+      );
     }
     lines.push("", `## D${division.division} houses`, "");
     for (const house of division.houses) {
       lines.push(
-        `- House ${house.number}: ${house.sign}, cusp ${house.cusp || "unknown"}, lord ${house.lord || "unknown"}, occupants ${house.occupants.join(", ") || "none"}`,
+        `- House ${house.number}: ${house.sign}, cusp ${house.cusp === null ? "unknown" : formatLongitude(house.cusp)}, lord ${house.lord || "unknown"}, occupants ${house.occupants.join(", ") || "none"}`,
       );
     }
   }
@@ -814,7 +327,7 @@ export function buildChartMarkdown(result: ChartResult): string {
   lines.push("| --- | --- | --- | --- | --- | --- | --- |");
   for (const cusp of result.kp.cusps ?? []) {
     lines.push(
-      `| ${cusp.house} | ${cusp.sign} | ${cusp.degree} | ${cusp.signLord} | ${cusp.starLord} | ${cusp.subLord} | ${cusp.subSubLord} |`,
+      `| ${cusp.house} | ${cusp.sign} | ${formatLongitude(cusp.longitude)} | ${cusp.signLord} | ${cusp.starLord} | ${cusp.subLord} | ${cusp.subSubLord} |`,
     );
   }
   lines.push(
@@ -889,7 +402,7 @@ export function formatDashaDuration(startIso: string, endIso: string): string {
 
 /** Index of the period covering now, or -1. */
 export function findCurrentPeriodIndex(
-  periods: { start: string; end: string }[],
+  periods: readonly { start: string; end: string }[],
   nowIso: string = new Date().toISOString(),
 ): number {
   const now = new Date(nowIso).getTime();
@@ -921,10 +434,10 @@ function divisionChartMarkdown(result: ChartResult, division: number): string {
   const lagnaHouse = match.houses.find((house) => house.number === 1);
   const lagna =
     division === 1
-      ? { sign: result.lagna.sign, degree: result.lagna.degree }
+      ? { sign: result.lagna.sign, degree: formatLongitude(result.lagna.longitude) }
       : {
           sign: lagnaHouse?.sign ?? "",
-          degree: lagnaHouse ? formatCuspDegree(lagnaHouse.cusp) : "",
+          degree: formatLongitude(lagnaHouse?.cusp),
         };
   return markdownTable(
     ["Body", "Sign", "Degree", "House"],
@@ -933,7 +446,7 @@ function divisionChartMarkdown(result: ChartResult, division: number): string {
       ...match.placements.map((placement) => [
         placement.state === "Retrograde" ? `${placement.body} (r)` : placement.body,
         placement.sign,
-        placement.degree,
+        formatLongitude(placement.longitude),
         String(placement.house),
       ]),
     ],
@@ -972,7 +485,7 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
   const currentMahadasha = currentIndex === -1 ? undefined : result.dasha.vimshottari[currentIndex];
   const cuspSpans = result.kp.cusps
     .flatMap((cusp) => {
-      const longitude = absoluteLongitude(cusp.sign, cusp.degree);
+      const longitude = cusp.longitude;
       return longitude === null ? [] : [{ house: cusp.house, longitude }];
     })
     .sort((a, b) => a.longitude - b.longitude);
@@ -981,8 +494,7 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
     const placement = (
       result.divisions.find((entry) => entry.division === 1)?.placements ?? []
     ).find((entry) => entry.body === body);
-    const longitude =
-      placement === undefined ? null : absoluteLongitude(placement.sign, placement.degree);
+    const longitude = placement?.longitude ?? null;
     if (longitude === null || cuspSpans.length === 0) {
       return "—";
     }
@@ -1030,7 +542,7 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
       (result.kp.cusps ?? []).map((cusp) => [
         String(cusp.house),
         cusp.sign,
-        cusp.degree,
+        formatLongitude(cusp.longitude),
         cusp.signLord,
         cusp.starLord,
         cusp.subLord,

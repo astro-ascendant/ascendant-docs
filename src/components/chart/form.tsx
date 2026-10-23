@@ -15,7 +15,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { CityPicker } from "@/components/chart/city-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useChart } from "@/components/chart/context";
+import { useChartForm, useChartPlaceSearch, useChartSession } from "@/components/chart/context";
 
 export function ChartFormFrame({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-6">{children}</div>;
@@ -36,7 +36,7 @@ export function ChartNameField() {
   const {
     state: { birth, savedProfiles, fieldErrors },
     actions: { updateBirth, applyProfile },
-  } = useChart();
+  } = useChartForm();
   const error = fieldErrors.name;
   return (
     <div className="flex flex-col gap-1.5">
@@ -94,7 +94,7 @@ export function ChartDateField() {
   const {
     state: { birth, fieldErrors },
     actions: { updateBirth },
-  } = useChart();
+  } = useChartForm();
   const [open, setOpen] = React.useState(false);
   const [text, setText] = React.useState(() => formatBirthDate(parseBirthDate(birth.date)));
   React.useEffect(() => {
@@ -173,7 +173,7 @@ export function ChartTimeField() {
   const {
     state: { birth, fieldErrors },
     actions: { updateBirth },
-  } = useChart();
+  } = useChartForm();
   const error = fieldErrors.time;
   return (
     <div className="flex flex-col gap-1.5">
@@ -203,7 +203,7 @@ export function ChartSexField() {
   const {
     state: { birth },
     actions: { updateBirth },
-  } = useChart();
+  } = useChartForm();
   const selected = birth.sex ?? "";
   return (
     <fieldset className="m-0 flex flex-col border-0 p-0">
@@ -243,9 +243,13 @@ export function ChartSexField() {
 
 export function ChartPlaceField() {
   const {
-    state: { selectedPlace, placeOptions, searchError, fieldErrors },
-    actions: { queryPlaces, selectPlace },
-  } = useChart();
+    state: { selectedPlace, fieldErrors },
+    actions: { selectPlace },
+  } = useChartForm();
+  const {
+    state: { placeOptions, searchError },
+    actions: { queryPlaces },
+  } = useChartPlaceSearch();
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const error = fieldErrors.place;
@@ -290,7 +294,7 @@ export function ChartCalculateButton() {
   const {
     state: { status },
     actions: { calculate },
-  } = useChart();
+  } = useChartSession();
   const busy = status === "calculating";
   return (
     <Button type="button" disabled={busy} aria-busy={busy} onClick={calculate} className="w-fit">

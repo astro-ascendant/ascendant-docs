@@ -19,7 +19,7 @@ import {
   formatDashaDuration,
   type ChartDashaPeriod,
 } from "@/lib/chart";
-import { useChart } from "@/components/chart/context";
+import { useChartSession } from "@/components/chart/context";
 import { ChartQuote } from "@/components/chart/quote";
 
 const dashaIntros: Record<string, string> = {
@@ -115,11 +115,12 @@ function DashaSystemTable({ periods, now }: { periods: ChartDashaPeriod[]; now: 
 export function ChartDashaTimelines() {
   const {
     state: { result },
-  } = useChart();
+    clock,
+  } = useChartSession();
   if (!result) {
     return null;
   }
-  const now = new Date().toISOString();
+  const now = clock();
   const systems = [
     { name: "Vimshottari", periods: result.dasha.vimshottari },
     { name: "Chara", periods: result.dasha.chara },
@@ -152,9 +153,10 @@ export function ChartDashaTimelines() {
 export function ChartKpDashaTimeline() {
   const {
     state: { result },
-  } = useChart();
+    clock,
+  } = useChartSession();
   if (!result) {
     return null;
   }
-  return <DashaSystemTable periods={result.kp.dasha.vimshottari} now={new Date().toISOString()} />;
+  return <DashaSystemTable periods={result.kp.dasha.vimshottari} now={clock()} />;
 }

@@ -41,12 +41,12 @@ function placeName(entry: NominatimEntry): string {
   );
 }
 
-export async function searchPlaces(query: string): Promise<PlaceOption[]> {
+export async function searchPlaces(query: string, signal?: AbortSignal): Promise<PlaceOption[]> {
   // V1 place search uses OpenStreetMap Nominatim (no API key); users can
   // always override with manual coordinates below.
   const response = await fetch(
     `https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=5&q=${encodeURIComponent(query)}`,
-    { headers: { Accept: "application/json" } },
+    { headers: { Accept: "application/json" }, signal },
   );
   if (!response.ok) {
     throw new Error("Place search failed.");

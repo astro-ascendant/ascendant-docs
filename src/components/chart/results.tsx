@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "cn";
-import { useChart } from "@/components/chart/context";
+import { useChartSession } from "@/components/chart/context";
 import { ChartQuote } from "@/components/chart/quote";
 import { ChartAskChatGPTButton, ChartSavePdfButton } from "@/components/chart/actions";
 import { ChartSignHouseCharts } from "@/components/chart/sign-house-chart";
@@ -38,7 +38,7 @@ function ChartCalculating() {
 function ChartFailure() {
   const {
     state: { errors },
-  } = useChart();
+  } = useChartSession();
   return (
     <Alert variant="destructive">
       <AlertTitle>Calculation did not complete</AlertTitle>
@@ -54,7 +54,7 @@ function ChartFailure() {
 function ChartJaiminiTables() {
   const {
     state: { result },
-  } = useChart();
+  } = useChartSession();
   if (!result) {
     return null;
   }
@@ -176,7 +176,7 @@ function ChartJaiminiTables() {
 function ChartKpTabs() {
   const {
     state: { result },
-  } = useChart();
+  } = useChartSession();
   if (!result) {
     return null;
   }
@@ -207,7 +207,7 @@ function ChartKpTabs() {
 function ChartSavTable() {
   const {
     state: { result },
-  } = useChart();
+  } = useChartSession();
   if (!result) {
     return null;
   }
@@ -270,7 +270,7 @@ function ChartSavTable() {
 function ChartSuccess({ tabListClassName }: { tabListClassName?: string }) {
   const {
     state: { result },
-  } = useChart();
+  } = useChartSession();
   if (!result) {
     return null;
   }
@@ -323,17 +323,16 @@ function ChartSuccess({ tabListClassName }: { tabListClassName?: string }) {
 
 export function ChartResultSwitch({ tabListClassName }: { tabListClassName?: string } = {}) {
   const {
-    state: { status },
-  } = useChart();
+    state: { status, result },
+  } = useChartSession();
   return (
-    <div role="status">
-      {status === "calculating" ? (
-        <ChartCalculating />
-      ) : status === "failure" ? (
-        <ChartFailure />
-      ) : status === "success" ? (
-        <ChartSuccess tabListClassName={tabListClassName} />
+    <div role="status" className="flex flex-col gap-4">
+      {status === "calculating" && result === null ? <ChartCalculating /> : null}
+      {status === "calculating" && result !== null ? (
+        <p className="text-muted-foreground text-sm">Recalculating with the updated details…</p>
       ) : null}
+      {status === "failure" ? <ChartFailure /> : null}
+      {result !== null ? <ChartSuccess tabListClassName={tabListClassName} /> : null}
     </div>
   );
 }

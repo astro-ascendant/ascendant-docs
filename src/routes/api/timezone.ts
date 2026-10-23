@@ -1,5 +1,35 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { findTimeZone } from "@/server/resolve-timezone";
+import { Data, Effect, Schema } from "effect";
+import { findTimeZone } from "@/server/birth-moment";
+
+const ZoneRequest = Schema.Struct({
+  latitude: Schema.Finite.check(Schema.isBetween({ minimum: -90, maximum: 90 })),
+  longitude: Schema.Finite.check(Schema.isBetween({ minimum: -180, maximum: 180 })),
+});
+
+class HttpError extends Data.TaggedError("HttpError")<{
+  readonly status: number;
+  readonly message: string;
+}> {}
+
+const program = (body: unknown) =>
+  Effect.gen(function* () {
+    const { latitude, longitude } = yield* Schema.decodeUnknownEffect(ZoneRequest)(body);
+    return yield* findTimeZone(latitude, longitude);
+  }).pipe(
+    Effect.catchTags({
+      SchemaError: () =>
+        Effect.fail(new HttpError({ status: 400, message: "Check the coordinates." })),
+      TimeZoneLookupError: () =>
+        Effect.fail(
+          new HttpError({
+            status: 422,
+            message: "Could not determine the time zone for this place. Check the coordinates.",
+          }),
+        ),
+    }),
+    Effect.map((timeZone) => ({ timeZone })),
+  );
 
 export const Route = createFileRoute("/api/timezone")({
   server: {
@@ -11,29 +41,15 @@ export const Route = createFileRoute("/api/timezone")({
         } catch {
           return Response.json({ error: "Request body must be JSON." }, { status: 400 });
         }
-        const input =
-          typeof body === "object" && body !== null ? (body as Record<string, unknown>) : {};
-        const { latitude, longitude } = input;
-        if (
-          typeof latitude !== "number" ||
-          !Number.isFinite(latitude) ||
-          latitude < -90 ||
-          latitude > 90
-        ) {
-          return Response.json({ error: "latitude must be between -90 and 90." }, { status: 400 });
-        }
-        if (
-          typeof longitude !== "number" ||
-          !Number.isFinite(longitude) ||
-          longitude < -180 ||
-          longitude > 180
-        ) {
-          return Response.json(
-            { error: "longitude must be between -180 and 180." },
-            { status: 400 },
-          );
-        }
-        return Response.json({ timeZone: findTimeZone(latitude, longitude) });
+        return Effect.runPromise(
+          program(body).pipe(
+            Effect.match({
+              onFailure: (error) =>
+                Response.json({ error: error.message }, { status: error.status }),
+              onSuccess: (result) => Response.json(result),
+            }),
+          ),
+        );
       },
     },
   },

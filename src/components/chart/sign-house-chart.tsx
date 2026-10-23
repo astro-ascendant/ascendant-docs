@@ -2,32 +2,12 @@ import type { ReactNode } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartQuote } from "@/components/chart/quote";
 import {
-  buildSouthIndianChart,
+  buildDivisionView,
   SOUTH_INDIAN_GRID_TEMPLATE,
-  type SouthIndianCell,
-  type SouthIndianChart as SouthIndianChartData,
-  type SouthIndianOccupant,
-} from "@/lib/chart";
-import { useChart } from "@/components/chart/context";
+  type DivisionOccupant,
+} from "@/lib/chart-view";
+import { useChartSession } from "@/components/chart/context";
 import { cn } from "@/lib/utils";
-
-export function describeSouthIndianCell(cell: SouthIndianCell): string {
-  const house = cell.house === null ? "" : `, house ${cell.house}`;
-  if (cell.occupants.length === 0) {
-    return `${cell.sign}${house}: empty`;
-  }
-  const bodies = cell.occupants
-    .map((occupant) => {
-      const retro = occupant.retrograde ? " retrograde" : "";
-      return `${occupant.body}${retro} ${occupant.degree}`.trim();
-    })
-    .join(", ");
-  return `${cell.sign}${house}: ${bodies}`;
-}
-
-export function describeSouthIndianChart(chart: SouthIndianChartData): string {
-  return `${chart.title} South Indian chart. Lagna ${chart.lagnaSign} ${chart.lagnaDegree}. ${chart.cells.map(describeSouthIndianCell).join(". ")}`;
-}
 
 function Root({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -107,7 +87,7 @@ function Body({ children }: { children: ReactNode }) {
   return <ul className="flex min-h-0 flex-1 flex-col justify-center gap-0.2">{children}</ul>;
 }
 
-function Entry({ entry }: { entry: SouthIndianOccupant }) {
+function Entry({ entry }: { entry: DivisionOccupant }) {
   return (
     <li
       className={cn(
@@ -150,19 +130,20 @@ export const SouthIndianChart = Object.assign(Root, {
 function SignHouseChart({ division }: { division: number }) {
   const {
     state: { result },
-  } = useChart();
+  } = useChartSession();
 
   if (!result) {
     return null;
   }
 
-  const chart = buildSouthIndianChart(result, division);
-  if (!chart) {
+  const divisionData = result.divisions.find((entry) => entry.division === division);
+  if (!divisionData) {
     return null;
   }
+  const chart = buildDivisionView({ lagna: result.lagna, division: divisionData });
 
   return (
-    <SouthIndianChart label={describeSouthIndianChart(chart)}>
+    <SouthIndianChart label={chart.label}>
       {chart.cells.map((cell) => (
         <SouthIndianChart.Cell key={cell.sign} area={cell.area} isLagna={cell.isLagna}>
           <SouthIndianChart.Header

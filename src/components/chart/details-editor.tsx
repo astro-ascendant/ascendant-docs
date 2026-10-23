@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Chart } from "@/components/chart";
-import { useChart } from "@/components/chart/context";
+import { useChartSession } from "@/components/chart/context";
 import {
   Dialog,
   DialogContent,
@@ -49,7 +49,7 @@ export function ChartDetailsEditor({
   const isMobile = useIsMobile();
   const {
     state: { status },
-  } = useChart();
+  } = useChartSession();
 
   // Calculating is the user's signal to dismiss; the result updates behind.
   useEffect(() => {

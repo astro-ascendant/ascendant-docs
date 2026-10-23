@@ -6,14 +6,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useChart } from "@/components/chart/context";
+import { useChartSession } from "@/components/chart/context";
 import { formatSignifyingHouses } from "@/lib/chart";
+import { formatLongitude } from "@/lib/longitude";
 import { ChartCode, ChartQuote } from "@/components/chart/quote";
 
 export function ChartKpCaption() {
   const {
     state: { result },
-  } = useChart();
+  } = useChartSession();
   if (!result) {
     return null;
   }
@@ -31,7 +32,7 @@ export function ChartKpCaption() {
 export function ChartKpCuspTable() {
   const {
     state: { result },
-  } = useChart();
+  } = useChartSession();
   if (!result || result.kp.cusps.length === 0) {
     return null;
   }
@@ -54,7 +55,9 @@ export function ChartKpCuspTable() {
             <TableRow key={cusp.house}>
               <TableCell>{cusp.house}</TableCell>
               <TableCell>{cusp.sign === "" ? "—" : cusp.sign}</TableCell>
-              <TableCell>{cusp.degree === "" ? "—" : cusp.degree}</TableCell>
+              <TableCell>
+                {cusp.longitude === null ? "—" : formatLongitude(cusp.longitude)}
+              </TableCell>
               <TableCell>{cusp.signLord === "" ? "—" : cusp.signLord}</TableCell>
               <TableCell>{cusp.starLord === "" ? "—" : cusp.starLord}</TableCell>
               <TableCell>{cusp.subLord === "" ? "—" : cusp.subLord}</TableCell>
@@ -70,7 +73,7 @@ export function ChartKpCuspTable() {
 export function ChartKpTable() {
   const {
     state: { result },
-  } = useChart();
+  } = useChartSession();
   if (!result) {
     return null;
   }

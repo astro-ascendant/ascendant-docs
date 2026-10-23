@@ -10,10 +10,10 @@ import { cn } from "cn";
 import { Chart } from "@/components/chart";
 import { ChatGptIcon } from "@/components/chart/chatgpt-icon";
 import { ChartDetailsEditor } from "@/components/chart/details-editor";
-import { useChart } from "@/components/chart/context";
+import { useChartSession } from "@/components/chart/context";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { findCurrentPeriodIndex } from "@/lib/chart";
+import { buildHeadlineView } from "@/lib/chart-view";
 import { formatTimeZoneLabel } from "@/lib/timezone";
 import wordmark from "../../../assets/wordmark.webp";
 
@@ -55,23 +55,16 @@ function formatClockTime(value: string): string {
 }
 
 /** The offset the chart was cast against, e.g. UTC+05:30. */
-function formatUtcOffset(minutes: number): string {
-  const sign = minutes < 0 ? "-" : "+";
-  const absolute = Math.abs(minutes);
-  const hours = String(Math.floor(absolute / 60)).padStart(2, "0");
-  const rest = String(absolute % 60).padStart(2, "0");
-  return `UTC${sign}${hours}:${rest}`;
-}
-
-/**
- * The local zone next to the offset it stands for, e.g. IST (UTC+05:30). Reads
- * as the offset alone when the zone lookup found nothing or the zone has no
- * abbreviation to show.
- */
-function formatZoneHint(minutes: number, timeZone: string | null): string {
-  const offset = formatUtcOffset(minutes);
-  const label = timeZone === null ? null : formatTimeZoneLabel(timeZone);
-  return label === null ? offset : `${label} (${offset})`;
+function formatZoneHint(
+  offset: string | null,
+  timeZone: string | null,
+  instantIso: string,
+): string | undefined {
+  if (offset === null) {
+    return undefined;
+  }
+  const label = timeZone === null ? null : formatTimeZoneLabel(timeZone, instantIso);
+  return label === null ? `UTC${offset}` : `${label} (UTC${offset})`;
 }
 
 /** One fact about the birth moment: leading icon, label for assistive tech, value. */
@@ -109,26 +102,27 @@ interface SummaryItem {
 function useChartSummary(): { items: SummaryItem[] } | null {
   const {
     state: { result },
-  } = useChart();
+    clock,
+  } = useChartSession();
   if (!result) {
     return null;
   }
-  const now = new Date().toISOString();
-  const dashaIndex = findCurrentPeriodIndex(result.dasha.vimshottari, now);
-  const currentDasha = dashaIndex === -1 ? null : (result.dasha.vimshottari[dashaIndex] ?? null);
   const d1 = result.divisions.find((division) => division.division === 1);
-  const moon = d1?.placements.find((placement) => placement.body === "Moon") ?? null;
+  const facts = buildHeadlineView(
+    {
+      lagna: result.lagna,
+      d1,
+      vimshottari: result.dasha.vimshottari,
+    },
+    clock(),
+  );
 
   return {
     items: [
-      { label: "Ascendant", value: `${result.lagna.sign} ${result.lagna.degree}°` },
-      { label: "Moon", value: moon ? `${moon.sign} ${moon.degree}°` : "—" },
-      {
-        label: "Star",
-        value:
-          moon && moon.star !== "" ? `${moon.star}${moon.pada ? ` · Pada ${moon.pada}` : ""}` : "—",
-      },
-      { label: "Mahadasha", value: currentDasha ? currentDasha.mahadasha : "—" },
+      { label: "Ascendant", value: facts.ascendant },
+      { label: "Moon", value: facts.moon },
+      { label: "Star", value: facts.star },
+      { label: "Mahadasha", value: facts.mahadasha },
     ],
   };
 }
@@ -172,17 +166,16 @@ const MOBILE_TAB_LIST =
  */
 export function ChartPage() {
   const {
-    state: { birth, selectedPlace, placeZone, status },
-  } = useChart();
+    state: { status, result },
+  } = useChartSession();
   const summary = useChartSummary();
   const isMobile = useIsMobile();
   const [editorOpen, setEditorOpen] = useState(false);
-  const hasSubject = status !== "empty";
-  const placeLabel =
-    selectedPlace !== null
-      ? [selectedPlace.name, selectedPlace.region].filter(Boolean).join(", ")
-      : birth.place.split(",")[0]?.trim() || "—";
-  const placeTitle = birth.place !== "" && birth.place !== placeLabel ? birth.place : undefined;
+  const birth = result?.birth ?? null;
+  const hasBirth = birth !== null;
+  const showResults = status !== "empty";
+  const placeLabel = birth !== null ? birth.place.split(",")[0]?.trim() || "—" : "—";
+  const placeTitle = birth !== null && birth.place !== placeLabel ? birth.place : undefined;
 
   return (
     <div className="bg-background text-foreground relative min-h-[100dvh]">
@@ -214,9 +207,9 @@ export function ChartPage() {
           <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-5">
             <div className="min-w-0">
               <h1 className="font-heading text-2xl font-medium tracking-tight text-balance sm:text-3xl">
-                {hasSubject ? birth.name || "Untitled chart" : "Create Horoscope"}
+                {hasBirth ? birth.name || "Untitled chart" : "Create Horoscope"}
               </h1>
-              {hasSubject ? (
+              {hasBirth ? (
                 <dl className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
                   <MetaFact
                     icon={CalendarBlankIcon}
@@ -227,7 +220,7 @@ export function ChartPage() {
                     icon={ClockIcon}
                     label="Birth time"
                     value={formatClockTime(birth.time)}
-                    hint={formatZoneHint(birth.utcOffsetMinutes, placeZone)}
+                    hint={formatZoneHint(birth.utcOffset, birth.timeZone, birth.utcIso)}
                   />
                   <MetaFact
                     icon={MapPinIcon}
@@ -256,7 +249,7 @@ export function ChartPage() {
               )}
             </div>
 
-            {hasSubject ? (
+            {hasBirth ? (
               <Button type="button" onClick={() => setEditorOpen(true)}>
                 <PencilSimpleIcon data-icon="inline-start" aria-hidden="true" />
                 Edit details
@@ -270,7 +263,7 @@ export function ChartPage() {
 
       <main id="content" className="w-full">
         <div className="mx-auto w-full max-w-173 px-4 py-8 sm:py-10 lg:max-w-4xl">
-          {hasSubject ? (
+          {showResults ? (
             <>
               <Chart.ResultSwitch tabListClassName={isMobile ? MOBILE_TAB_LIST : undefined} />
               {/* Clearance for the floating tab bar; only where it floats. */}

@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import {
-  buildKpCircularChart,
+  buildKpWheelView,
   circularMidAngle,
   fixedZodiacAngleFor,
-  signShortName,
-  type KpCircularChart,
-} from "@/lib/chart";
-import { useChart } from "@/components/chart/context";
+  type KpWheelView,
+} from "@/lib/chart-view";
+import { signShortName } from "@/lib/chart";
+import { useChartSession } from "@/components/chart/context";
 
 const SIZE = 500;
 const CENTER = SIZE / 2;
@@ -88,7 +88,7 @@ const SIGNS = [
   "Pisces",
 ];
 
-function CircularWheel({ chart }: { chart: KpCircularChart }) {
+function CircularWheel({ chart }: { chart: KpWheelView }) {
   const geometry = useMemo(() => {
     const signAngles = SIGNS.map((_, index) => angleFor(index * 30));
     const byHouse = [...chart.cusps].sort((a, b) => a.house - b.house);
@@ -289,11 +289,14 @@ function CircularWheel({ chart }: { chart: KpCircularChart }) {
 export function ChartKpCircularChart() {
   const {
     state: { result },
-  } = useChart();
+  } = useChartSession();
   if (!result) {
     return null;
   }
-  const chart = buildKpCircularChart(result);
+  const chart = buildKpWheelView({
+    kp: result.kp,
+    d1: result.divisions.find((entry) => entry.division === 1),
+  });
   if (!chart) {
     return null;
   }
