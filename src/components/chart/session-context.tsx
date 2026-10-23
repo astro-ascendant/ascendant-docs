@@ -1,5 +1,6 @@
 import { createContext, use, useReducer, useRef, type ReactNode } from "react";
 import { buildChartPdf } from "@/lib/chart-pdf";
+import { getChart } from "@/server/chart.functions";
 import {
   buildChatGptPromptUrl,
   validateChartInput,
@@ -32,15 +33,9 @@ export interface ChartSessionDeps {
   askChatGPT: (result: ChartResult) => void;
 }
 
-class ChartRequestError extends Error {}
-
-async function requestChart(birth: ChartBirthInput): Promise<ChartResult> {
-  // Send the wall-clock birth moment and coordinates; the server resolves
-  // the place's zone so the chart never depends on the browser's own zone.
-  const response = await fetch("/api/chart", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+function requestChart(birth: ChartBirthInput): Promise<ChartResult> {
+  return getChart({
+    data: {
       date: birth.date,
       time: birth.time,
       latitude: birth.latitude,
@@ -48,13 +43,8 @@ async function requestChart(birth: ChartBirthInput): Promise<ChartResult> {
       place: birth.place,
       name: birth.name.trim(),
       ...(birth.sex ? { sex: birth.sex } : {}),
-    }),
+    },
   });
-  const payload = (await response.json()) as ChartResult | { error: string };
-  if (!response.ok || "error" in payload) {
-    throw new ChartRequestError("error" in payload ? payload.error : "Calculation failed.");
-  }
-  return payload;
 }
 
 function downloadPdf(result: ChartResult): void {
@@ -153,7 +143,7 @@ export function useChartSessionController({
         console.error(error);
         dispatch({
           type: "fail",
-          errors: [error instanceof ChartRequestError ? error.message : MISSING_CONNECTION],
+          errors: [error instanceof Error ? error.message : MISSING_CONNECTION],
         });
       }
     })();

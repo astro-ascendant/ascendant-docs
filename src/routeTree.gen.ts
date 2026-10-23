@@ -15,7 +15,6 @@ import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ApiChartRouteImport } from './routes/api/chart'
 import { Route as ApiSearchRouteImport } from './routes/api/search'
 import { Route as ApiTimezoneRouteImport } from './routes/api/timezone'
 import { Route as DocsSplatRouteImport } from './routes/docs/$'
@@ -52,11 +51,6 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiChartRoute = ApiChartRouteImport.update({
-  id: '/api/chart',
-  path: '/api/chart',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiSearchRoute = ApiSearchRouteImport.update({
   id: '/api/search',
   path: '/api/search',
@@ -90,7 +84,6 @@ export interface FileRoutesByFullPath {
   '/llms.txt': typeof LlmsDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/api/chart': typeof ApiChartRoute
   '/api/search': typeof ApiSearchRoute
   '/api/timezone': typeof ApiTimezoneRoute
   '/docs/$': typeof DocsSplatRoute
@@ -104,7 +97,6 @@ export interface FileRoutesByTo {
   '/llms.txt': typeof LlmsDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/api/chart': typeof ApiChartRoute
   '/api/search': typeof ApiSearchRoute
   '/api/timezone': typeof ApiTimezoneRoute
   '/docs/$': typeof DocsSplatRoute
@@ -119,7 +111,6 @@ export interface FileRoutesById {
   '/llms.txt': typeof LlmsDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/api/chart': typeof ApiChartRoute
   '/api/search': typeof ApiSearchRoute
   '/api/timezone': typeof ApiTimezoneRoute
   '/docs/$': typeof DocsSplatRoute
@@ -135,7 +126,6 @@ export interface FileRouteTypes {
     | '/llms.txt'
     | '/robots.txt'
     | '/sitemap.xml'
-    | '/api/chart'
     | '/api/search'
     | '/api/timezone'
     | '/docs/$'
@@ -149,7 +139,6 @@ export interface FileRouteTypes {
     | '/llms.txt'
     | '/robots.txt'
     | '/sitemap.xml'
-    | '/api/chart'
     | '/api/search'
     | '/api/timezone'
     | '/docs/$'
@@ -163,7 +152,6 @@ export interface FileRouteTypes {
     | '/llms.txt'
     | '/robots.txt'
     | '/sitemap.xml'
-    | '/api/chart'
     | '/api/search'
     | '/api/timezone'
     | '/docs/$'
@@ -178,7 +166,6 @@ export interface RootRouteChildren {
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  ApiChartRoute: typeof ApiChartRoute
   ApiSearchRoute: typeof ApiSearchRoute
   ApiTimezoneRoute: typeof ApiTimezoneRoute
   DocsSplatRoute: typeof DocsSplatRoute
@@ -228,13 +215,6 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/chart': {
-      id: '/api/chart'
-      path: '/api/chart'
-      fullPath: '/api/chart'
-      preLoaderRoute: typeof ApiChartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/search': {
