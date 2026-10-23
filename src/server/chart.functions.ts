@@ -41,10 +41,9 @@ export const getChart = createServerFn({ method: "POST" })
       readonly message: string;
     }> {}
 
-    const badRequest = (message: string) => new HttpError({ message });
-    const unprocessable = (message: string) => new HttpError({ message });
-    const program = (body: Schema.Schema.Type<typeof ChartRequest>) =>
-      Effect.gen(function* () {
+    const httpError = (message: string) => new HttpError({ message });
+    const program = Effect.fn("Chart.request")(
+      function* (body: Schema.Schema.Type<typeof ChartRequest>) {
         const date = body.date ?? "";
         const time = body.time ?? "";
 
@@ -73,23 +72,25 @@ export const getChart = createServerFn({ method: "POST" })
           offset: resolved.offset,
           timeZone: "timeZone" in resolved ? resolved.timeZone : null,
         });
-      }).pipe(
+      },
+      (effect) => effect.pipe(
         Effect.catchTags({
-          SchemaError: () => Effect.fail(badRequest("Check the birth date, time and coordinates.")),
+          SchemaError: () => Effect.fail(httpError("Check the birth date, time and coordinates.")),
           MissingMomentError: () =>
-            Effect.fail(badRequest("Send the birth date and time (date: YYYY-MM-DD, time: HH:MM).")),
+            Effect.fail(httpError("Send the birth date and time (date: YYYY-MM-DD, time: HH:MM).")),
           InvalidWallClockError: () =>
-            Effect.fail(badRequest("That date and time do not exist. Check the birth date.")),
+            Effect.fail(httpError("That date and time do not exist. Check the birth date.")),
           TimeZoneLookupError: () =>
             Effect.fail(
-              unprocessable("Could not determine the time zone for this place. Check the coordinates."),
+              httpError("Could not determine the time zone for this place. Check the coordinates."),
             ),
           OffsetLookupError: () =>
-            Effect.fail(unprocessable("Could not resolve the time zone offset for this place.")),
-          MomentDecodeError: () => Effect.fail(unprocessable("Could not resolve the birth moment.")),
-          CalculateChartError: (error) => Effect.fail(unprocessable(error.message)),
+            Effect.fail(httpError("Could not resolve the time zone offset for this place.")),
+          MomentDecodeError: () => Effect.fail(httpError("Could not resolve the birth moment.")),
+          CalculateChartError: (error) => Effect.fail(httpError(error.message)),
         }),
-      );
+      ),
+    );
 
     const exit = await runtime.runPromiseExit(
       program(data).pipe(

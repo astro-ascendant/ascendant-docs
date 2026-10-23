@@ -5,7 +5,6 @@ import {
   Chart,
   CharaKarakas,
   Dasha,
-  Ephemeris,
   Karakamsha,
   RashiDrishti,
   SAV,
@@ -64,14 +63,8 @@ function describeError(error: unknown): string {
   }
 }
 
-export function calculateChart(
-  input: CalculateChartInput,
-): Effect.Effect<
-  ChartResult,
-  CalculateChartError,
-  AstroParams.AstroParams | Ephemeris.Ephemeris
-> {
-  const program = Effect.gen(function* () {
+export const calculateChart = Effect.fn("Chart.calculate")(
+  function* (input: CalculateChartInput) {
     const moment = input.moment;
     const chartInput = Chart.ChartParams.make({
       moment,
@@ -149,13 +142,12 @@ export function calculateChart(
       },
       optional,
     });
-  });
-
-  return program.pipe(
+  },
+  (effect) => effect.pipe(
     Effect.mapError((error) =>
       error instanceof CalculateChartError
         ? error
         : new CalculateChartError({ message: describeError(error) }),
     ),
-  );
-}
+  ),
+);

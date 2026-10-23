@@ -12,11 +12,12 @@ class HttpError extends Data.TaggedError("HttpError")<{
   readonly message: string;
 }> {}
 
-const program = (body: unknown) =>
-  Effect.gen(function* () {
+const program = Effect.fn("TimeZone.request")(
+  function* (body: unknown) {
     const { latitude, longitude } = yield* Schema.decodeUnknownEffect(ZoneRequest)(body);
     return yield* findTimeZone(latitude, longitude);
-  }).pipe(
+  },
+  (effect) => effect.pipe(
     Effect.catchTags({
       SchemaError: () =>
         Effect.fail(new HttpError({ status: 400, message: "Check the coordinates." })),
@@ -29,7 +30,8 @@ const program = (body: unknown) =>
         ),
     }),
     Effect.map((timeZone) => ({ timeZone })),
-  );
+  ),
+);
 
 export const Route = createFileRoute("/api/timezone")({
   server: {

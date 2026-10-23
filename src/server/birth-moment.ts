@@ -70,95 +70,95 @@ function withSeconds(time: string): string {
 }
 
 /** Decode an ISO moment with an explicit offset into `Chart.Moment`. */
-export const decodeMoment = (input: string): Effect.Effect<Chart.Moment, MomentDecodeError> =>
-  Effect.mapError(
-    Schema.decodeUnknownEffect(MomentFromString)({ date: input }),
-    (cause) => new MomentDecodeError({ input, cause }),
+export const decodeMoment = Effect.fn("BirthMoment.decode")(function* (input: string) {
+  return yield* Schema.decodeUnknownEffect(MomentFromString)({ date: input }).pipe(
+    Effect.mapError((cause) => new MomentDecodeError({ input, cause })),
   );
+});
 
 /**
  * The wall clock read as if it were UTC. Used only to find the offset in force
  * at that local time; the returned instant is not the birth instant.
  */
-const wallClockAsUtc = (wall: WallClock): Effect.Effect<DateTime.Utc, MomentDecodeError> =>
-  decodeMoment(`${wall.date}T${withSeconds(wall.time)}Z`).pipe(Effect.map((moment) => moment.date));
+const wallClockAsUtc = Effect.fn("BirthMoment.wallClockAsUtc")(function* (wall: WallClock) {
+  const moment = yield* decodeMoment(`${wall.date}T${withSeconds(wall.time)}Z`);
+  return moment.date;
+});
 
 /**
  * `DateTime` parses "2002-02-30" by rolling into March, so compare the wall
  * clock against the decoded instant and reject dates that do not exist.
  */
-const assertRealWallClock = (
-  wall: WallClock,
-  instant: DateTime.Utc,
-): Effect.Effect<void, InvalidWallClockError> =>
-  DateTime.formatIso(instant).startsWith(`${wall.date}T${withSeconds(wall.time)}`)
-    ? Effect.void
-    : Effect.fail(new InvalidWallClockError(wall));
+const assertRealWallClock = Effect.fn("BirthMoment.assertRealWallClock")(
+  function* (wall: WallClock, instant: DateTime.Utc) {
+    if (!DateTime.formatIso(instant).startsWith(`${wall.date}T${withSeconds(wall.time)}`)) {
+      return yield* Effect.fail(new InvalidWallClockError(wall));
+    }
+  },
+);
 
 /** Offset of an instant in a zone, in minutes east of UTC. */
-const zoneOffsetMinutesAt = (
-  instant: DateTime.Utc,
-  timeZone: string,
-): Effect.Effect<number, OffsetLookupError> =>
-  Effect.try({
-    try: () => {
-      const formatter = new Intl.DateTimeFormat("en-US", {
-        timeZone,
-        hour12: false,
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      });
-      const parts = new Map(
-        formatter.formatToParts(DateTime.toDateUtc(instant)).map((part) => [part.type, part.value]),
-      );
-      const asUtc = Date.UTC(
-        Number(parts.get("year")),
-        Number(parts.get("month")) - 1,
-        Number(parts.get("day")),
-        Number(parts.get("hour")) % 24,
-        Number(parts.get("minute")),
-        Number(parts.get("second")),
-      );
-      return Math.round((asUtc - DateTime.toEpochMillis(instant)) / 60_000);
-    },
-    catch: (cause) => new OffsetLookupError({ timeZone, cause }),
-  });
+const zoneOffsetMinutesAt = Effect.fn("BirthMoment.zoneOffsetMinutesAt")(
+  function* (instant: DateTime.Utc, timeZone: string) {
+    return yield* Effect.try({
+      try: () => {
+        const formatter = new Intl.DateTimeFormat("en-US", {
+          timeZone,
+          hour12: false,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+        const parts = new Map(
+          formatter.formatToParts(DateTime.toDateUtc(instant)).map((part) => [part.type, part.value]),
+        );
+        const asUtc = Date.UTC(
+          Number(parts.get("year")),
+          Number(parts.get("month")) - 1,
+          Number(parts.get("day")),
+          Number(parts.get("hour")) % 24,
+          Number(parts.get("minute")),
+          Number(parts.get("second")),
+        );
+        return Math.round((asUtc - DateTime.toEpochMillis(instant)) / 60_000);
+      },
+      catch: (cause) => new OffsetLookupError({ timeZone, cause }),
+    });
+  },
+);
 
 /** IANA zone covering the coordinates, as an effectful lookup. */
-export const findTimeZone = (
-  latitude: number,
-  longitude: number,
-): Effect.Effect<string, TimeZoneLookupError> =>
-  Effect.try({
-    try: () => {
-      const [zone] = find(latitude, longitude);
-      if (zone === undefined) {
-        throw new Error("No IANA zone covers these coordinates.");
-      }
-      return zone;
-    },
-    catch: (cause) => new TimeZoneLookupError({ latitude, longitude, cause }),
-  });
+export const findTimeZone = Effect.fn("BirthMoment.findTimeZone")(
+  function* (latitude: number, longitude: number) {
+    return yield* Effect.try({
+      try: () => {
+        const [zone] = find(latitude, longitude);
+        if (zone === undefined) {
+          throw new Error("No IANA zone covers these coordinates.");
+        }
+        return zone;
+      },
+      catch: (cause) => new TimeZoneLookupError({ latitude, longitude, cause }),
+    });
+  },
+);
 
 /**
  * Minutes east of UTC for a wall-clock time in a zone. Two passes so a moment
  * near a DST transition settles on the offset in force at birth.
  */
-export const resolveOffsetMinutes = (
-  wall: WallClock,
-  timeZone: string,
-): Effect.Effect<number, MomentError> =>
-  Effect.gen(function* () {
+export const resolveOffsetMinutes = Effect.fn("BirthMoment.resolveOffsetMinutes")(
+  function* (wall: WallClock, timeZone: string) {
     const wallAsUtc = yield* wallClockAsUtc(wall);
     yield* assertRealWallClock(wall, wallAsUtc);
     const firstPass = yield* zoneOffsetMinutesAt(wallAsUtc, timeZone);
     const nearBirth = DateTime.subtract({ minutes: firstPass })(wallAsUtc);
     return yield* zoneOffsetMinutesAt(nearBirth, timeZone);
-  });
+  },
+);
 
 export interface ResolvedMoment {
   readonly moment: Chart.Moment;
@@ -173,27 +173,25 @@ export interface ResolvedMoment {
  * from. The coordinates supply the zone, so the result never depends on the
  * caller's machine.
  */
-export const resolveBirthMoment = (
-  wall: WallClock,
-  latitude: number,
-  longitude: number,
-): Effect.Effect<ResolvedMoment, MomentError> =>
-  Effect.gen(function* () {
+export const resolveBirthMoment = Effect.fn("BirthMoment.resolveBirthMoment")(
+  function* (wall: WallClock, latitude: number, longitude: number) {
     const timeZone = yield* findTimeZone(latitude, longitude);
     const minutes = yield* resolveOffsetMinutes(wall, timeZone);
     const offset = offsetFromMinutes(minutes);
     const moment = yield* decodeMoment(`${wall.date}T${withSeconds(wall.time)}${offset}`);
     return { moment, offset, timeZone };
-  });
+  },
+);
 
 /**
  * An instant the caller already expressed with an explicit offset. The offset
  * is the timezone information on this path: there is no zone to look up and
  * none to display, exactly as the skills contract requires.
  */
-export const resolveOffsetMoment = (value: string): Effect.Effect<ResolvedMoment, MomentError> =>
-  Effect.gen(function* () {
+export const resolveOffsetMoment = Effect.fn("BirthMoment.resolveOffsetMoment")(
+  function* (value: string) {
     const moment = yield* decodeMoment(value);
     const suffix = /([+-]\d{2}:\d{2})$/.exec(value)?.[1] ?? "+00:00";
     return { moment, offset: suffix, timeZone: null };
-  });
+  },
+);
