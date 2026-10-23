@@ -79,47 +79,59 @@ export function calculateChart(
       longitude: input.longitude,
       ...(input.sex ? { sex: input.sex } : {}),
     });
-    const calculation = yield* Chart.generate(chartInput, [...ALL_DIVISIONS]);
+    const calculation = yield* Chart.generate(chartInput, [...ALL_DIVISIONS]).pipe(
+      Effect.tap(() => Effect.logInfo("chart stage complete")),
+      Effect.withLogSpan("chart.primary"),
+    );
     const kpCalculation = yield* Chart.generate(chartInput, [1]).pipe(
       Effect.provideService(AstroParams.AstroParams, KpAstroParams),
-    );
-    const placements = calculation.placements;
-    const { sign: lagnaSign } = d1Lagna(calculation);
-
-    // The KP dasha follows the KP chart's own ayanamsa, so its period
-    // boundaries can differ from the Lahiri timeline.
-    const kpVimshottari = yield* Effect.option(Dasha.calculate(moment, kpCalculation.placements));
-    const vimshottari = yield* Effect.option(Dasha.calculate(moment, placements));
-    const chara = yield* Effect.option(Dasha.calculateChara(moment, placements));
-    const sthira = yield* Effect.option(Dasha.calculateSthira(moment, placements));
-    const sav = yield* Effect.option(SAV.calculate(placements));
-    const karakas = yield* Effect.option(CharaKarakas.calculate(placements));
-    const karakamsha = yield* Effect.option(Karakamsha.calculate(placements));
-    const upapada = yield* Effect.option(Upapada.calculate(placements));
-    const drishti = yield* Effect.option(RashiDrishti.calculate(lagnaSign));
-    const argala = yield* Effect.option(
-      Argala.calculate(placements, { kind: "Sign", sign: lagnaSign }),
+      Effect.tap(() => Effect.logInfo("chart stage complete")),
+      Effect.withLogSpan("chart.kp"),
     );
 
-    const arudha: (ArudhaMappingResult | null)[] = [];
-    for (const house of HOUSES) {
-      const pada = yield* Effect.option(ArudhaPada.calculate(placements, house));
-      arudha.push(Option.getOrElse(pada, () => null));
-    }
+    const { lagnaSign, optional } = yield* Effect.gen(function* () {
+      const placements = calculation.placements;
+      const { sign: lagnaSign } = d1Lagna(calculation);
 
-    const optional: ChartMappingOptional = {
-      vimshottari: Option.getOrElse(vimshottari, () => null),
-      kpVimshottari: Option.getOrElse(kpVimshottari, () => null),
-      chara: Option.getOrElse(chara, () => null),
-      sthira: Option.getOrElse(sthira, () => null),
-      sav: Option.getOrElse(sav, () => null),
-      karakas: Option.getOrElse(karakas, () => null),
-      karakamsha: Option.getOrElse(karakamsha, () => null),
-      upapada: Option.getOrElse(upapada, () => null),
-      drishti: Option.getOrElse(drishti, () => null),
-      argala: Option.getOrElse(argala, () => null),
-      arudha,
-    };
+      // The KP dasha follows the KP chart's own ayanamsa, so its period
+      // boundaries can differ from the Lahiri timeline.
+      const kpVimshottari = yield* Effect.option(Dasha.calculate(moment, kpCalculation.placements));
+      const vimshottari = yield* Effect.option(Dasha.calculate(moment, placements));
+      const chara = yield* Effect.option(Dasha.calculateChara(moment, placements));
+      const sthira = yield* Effect.option(Dasha.calculateSthira(moment, placements));
+      const sav = yield* Effect.option(SAV.calculate(placements));
+      const karakas = yield* Effect.option(CharaKarakas.calculate(placements));
+      const karakamsha = yield* Effect.option(Karakamsha.calculate(placements));
+      const upapada = yield* Effect.option(Upapada.calculate(placements));
+      const drishti = yield* Effect.option(RashiDrishti.calculate(lagnaSign));
+      const argala = yield* Effect.option(
+        Argala.calculate(placements, { kind: "Sign", sign: lagnaSign }),
+      );
+
+      const arudha: (ArudhaMappingResult | null)[] = [];
+      for (const house of HOUSES) {
+        const pada = yield* Effect.option(ArudhaPada.calculate(placements, house));
+        arudha.push(Option.getOrElse(pada, () => null));
+      }
+
+      const optional: ChartMappingOptional = {
+        vimshottari: Option.getOrElse(vimshottari, () => null),
+        kpVimshottari: Option.getOrElse(kpVimshottari, () => null),
+        chara: Option.getOrElse(chara, () => null),
+        sthira: Option.getOrElse(sthira, () => null),
+        sav: Option.getOrElse(sav, () => null),
+        karakas: Option.getOrElse(karakas, () => null),
+        karakamsha: Option.getOrElse(karakamsha, () => null),
+        upapada: Option.getOrElse(upapada, () => null),
+        drishti: Option.getOrElse(drishti, () => null),
+        argala: Option.getOrElse(argala, () => null),
+        arudha,
+      };
+      return { lagnaSign, optional };
+    }).pipe(
+      Effect.tap(() => Effect.logInfo("chart stage complete")),
+      Effect.withLogSpan("chart.derived"),
+    );
 
     return toChartResult({
       calculation,
