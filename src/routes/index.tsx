@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
 
 function LandingPage() {
   return (
-    <main className="bg-background text-foreground flex min-h-screen flex-col pb-20 antialiased">
+    <main className="bg-background text-foreground flex min-h-screen flex-col antialiased">
       <div aria-hidden="true" className="paper-grain" />
       <div className="mx-auto w-full max-w-173 flex-1 px-4 pt-14 lg:max-w-4xl">
         <a href="/" aria-label="Ascendant home" className="inline-block">
@@ -132,6 +132,27 @@ function LandingPage() {
           </ul>
         </section>
       </div>
+      <footer className="mx-auto mt-12 flex w-full max-w-173 justify-center px-4 pb-8 lg:max-w-4xl">
+        <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+          <span className="text-xs text-muted-foreground">© 2026 Laxman K R</span>
+          <span aria-hidden="true" className="text-xs text-muted-foreground/60">•</span>
+          <a
+            href="https://www.gnu.org/licenses/agpl-3.0.html"
+            target="_blank"
+            rel="noreferrer"
+            className="text-xs text-muted-foreground transition-colors duration-150 ease-out hover:text-foreground"
+          >
+            GNU AGPL v3
+          </a>
+          <span aria-hidden="true" className="text-xs text-muted-foreground/60">•</span>
+          <Link
+            to="/about"
+            className="text-xs text-muted-foreground transition-colors duration-150 ease-out hover:text-foreground"
+          >
+            About
+          </Link>
+        </nav>
+      </footer>
     </main>
   );
 }
