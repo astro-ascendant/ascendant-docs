@@ -8,6 +8,7 @@ import {
   WallClock,
 } from "@/server/birth-moment";
 import { calculateChart } from "@/server/calculate-chart";
+import { runtime } from "@/server/runtime.server";
 
 /**
  * The birth is accepted as a wall clock at a place (`date` + `time`), which
@@ -64,7 +65,7 @@ const program = (body: unknown) =>
       localDate: date,
       localTime: time,
       offset: resolved.offset,
-      timeZone: resolved.timeZone,
+      timeZone: "timeZone" in resolved ? resolved.timeZone : null,
     });
   }).pipe(
     Effect.catchTags({
@@ -94,7 +95,7 @@ export const Route = createFileRoute("/api/chart")({
         } catch {
           return Response.json({ error: "Request body must be JSON." }, { status: 400 });
         }
-        return Effect.runPromise(
+        return runtime.runPromise(
           program(body).pipe(
             Effect.match({
               onFailure: (error) =>

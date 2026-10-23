@@ -5,13 +5,14 @@ import {
   Chart,
   CharaKarakas,
   Dasha,
+  Ephemeris,
   Karakamsha,
   RashiDrishti,
   SAV,
   Swisseph,
   Upapada,
 } from "astro-ascendant";
-import { Data, DateTime, Effect, Layer, Option } from "effect";
+import { Data, DateTime, Effect, Option } from "effect";
 import { ALL_DIVISIONS, type ChartResult } from "@/lib/chart";
 import {
   HOUSES,
@@ -43,12 +44,10 @@ export class CalculateChartError extends Data.TaggedError("CalculateChartError")
   readonly message: string;
 }> {}
 
-const AstroLayer = Layer.mergeAll(
-  AstroParams.layer({ ayanamsa: "Lahiri", houseSystem: "WholeSign" }),
-  Swisseph.SwissephLayer,
-);
-
-const KpAstroLayer = Layer.mergeAll(AstroParams.DefaultAstroParams, Swisseph.SwissephLayer);
+const KpAstroParams = AstroParams.AstroParams.of({
+  ayanamsa: "KrishnamurtiVP291",
+  houseSystem: "Placidus",
+});
 
 function describeError(error: unknown): string {
   if (error instanceof Error && error.message !== "") {
@@ -67,7 +66,11 @@ function describeError(error: unknown): string {
 
 export function calculateChart(
   input: CalculateChartInput,
-): Effect.Effect<ChartResult, CalculateChartError> {
+): Effect.Effect<
+  ChartResult,
+  CalculateChartError,
+  AstroParams.AstroParams | Ephemeris.Ephemeris
+> {
   const program = Effect.gen(function* () {
     const moment = input.moment;
     const chartInput = Chart.ChartParams.make({
@@ -77,7 +80,9 @@ export function calculateChart(
       ...(input.sex ? { sex: input.sex } : {}),
     });
     const calculation = yield* Chart.generate(chartInput, [...ALL_DIVISIONS]);
-    const kpCalculation = yield* Chart.generate(chartInput, [1]).pipe(Effect.provide(KpAstroLayer));
+    const kpCalculation = yield* Chart.generate(chartInput, [1]).pipe(
+      Effect.provideService(AstroParams.AstroParams, KpAstroParams),
+    );
     const placements = calculation.placements;
     const { sign: lagnaSign } = d1Lagna(calculation);
 
@@ -143,6 +148,5 @@ export function calculateChart(
         ? error
         : new CalculateChartError({ message: describeError(error) }),
     ),
-    Effect.provide(AstroLayer),
   );
 }
