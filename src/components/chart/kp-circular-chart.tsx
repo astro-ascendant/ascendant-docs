@@ -95,10 +95,19 @@ function CircularWheel({ chart }: { chart: KpWheelView }) {
     const houses = byHouse.map((cusp, i) => {
       const start = angleFor(cusp.longitude);
       const next = byHouse[(i + 1) % byHouse.length];
-      const end = next && next.house !== cusp.house ? angleFor(next.longitude) : (start + 30) % 360;
-      return { cusp, angle: start, mid: midAngle(start, end ?? (start + 30) % 360) };
+      const end =
+        next && next.house !== cusp.house
+          ? angleFor(next.longitude)
+          : (start + 30) % 360;
+      return {
+        cusp,
+        angle: start,
+        mid: midAngle(start, end ?? (start + 30) % 360),
+      };
     });
-    const sortedPlanets = [...chart.planets].sort((a, b) => a.longitude - b.longitude);
+    const sortedPlanets = [...chart.planets].sort(
+      (a, b) => a.longitude - b.longitude,
+    );
     const labelAngles = spreadLabelAngles(
       sortedPlanets.map((planet) => angleFor(planet.longitude)),
     );
@@ -112,14 +121,21 @@ function CircularWheel({ chart }: { chart: KpWheelView }) {
 
   const spoken = [
     `Ascendant ${chart.lagnaSign} ${chart.lagnaDegree}`,
-    ...chart.cusps.map((cusp) => `house ${cusp.house} cusp ${cusp.sign} ${cusp.degree}`),
+    ...chart.cusps.map(
+      (cusp) => `house ${cusp.house} cusp ${cusp.sign} ${cusp.degree}`,
+    ),
     ...chart.planets.map(
-      (planet) => `${planet.body}${planet.retrograde ? " retrograde" : ""} ${planet.degree}`,
+      (planet) =>
+        `${planet.body}${planet.retrograde ? " retrograde" : ""} ${planet.degree}`,
     ),
   ].join(". ");
 
   return (
-    <div role="img" aria-label={`KP circular chart. ${spoken}`} className="mx-auto w-full max-w-xl">
+    <div
+      role="img"
+      aria-label={`KP circular chart. ${spoken}`}
+      className="mx-auto w-full max-w-xl"
+    >
       <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="h-auto w-full">
         <circle
           cx={CENTER}
@@ -156,11 +172,21 @@ function CircularWheel({ chart }: { chart: KpWheelView }) {
         {geometry.signAngles.map((angle, index) => {
           const [x1, y1] = point(angle, DIVIDER_R);
           const [x2, y2] = point(angle, PLANET_BAND_INNER);
-          const mid = midAngle(angle, geometry.signAngles[(index + 1) % 12] ?? angle);
+          const mid = midAngle(
+            angle,
+            geometry.signAngles[(index + 1) % 12] ?? angle,
+          );
           const [lx, ly] = point(mid, SIGN_LABEL_R);
           return (
             <g key={SIGNS[index]}>
-              <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--border)" strokeWidth={1} />
+              <line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="var(--border)"
+                strokeWidth={1}
+              />
               <text
                 x={lx}
                 y={ly}
@@ -220,7 +246,8 @@ function CircularWheel({ chart }: { chart: KpWheelView }) {
           const [x1, y1] = point(angle, PLANET_TICK_INNER);
           const [x2, y2] = point(angle, PLANET_TICK_TOP);
           const [x, y] = point(labelAngle, PLANET_LABEL_R);
-          const spread = Math.abs((((labelAngle - angle) % 360) + 360) % 360) > 0.5;
+          const spread =
+            Math.abs((((labelAngle - angle) % 360) + 360) % 360) > 0.5;
           return (
             <g key={`${planet.body}-${planet.longitude}`}>
               <title>{`${planet.body} ${planet.degree}${planet.retrograde ? " retrograde" : ""}`}</title>

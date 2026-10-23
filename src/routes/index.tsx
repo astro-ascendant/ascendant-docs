@@ -30,7 +30,13 @@ function LandingPage() {
       <div aria-hidden="true" className="paper-grain" />
       <div className="mx-auto w-full max-w-173 flex-1 px-4 pt-14 lg:max-w-4xl">
         <a href="/" aria-label="Ascendant home" className="inline-block">
-          <img src={wordmark} alt="Ascendant" width={973} height={200} className="h-8 w-auto" />
+          <img
+            src={wordmark}
+            alt="Ascendant"
+            width={973}
+            height={200}
+            className="h-8 w-auto"
+          />
         </a>
 
         <section aria-label="Ascendant horoscope calculator" className="mt-10">
@@ -40,9 +46,10 @@ function LandingPage() {
                 Understand your horoscope.
               </h1>
               <p className="mt-4 max-w-prose text-sm leading-relaxed text-pretty text-muted-foreground sm:text-base">
-                Unlike the broad and vague magazine horoscopes that only use your{" "}
-                <span className="font-serif italic">sun sign</span>, we use a complete picture of
-                the sky when and where you were born to generate your full horoscope.
+                Unlike the broad and vague magazine horoscopes that only use
+                your <span className="font-serif italic">sun sign</span>, we use
+                a complete picture of the sky when and where you were born to
+                generate your full horoscope.
               </p>
               <div className="mt-6 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
                 <Link
@@ -74,7 +81,10 @@ function LandingPage() {
           </h2>
           <ul className="mt-2 flex flex-col">
             <li>
-              <a href="/docs" className="group flex flex-wrap items-center gap-2 py-3.5">
+              <a
+                href="/docs"
+                className="group flex flex-wrap items-center gap-2 py-3.5"
+              >
                 <span className="min-w-0 text-sm font-medium text-foreground sm:text-base">
                   Getting Started
                 </span>
@@ -133,9 +143,16 @@ function LandingPage() {
         </section>
       </div>
       <footer className="mx-auto mt-12 flex w-full max-w-173 justify-center px-4 pb-8 lg:max-w-4xl">
-        <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-          <span className="text-xs text-muted-foreground">© 2026 Laxman K R</span>
-          <span aria-hidden="true" className="text-xs text-muted-foreground/60">•</span>
+        <nav
+          aria-label="Footer"
+          className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1"
+        >
+          <span className="text-xs text-muted-foreground">
+            © 2026 Laxman K R
+          </span>
+          <span aria-hidden="true" className="text-xs text-muted-foreground/60">
+            •
+          </span>
           <a
             href="https://www.gnu.org/licenses/agpl-3.0.html"
             target="_blank"
@@ -144,7 +161,9 @@ function LandingPage() {
           >
             GNU AGPL v3
           </a>
-          <span aria-hidden="true" className="text-xs text-muted-foreground/60">•</span>
+          <span aria-hidden="true" className="text-xs text-muted-foreground/60">
+            •
+          </span>
           <Link
             to="/about"
             className="text-xs text-muted-foreground transition-colors duration-150 ease-out hover:text-foreground"

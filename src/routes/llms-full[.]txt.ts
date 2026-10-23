@@ -9,7 +9,9 @@ export const Route = createFileRoute("/llms-full.txt")({
         const scan = source.getPages().map(getLLMText);
         const scanned = await Promise.all(scan);
         // Serve canonical absolute URLs so LLM crawlers never guess the origin.
-        return new Response(scanned.join("\n\n").replaceAll("](/", `](${siteUrl}/`));
+        return new Response(
+          scanned.join("\n\n").replaceAll("](/", `](${siteUrl}/`),
+        );
       },
     },
   },

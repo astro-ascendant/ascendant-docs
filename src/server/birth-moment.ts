@@ -11,7 +11,9 @@ import { find } from "geo-tz";
 
 /** ISO 8601 moment with an explicit offset, e.g. "2002-01-28T22:54:00+03:00". */
 export const OffsetMoment = Schema.Trim.check(
-  Schema.isPattern(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/),
+  Schema.isPattern(
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/,
+  ),
 );
 
 /** A wall-clock moment as the chart form collects it, without any offset. */
@@ -26,14 +28,20 @@ const MomentFromString = Schema.Struct({
   date: Schema.DateTimeUtcFromString,
 });
 
-export class MissingMomentError extends Data.TaggedError("MissingMomentError") {}
+export class MissingMomentError extends Data.TaggedError(
+  "MissingMomentError",
+) {}
 
-export class InvalidWallClockError extends Data.TaggedError("InvalidWallClockError")<{
+export class InvalidWallClockError extends Data.TaggedError(
+  "InvalidWallClockError",
+)<{
   readonly date: string;
   readonly time: string;
 }> {}
 
-export class TimeZoneLookupError extends Data.TaggedError("TimeZoneLookupError")<{
+export class TimeZoneLookupError extends Data.TaggedError(
+  "TimeZoneLookupError",
+)<{
   readonly latitude: number;
   readonly longitude: number;
   readonly cause: unknown;
@@ -70,17 +78,21 @@ function withSeconds(time: string): string {
 }
 
 /** Decode an ISO moment with an explicit offset into `Chart.Moment`. */
-export const decodeMoment = Effect.fn("BirthMoment.decode")(function* (input: string) {
-  return yield* Schema.decodeUnknownEffect(MomentFromString)({ date: input }).pipe(
-    Effect.mapError((cause) => new MomentDecodeError({ input, cause })),
-  );
+export const decodeMoment = Effect.fn("BirthMoment.decode")(function* (
+  input: string,
+) {
+  return yield* Schema.decodeUnknownEffect(MomentFromString)({
+    date: input,
+  }).pipe(Effect.mapError((cause) => new MomentDecodeError({ input, cause })));
 });
 
 /**
  * The wall clock read as if it were UTC. Used only to find the offset in force
  * at that local time; the returned instant is not the birth instant.
  */
-const wallClockAsUtc = Effect.fn("BirthMoment.wallClockAsUtc")(function* (wall: WallClock) {
+const wallClockAsUtc = Effect.fn("BirthMoment.wallClockAsUtc")(function* (
+  wall: WallClock,
+) {
   const moment = yield* decodeMoment(`${wall.date}T${withSeconds(wall.time)}Z`);
   return moment.date;
 });
@@ -91,7 +103,11 @@ const wallClockAsUtc = Effect.fn("BirthMoment.wallClockAsUtc")(function* (wall: 
  */
 const assertRealWallClock = Effect.fn("BirthMoment.assertRealWallClock")(
   function* (wall: WallClock, instant: DateTime.Utc) {
-    if (!DateTime.formatIso(instant).startsWith(`${wall.date}T${withSeconds(wall.time)}`)) {
+    if (
+      !DateTime.formatIso(instant).startsWith(
+        `${wall.date}T${withSeconds(wall.time)}`,
+      )
+    ) {
       return yield* Effect.fail(new InvalidWallClockError(wall));
     }
   },
@@ -113,7 +129,9 @@ const zoneOffsetMinutesAt = Effect.fn("BirthMoment.zoneOffsetMinutesAt")(
           second: "2-digit",
         });
         const parts = new Map(
-          formatter.formatToParts(DateTime.toDateUtc(instant)).map((part) => [part.type, part.value]),
+          formatter
+            .formatToParts(DateTime.toDateUtc(instant))
+            .map((part) => [part.type, part.value]),
         );
         const asUtc = Date.UTC(
           Number(parts.get("year")),
@@ -131,34 +149,35 @@ const zoneOffsetMinutesAt = Effect.fn("BirthMoment.zoneOffsetMinutesAt")(
 );
 
 /** IANA zone covering the coordinates, as an effectful lookup. */
-export const findTimeZone = Effect.fn("BirthMoment.findTimeZone")(
-  function* (latitude: number, longitude: number) {
-    return yield* Effect.try({
-      try: () => {
-        const [zone] = find(latitude, longitude);
-        if (zone === undefined) {
-          throw new Error("No IANA zone covers these coordinates.");
-        }
-        return zone;
-      },
-      catch: (cause) => new TimeZoneLookupError({ latitude, longitude, cause }),
-    });
-  },
-);
+export const findTimeZone = Effect.fn("BirthMoment.findTimeZone")(function* (
+  latitude: number,
+  longitude: number,
+) {
+  return yield* Effect.try({
+    try: () => {
+      const [zone] = find(latitude, longitude);
+      if (zone === undefined) {
+        throw new Error("No IANA zone covers these coordinates.");
+      }
+      return zone;
+    },
+    catch: (cause) => new TimeZoneLookupError({ latitude, longitude, cause }),
+  });
+});
 
 /**
  * Minutes east of UTC for a wall-clock time in a zone. Two passes so a moment
  * near a DST transition settles on the offset in force at birth.
  */
-export const resolveOffsetMinutes = Effect.fn("BirthMoment.resolveOffsetMinutes")(
-  function* (wall: WallClock, timeZone: string) {
-    const wallAsUtc = yield* wallClockAsUtc(wall);
-    yield* assertRealWallClock(wall, wallAsUtc);
-    const firstPass = yield* zoneOffsetMinutesAt(wallAsUtc, timeZone);
-    const nearBirth = DateTime.subtract({ minutes: firstPass })(wallAsUtc);
-    return yield* zoneOffsetMinutesAt(nearBirth, timeZone);
-  },
-);
+export const resolveOffsetMinutes = Effect.fn(
+  "BirthMoment.resolveOffsetMinutes",
+)(function* (wall: WallClock, timeZone: string) {
+  const wallAsUtc = yield* wallClockAsUtc(wall);
+  yield* assertRealWallClock(wall, wallAsUtc);
+  const firstPass = yield* zoneOffsetMinutesAt(wallAsUtc, timeZone);
+  const nearBirth = DateTime.subtract({ minutes: firstPass })(wallAsUtc);
+  return yield* zoneOffsetMinutesAt(nearBirth, timeZone);
+});
 
 export interface ResolvedMoment {
   readonly moment: Chart.Moment;
@@ -178,7 +197,9 @@ export const resolveBirthMoment = Effect.fn("BirthMoment.resolveBirthMoment")(
     const timeZone = yield* findTimeZone(latitude, longitude);
     const minutes = yield* resolveOffsetMinutes(wall, timeZone);
     const offset = offsetFromMinutes(minutes);
-    const moment = yield* decodeMoment(`${wall.date}T${withSeconds(wall.time)}${offset}`);
+    const moment = yield* decodeMoment(
+      `${wall.date}T${withSeconds(wall.time)}${offset}`,
+    );
     return { moment, offset, timeZone };
   },
 );

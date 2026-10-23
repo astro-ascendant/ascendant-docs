@@ -39,7 +39,9 @@ export interface CalculateChartInput {
   readonly timeZone?: string | null;
 }
 
-export class CalculateChartError extends Data.TaggedError("CalculateChartError")<{
+export class CalculateChartError extends Data.TaggedError(
+  "CalculateChartError",
+)<{
   readonly message: string;
 }> {}
 
@@ -72,7 +74,9 @@ export const calculateChart = Effect.fn("Chart.calculate")(
       longitude: input.longitude,
       ...(input.sex ? { sex: input.sex } : {}),
     });
-    const calculation = yield* Chart.generate(chartInput, [...ALL_DIVISIONS]).pipe(
+    const calculation = yield* Chart.generate(chartInput, [
+      ...ALL_DIVISIONS,
+    ]).pipe(
       Effect.tap(() => Effect.logInfo("chart stage complete")),
       Effect.withLogSpan("chart.primary"),
     );
@@ -88,10 +92,18 @@ export const calculateChart = Effect.fn("Chart.calculate")(
 
       // The KP dasha follows the KP chart's own ayanamsa, so its period
       // boundaries can differ from the Lahiri timeline.
-      const kpVimshottari = yield* Effect.option(Dasha.calculate(moment, kpCalculation.placements));
-      const vimshottari = yield* Effect.option(Dasha.calculate(moment, placements));
-      const chara = yield* Effect.option(Dasha.calculateChara(moment, placements));
-      const sthira = yield* Effect.option(Dasha.calculateSthira(moment, placements));
+      const kpVimshottari = yield* Effect.option(
+        Dasha.calculate(moment, kpCalculation.placements),
+      );
+      const vimshottari = yield* Effect.option(
+        Dasha.calculate(moment, placements),
+      );
+      const chara = yield* Effect.option(
+        Dasha.calculateChara(moment, placements),
+      );
+      const sthira = yield* Effect.option(
+        Dasha.calculateSthira(moment, placements),
+      );
       const sav = yield* Effect.option(SAV.calculate(placements));
       const karakas = yield* Effect.option(CharaKarakas.calculate(placements));
       const karakamsha = yield* Effect.option(Karakamsha.calculate(placements));
@@ -103,7 +115,9 @@ export const calculateChart = Effect.fn("Chart.calculate")(
 
       const arudha: (ArudhaMappingResult | null)[] = [];
       for (const house of HOUSES) {
-        const pada = yield* Effect.option(ArudhaPada.calculate(placements, house));
+        const pada = yield* Effect.option(
+          ArudhaPada.calculate(placements, house),
+        );
         arudha.push(Option.getOrElse(pada, () => null));
       }
 
@@ -143,11 +157,12 @@ export const calculateChart = Effect.fn("Chart.calculate")(
       optional,
     });
   },
-  (effect) => effect.pipe(
-    Effect.mapError((error) =>
-      error instanceof CalculateChartError
-        ? error
-        : new CalculateChartError({ message: describeError(error) }),
+  (effect) =>
+    effect.pipe(
+      Effect.mapError((error) =>
+        error instanceof CalculateChartError
+          ? error
+          : new CalculateChartError({ message: describeError(error) }),
+      ),
     ),
-  ),
 );

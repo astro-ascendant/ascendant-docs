@@ -88,11 +88,17 @@ export interface DivisionViewInput {
  * and planets sit in the sign they occupy. House numbers are counted
  * from the lagna sign when the division includes house data.
  */
-export function buildDivisionView({ lagna, division }: DivisionViewInput): DivisionView {
+export function buildDivisionView({
+  lagna,
+  division,
+}: DivisionViewInput): DivisionView {
   const lagnaHouse = division.houses.find((house) => house.number === 1);
-  const lagnaSign = division.division === 1 ? lagna.sign : (lagnaHouse?.sign ?? lagna.sign);
+  const lagnaSign =
+    division.division === 1 ? lagna.sign : (lagnaHouse?.sign ?? lagna.sign);
   const lagnaDegree =
-    division.division === 1 ? formatLongitude(lagna.longitude) : formatLongitude(lagnaHouse?.cusp);
+    division.division === 1
+      ? formatLongitude(lagna.longitude)
+      : formatLongitude(lagnaHouse?.cusp);
 
   const cells = SOUTH_INDIAN_LAYOUT.map((slot) => {
     const house = division.houses.find((entry) => entry.sign === slot.sign);
@@ -100,7 +106,8 @@ export function buildDivisionView({ lagna, division }: DivisionViewInput): Divis
       .filter((planet) => planet.sign === slot.sign)
       .sort(
         (a, b) =>
-          (a.longitude ?? Number.POSITIVE_INFINITY) - (b.longitude ?? Number.POSITIVE_INFINITY),
+          (a.longitude ?? Number.POSITIVE_INFINITY) -
+          (b.longitude ?? Number.POSITIVE_INFINITY),
       )
       .map((planet) => ({
         body: planet.body,
@@ -170,7 +177,10 @@ function describeDivisionView({
   lagnaSign,
   lagnaDegree,
   cells,
-}: Pick<DivisionView, "title" | "lagnaSign" | "lagnaDegree" | "cells">): string {
+}: Pick<
+  DivisionView,
+  "title" | "lagnaSign" | "lagnaDegree" | "cells"
+>): string {
   return `${title} South Indian chart. Lagna ${lagnaSign} ${lagnaDegree}. ${cells
     .map(describeDivisionCell)
     .join(". ")}`;
@@ -283,13 +293,18 @@ export function buildHeadlineView(
   now: string,
 ): HeadlineFacts {
   const dashaIndex = findCurrentPeriodIndex(vimshottari, now);
-  const currentDasha = dashaIndex === -1 ? null : (vimshottari[dashaIndex] ?? null);
-  const moon = d1?.placements.find((placement) => placement.body === "Moon") ?? null;
+  const currentDasha =
+    dashaIndex === -1 ? null : (vimshottari[dashaIndex] ?? null);
+  const moon =
+    d1?.placements.find((placement) => placement.body === "Moon") ?? null;
 
   return {
     ascendant: `${lagna.sign} ${formatLongitude(lagna.longitude)}`,
     moon: moon ? `${moon.sign} ${formatLongitude(moon.longitude)}` : "—",
-    star: moon && moon.star !== "" ? `${moon.star}${moon.pada ? ` · Pada ${moon.pada}` : ""}` : "—",
+    star:
+      moon && moon.star !== ""
+        ? `${moon.star}${moon.pada ? ` · Pada ${moon.pada}` : ""}`
+        : "—",
     mahadasha: currentDasha ? currentDasha.mahadasha : "—",
   };
 }

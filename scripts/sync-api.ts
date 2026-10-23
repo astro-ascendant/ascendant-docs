@@ -50,19 +50,23 @@ interface PageMeta {
 const PAGES: Record<string, PageMeta> = {
   "astro-params": {
     title: "AstroParams",
-    description: "Astro parameter configuration for ayanamsa and house-system selection.",
+    description:
+      "Astro parameter configuration for ayanamsa and house-system selection.",
   },
   chart: {
     title: "Chart",
-    description: "Chart generation and placement models for D1 and divisional charts.",
+    description:
+      "Chart generation and placement models for D1 and divisional charts.",
   },
   dasha: {
     title: "Dasha",
-    description: "Vimshottari, Chara, and Sthira dasha calculations and queries.",
+    description:
+      "Vimshottari, Chara, and Sthira dasha calculations and queries.",
   },
   ephemeris: {
     title: "Ephemeris",
-    description: "Ephemeris service contract and runtime-neutral position models.",
+    description:
+      "Ephemeris service contract and runtime-neutral position models.",
   },
   jaimini: {
     title: "Jaimini",
@@ -71,19 +75,23 @@ const PAGES: Record<string, PageMeta> = {
   },
   provenance: {
     title: "Provenance",
-    description: "Method specification and provenance records attached to calculations.",
+    description:
+      "Method specification and provenance records attached to calculations.",
   },
   sav: {
     title: "SAV",
-    description: "Ashtakavarga and Shodhya Pinda calculations for shared chart placements.",
+    description:
+      "Ashtakavarga and Shodhya Pinda calculations for shared chart placements.",
   },
   swisseph: {
     title: "Swisseph",
-    description: "Swiss Ephemeris integration layer for the TypeScript astrology library.",
+    description:
+      "Swiss Ephemeris integration layer for the TypeScript astrology library.",
   },
   transit: {
     title: "Transit",
-    description: "Mechanics-only search for the next or previous transit events of one graha.",
+    description:
+      "Mechanics-only search for the next or previous transit events of one graha.",
   },
 };
 
@@ -203,7 +211,8 @@ function resolveModule(fromFile: string, specifier: string): string {
 const DECL_RE =
   /^export\s+(?:declare\s+)?(?:(const|function|class|interface|type|enum|abstract\s+class)\s+([A-Za-z_$][\w$]*))/;
 const REEXPORT_STAR_RE = /^export\s*\*\s*from\s*["']([^"']+)["']/;
-const REEXPORT_NAMED_RE = /^export\s*(?:type\s+)?\{([^}]*)\}(?:\s*from\s*["']([^"']+)["'])?/;
+const REEXPORT_NAMED_RE =
+  /^export\s*(?:type\s+)?\{([^}]*)\}(?:\s*from\s*["']([^"']+)["'])?/;
 const LOCAL_DECL_RE =
   /^(?:declare\s+)?(const|function|class|interface|type|enum|abstract class)\s+([A-Za-z_$][\w$]*)/;
 
@@ -214,7 +223,8 @@ function addSymbol(
   target: Map<string, RawSymbol>,
 ): void {
   if (target.has(name)) return;
-  const kind = rawKind === "abstract class" ? "class" : (rawKind as RawSymbol["kind"]);
+  const kind =
+    rawKind === "abstract class" ? "class" : (rawKind as RawSymbol["kind"]);
   let text = statement;
   let docs = "";
   const jsdoc = text.match(/^\/\*\*[\s\S]*?\*\//);
@@ -256,7 +266,11 @@ function parseNameList(list: string): Array<{ from: string; as: string }> {
     });
 }
 
-function parseDtsFile(absPath: string, out: Map<string, RawSymbol>, seen: Set<string>): void {
+function parseDtsFile(
+  absPath: string,
+  out: Map<string, RawSymbol>,
+  seen: Set<string>,
+): void {
   if (seen.has(absPath)) return;
   seen.add(absPath);
   const source = readFileSync(absPath, "utf8");
@@ -342,9 +356,12 @@ function collect(subpaths: string[]): Map<string, SymbolEntry[]> {
       );
     if (page.startsWith("(")) continue;
     if (!PAGES[page])
-      throw new Error(`Page ${page} has no metadata. Add it to PAGES in scripts/sync-api.ts.`);
+      throw new Error(
+        `Page ${page} has no metadata. Add it to PAGES in scripts/sync-api.ts.`,
+      );
     const entryFile = typesEntry(subpath);
-    if (!existsSync(entryFile)) throw new Error(`Cannot load declarations for ${subpath}`);
+    if (!existsSync(entryFile))
+      throw new Error(`Cannot load declarations for ${subpath}`);
 
     if (!pages.has(page)) pages.set(page, new Map());
     const entries = pages.get(page)!;
@@ -368,12 +385,28 @@ function collect(subpaths: string[]): Map<string, SymbolEntry[]> {
     }
   }
 
-  return new Map([...pages.entries()].map(([page, entries]) => [page, [...entries.values()]]));
+  return new Map(
+    [...pages.entries()].map(([page, entries]) => [
+      page,
+      [...entries.values()],
+    ]),
+  );
 }
 
-const BUCKET_ORDER: Bucket[] = ["Functions", "Classes", "Interfaces", "Types", "Constants"];
+const BUCKET_ORDER: Bucket[] = [
+  "Functions",
+  "Classes",
+  "Interfaces",
+  "Types",
+  "Constants",
+];
 
-function renderPage(page: string, meta: PageMeta, subpath: string, symbols: SymbolEntry[]): string {
+function renderPage(
+  page: string,
+  meta: PageMeta,
+  subpath: string,
+  symbols: SymbolEntry[],
+): string {
   const lines: string[] = [
     "---",
     `title: ${meta.title}`,
@@ -405,7 +438,9 @@ function renderPage(page: string, meta: PageMeta, subpath: string, symbols: Symb
 }
 
 function firstSubpathFor(page: string): string {
-  return Object.keys(pkg.exports).find((s) => SUBPATH_TO_PAGE[s] === page) ?? ".";
+  return (
+    Object.keys(pkg.exports).find((s) => SUBPATH_TO_PAGE[s] === page) ?? "."
+  );
 }
 
 const checkOnly = process.argv.includes("--check");
@@ -414,7 +449,10 @@ const orderedPages = [...new Set([...Object.keys(PAGES), ...pages.keys()])];
 
 const metaPath = join(apiDir, "meta.json");
 const meta: { title: string; pages: string[] } = existsSync(metaPath)
-  ? (JSON.parse(readFileSync(metaPath, "utf8")) as { title: string; pages: string[] })
+  ? (JSON.parse(readFileSync(metaPath, "utf8")) as {
+      title: string;
+      pages: string[];
+    })
   : { title: META_TITLE, pages: [] };
 const desiredMeta =
   JSON.stringify(
@@ -432,17 +470,21 @@ if (!existsSync(metaPath) || readFileSync(metaPath, "utf8") !== desiredMeta)
 for (const [page, symbols] of pages) {
   const outPath = join(apiDir, `${page}.mdx`);
   const content = renderPage(page, PAGES[page], firstSubpathFor(page), symbols);
-  if (!existsSync(outPath) || readFileSync(outPath, "utf8") !== content) dirty.push(`${page}.mdx`);
+  if (!existsSync(outPath) || readFileSync(outPath, "utf8") !== content)
+    dirty.push(`${page}.mdx`);
 }
 
 console.log(
   `astro-ascendant ${pkg.version}: ${[...pages.values()].reduce((n, s) => n + s.length, 0)} symbols across ${pages.size} pages`,
 );
-for (const [page, symbols] of pages) console.log(`  ${page}: ${symbols.length} symbols`);
+for (const [page, symbols] of pages)
+  console.log(`  ${page}: ${symbols.length} symbols`);
 
 if (checkOnly) {
   if (dirty.length > 0) {
-    console.log(`\nStale generated files: ${dirty.join(", ")}. Run \`make sync-api\`.`);
+    console.log(
+      `\nStale generated files: ${dirty.join(", ")}. Run \`make sync-api\`.`,
+    );
     process.exit(1);
   }
   console.log("\nGenerated docs are up to date.");
@@ -454,5 +496,7 @@ if (checkOnly) {
       join(apiDir, `${page}.mdx`),
       renderPage(page, PAGES[page], firstSubpathFor(page), symbols),
     );
-  console.log(dirty.length > 0 ? `\nWrote: ${dirty.join(", ")}.` : "\nNo changes.");
+  console.log(
+    dirty.length > 0 ? `\nWrote: ${dirty.join(", ")}.` : "\nNo changes.",
+  );
 }

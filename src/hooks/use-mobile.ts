@@ -7,7 +7,9 @@ const MOBILE_BREAKPOINT = 768;
  * touch-first and pointer-first shapes (drawer vs dialog).
  */
 export function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined);
+  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(
+    undefined,
+  );
 
   React.useEffect(() => {
     const query = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);

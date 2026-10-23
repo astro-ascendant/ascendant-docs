@@ -41,7 +41,10 @@ function placeName(entry: NominatimEntry): string {
   );
 }
 
-export async function searchPlaces(query: string, signal?: AbortSignal): Promise<PlaceOption[]> {
+export async function searchPlaces(
+  query: string,
+  signal?: AbortSignal,
+): Promise<PlaceOption[]> {
   // V1 place search uses OpenStreetMap Nominatim (no API key); users can
   // always override with manual coordinates below.
   const response = await fetch(
@@ -62,5 +65,8 @@ export async function searchPlaces(query: string, signal?: AbortSignal): Promise
       latitude: Number(entry.lat),
       longitude: Number(entry.lon),
     }))
-    .filter((entry) => Number.isFinite(entry.latitude) && Number.isFinite(entry.longitude));
+    .filter(
+      (entry) =>
+        Number.isFinite(entry.latitude) && Number.isFinite(entry.longitude),
+    );
 }

@@ -24,7 +24,9 @@ function isFiniteLongitude(value: number): boolean {
   return Number.isFinite(value) && value >= -180 && value <= 180;
 }
 
-export function validateChartInput(input: ChartBirthInput): ChartInputValidation {
+export function validateChartInput(
+  input: ChartBirthInput,
+): ChartInputValidation {
   const fields: ChartInputValidation["fields"] = {};
   if (input.name.trim() === "") {
     fields.name = "Enter a name.";
@@ -37,13 +39,18 @@ export function validateChartInput(input: ChartBirthInput): ChartInputValidation
   }
   if (input.place.trim() === "") {
     fields.place = "Enter a birth place.";
-  } else if (!isFiniteLatitude(input.latitude) || !isFiniteLongitude(input.longitude)) {
+  } else if (
+    !isFiniteLatitude(input.latitude) ||
+    !isFiniteLongitude(input.longitude)
+  ) {
     fields.place = "Choose a birth place from the suggestions.";
   }
   return { ok: Object.keys(fields).length === 0, fields };
 }
 
-export const ALL_DIVISIONS = [1, 2, 3, 4, 7, 9, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60] as const;
+export const ALL_DIVISIONS = [
+  1, 2, 3, 4, 7, 9, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60,
+] as const;
 
 export interface ChartPlacement {
   body: string;
@@ -160,7 +167,9 @@ export interface ChartResult {
 }
 
 /** First-seen order across KP signification levels (star, occupancy, ownership). */
-export function uniqueHousesInOrder(groups: readonly (readonly number[])[]): number[] {
+export function uniqueHousesInOrder(
+  groups: readonly (readonly number[])[],
+): number[] {
   const seen = new Set<number>();
   const houses: number[] = [];
   for (const group of groups) {
@@ -178,7 +187,10 @@ export function formatSignifyingHouses(houses: readonly number[]): string {
   return houses.length === 0 ? "—" : houses.join(", ");
 }
 
-export function toPlacementRows(result: ChartResult, division: number): ChartPlacement[] {
+export function toPlacementRows(
+  result: ChartResult,
+  division: number,
+): ChartPlacement[] {
   const match = result.divisions.find((entry) => entry.division === division);
   if (!match) {
     return [];
@@ -227,8 +239,12 @@ export function buildChartMarkdown(result: ChartResult): string {
   const lines: string[] = [
     "# Horoscope",
     "",
-    ...(result.birth.name.trim() !== "" ? [`- Name: ${result.birth.name}`] : []),
-    ...(result.birth.date === "" ? [] : [`- Birth: ${result.birth.date} ${result.birth.time}`]),
+    ...(result.birth.name.trim() !== ""
+      ? [`- Name: ${result.birth.name}`]
+      : []),
+    ...(result.birth.date === ""
+      ? []
+      : [`- Birth: ${result.birth.date} ${result.birth.time}`]),
     `- Place: ${result.birth.place}`,
     `- UTC: ${result.birth.utcIso}${offset}`,
     `- Coordinates: ${result.birth.latitude}, ${result.birth.longitude}`,
@@ -299,17 +315,29 @@ export function buildChartMarkdown(result: ChartResult): string {
     lines.push(`- Arudha Pada ${entry.house}: ${entry.pada}`);
   }
   lines.push(`- Rashi Drishti on Lagna: ${result.jaimini.drishti.join(", ")}`);
-  lines.push(`- Supporting Argala: ${result.jaimini.argala.supporting.join(", ")}`);
-  lines.push(`- Obstructing Argala: ${result.jaimini.argala.obstructing.join(", ")}`);
+  lines.push(
+    `- Supporting Argala: ${result.jaimini.argala.supporting.join(", ")}`,
+  );
+  lines.push(
+    `- Obstructing Argala: ${result.jaimini.argala.obstructing.join(", ")}`,
+  );
   lines.push("", "## Sarvashtakavarga", "");
   if (result.sav.rows.length > 0) {
-    const signHeads = result.sav.signs.map((sign) => signShortName(sign)).join(" | ");
+    const signHeads = result.sav.signs
+      .map((sign) => signShortName(sign))
+      .join(" | ");
     lines.push(`| Planet | ${signHeads} | Total |`);
-    lines.push(`| --- | ${result.sav.signs.map(() => "---").join(" | ")} | --- |`);
+    lines.push(
+      `| --- | ${result.sav.signs.map(() => "---").join(" | ")} | --- |`,
+    );
     for (const row of result.sav.rows) {
-      lines.push(`| ${row.planet} | ${row.points.join(" | ")} | ${row.total} |`);
+      lines.push(
+        `| ${row.planet} | ${row.points.join(" | ")} | ${row.total} |`,
+      );
     }
-    lines.push(`| Total | ${result.sav.signTotals.join(" | ")} | ${result.sav.total} |`);
+    lines.push(
+      `| Total | ${result.sav.signTotals.join(" | ")} | ${result.sav.total} |`,
+    );
   }
   lines.push("", "## KP Chart", "");
   lines.push(`- Ayanamsa: ${result.kp.astroParams.ayanamsa}`);
@@ -323,7 +351,9 @@ export function buildChartMarkdown(result: ChartResult): string {
     );
   }
   lines.push("", "### KP House Cusps", "");
-  lines.push("| House | Sign | Cusp | Sign Lord | Star Lord | Sub Lord | Sub-Sub Lord |");
+  lines.push(
+    "| House | Sign | Cusp | Sign Lord | Star Lord | Sub Lord | Sub-Sub Lord |",
+  );
   lines.push("| --- | --- | --- | --- | --- | --- | --- |");
   for (const cusp of result.kp.cusps ?? []) {
     lines.push(
@@ -377,7 +407,9 @@ export function formatDashaDuration(startIso: string, endIso: string): string {
   let days = end.getUTCDate() - start.getUTCDate();
   if (days < 0) {
     months -= 1;
-    const prevMonth = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), 0));
+    const prevMonth = new Date(
+      Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), 0),
+    );
     days += prevMonth.getUTCDate();
   }
   if (months < 0) {
@@ -412,13 +444,22 @@ export function findCurrentPeriodIndex(
   return periods.findIndex((period) => {
     const start = new Date(period.start).getTime();
     const end = new Date(period.end).getTime();
-    return Number.isFinite(start) && Number.isFinite(end) && start <= now && now < end;
+    return (
+      Number.isFinite(start) &&
+      Number.isFinite(end) &&
+      start <= now &&
+      now < end
+    );
   });
 }
 
-function markdownTable(headers: string[], rows: readonly (readonly string[])[]): string {
+function markdownTable(
+  headers: string[],
+  rows: readonly (readonly string[])[],
+): string {
   const escape = (value: string) => value.replaceAll("|", "\\|");
-  const line = (cells: readonly string[]) => `| ${cells.map(escape).join(" | ")} |`;
+  const line = (cells: readonly string[]) =>
+    `| ${cells.map(escape).join(" | ")} |`;
   return [
     line(headers),
     `| ${headers.map(() => "---").join(" | ")} |`,
@@ -434,7 +475,10 @@ function divisionChartMarkdown(result: ChartResult, division: number): string {
   const lagnaHouse = match.houses.find((house) => house.number === 1);
   const lagna =
     division === 1
-      ? { sign: result.lagna.sign, degree: formatLongitude(result.lagna.longitude) }
+      ? {
+          sign: result.lagna.sign,
+          degree: formatLongitude(result.lagna.longitude),
+        }
       : {
           sign: lagnaHouse?.sign ?? "",
           degree: formatLongitude(lagnaHouse?.cusp),
@@ -444,7 +488,9 @@ function divisionChartMarkdown(result: ChartResult, division: number): string {
     [
       ["Lagna", lagna.sign, lagna.degree, "1"],
       ...match.placements.map((placement) => [
-        placement.state === "Retrograde" ? `${placement.body} (r)` : placement.body,
+        placement.state === "Retrograde"
+          ? `${placement.body} (r)`
+          : placement.body,
         placement.sign,
         formatLongitude(placement.longitude),
         String(placement.house),
@@ -482,7 +528,8 @@ function antardashaMarkdownTable(period: ChartDashaPeriod): string {
 
 export function buildChatGptPromptUrl(result: ChartResult): string {
   const currentIndex = findCurrentPeriodIndex(result.dasha.vimshottari);
-  const currentMahadasha = currentIndex === -1 ? undefined : result.dasha.vimshottari[currentIndex];
+  const currentMahadasha =
+    currentIndex === -1 ? undefined : result.dasha.vimshottari[currentIndex];
   const cuspSpans = result.kp.cusps
     .flatMap((cusp) => {
       const longitude = cusp.longitude;
@@ -504,7 +551,8 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
       if (current === undefined || next === undefined) {
         continue;
       }
-      const span = (((next.longitude - current.longitude) % 360) + 360) % 360 || 360;
+      const span =
+        (((next.longitude - current.longitude) % 360) + 360) % 360 || 360;
       const pos = (((longitude - current.longitude) % 360) + 360) % 360;
       if (pos < span) {
         return String(current.house);
@@ -516,7 +564,9 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
     "Read the skill here: https://raw.githubusercontent.com/astro-ascendant/skills/refs/heads/main/skills/ascendant/SKILL.md",
     "https://github.com/astro-ascendant/skills/tree/main/skills/ascendant/references",
     "",
-    ...(result.birth.name.trim() !== "" ? [`Name: ${result.birth.name}`, ""] : []),
+    ...(result.birth.name.trim() !== ""
+      ? [`Name: ${result.birth.name}`, ""]
+      : []),
     "#D1",
     divisionChartMarkdown(result, 1),
     "",
@@ -525,7 +575,14 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
     "",
     "#KP",
     markdownTable(
-      ["Body", "House", "Sign Lord", "Star Lord", "Sub Lord", "Signifying Houses"],
+      [
+        "Body",
+        "House",
+        "Sign Lord",
+        "Star Lord",
+        "Sub Lord",
+        "Signifying Houses",
+      ],
       result.kp.rows.map((row) => [
         row.name,
         houseOf(row.name),
@@ -538,7 +595,15 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
     "",
     "#KP Cusps",
     markdownTable(
-      ["House", "Sign", "Cusp", "Sign Lord", "Star Lord", "Sub Lord", "Sub-Sub Lord"],
+      [
+        "House",
+        "Sign",
+        "Cusp",
+        "Sign Lord",
+        "Star Lord",
+        "Sub Lord",
+        "Sub-Sub Lord",
+      ],
       (result.kp.cusps ?? []).map((cusp) => [
         String(cusp.house),
         cusp.sign,
@@ -554,7 +619,9 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
     mahadashaMarkdownTable(result.dasha.vimshottari),
     "",
     "#Antardasha",
-    currentMahadasha ? antardashaMarkdownTable(currentMahadasha) : "_No current antardasha._",
+    currentMahadasha
+      ? antardashaMarkdownTable(currentMahadasha)
+      : "_No current antardasha._",
   ].join("\n");
   return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
 }

@@ -84,7 +84,11 @@ function Header({
 }
 
 function Body({ children }: { children: ReactNode }) {
-  return <ul className="flex min-h-0 flex-1 flex-col justify-center gap-0.2">{children}</ul>;
+  return (
+    <ul className="flex min-h-0 flex-1 flex-col justify-center gap-0.2">
+      {children}
+    </ul>
+  );
 }
 
 function Entry({ entry }: { entry: DivisionOccupant }) {
@@ -97,7 +101,9 @@ function Entry({ entry }: { entry: DivisionOccupant }) {
     >
       <span>
         {entry.short}
-        {entry.retrograde ? <span className="text-muted-foreground"> r</span> : null}
+        {entry.retrograde ? (
+          <span className="text-muted-foreground"> r</span>
+        ) : null}
       </span>
       <span className="text-muted-foreground tabular-nums">{entry.degree}</span>
     </li>
@@ -136,16 +142,25 @@ function SignHouseChart({ division }: { division: number }) {
     return null;
   }
 
-  const divisionData = result.divisions.find((entry) => entry.division === division);
+  const divisionData = result.divisions.find(
+    (entry) => entry.division === division,
+  );
   if (!divisionData) {
     return null;
   }
-  const chart = buildDivisionView({ lagna: result.lagna, division: divisionData });
+  const chart = buildDivisionView({
+    lagna: result.lagna,
+    division: divisionData,
+  });
 
   return (
     <SouthIndianChart label={chart.label}>
       {chart.cells.map((cell) => (
-        <SouthIndianChart.Cell key={cell.sign} area={cell.area} isLagna={cell.isLagna}>
+        <SouthIndianChart.Cell
+          key={cell.sign}
+          area={cell.area}
+          isLagna={cell.isLagna}
+        >
           <SouthIndianChart.Header
             signShort={cell.signShort}
             house={cell.house}
@@ -175,17 +190,19 @@ export function ChartSignHouseCharts() {
       </TabsList>
       <TabsContent value="D1">
         <ChartQuote>
-          D1 is your chart as the sky was at the moment of birth. Every other division in this
-          report zooms into it, so start here for the whole picture: where each planet sat, and the
-          sign that was rising on your eastern horizon.
+          D1 is your chart as the sky was at the moment of birth. Every other
+          division in this report zooms into it, so start here for the whole
+          picture: where each planet sat, and the sign that was rising on your
+          eastern horizon.
         </ChartQuote>
         <SignHouseChart division={1} />
       </TabsContent>
       <TabsContent value="D9">
         <ChartQuote>
-          D9 is the chart of what ripens underneath the surface. Astrologers read it for marriage
-          and for the true strength of a planet, since a planet that looks powerful in D1 but sits
-          poorly here delivers less in real life.
+          D9 is the chart of what ripens underneath the surface. Astrologers
+          read it for marriage and for the true strength of a planet, since a
+          planet that looks powerful in D1 but sits poorly here delivers less in
+          real life.
         </ChartQuote>
         <SignHouseChart division={9} />
       </TabsContent>

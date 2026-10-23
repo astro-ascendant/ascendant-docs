@@ -8,7 +8,10 @@ const ZONE_LABEL_LOCALES = ["en-US", "en-GB", "en-IN"] as const;
  * so historical DST labels stay true to the chart. Returns null when there is
  * no abbreviation worth showing.
  */
-export function formatTimeZoneLabel(timeZone: string, instantIso?: string): string | null {
+export function formatTimeZoneLabel(
+  timeZone: string,
+  instantIso?: string,
+): string | null {
   const parsed = instantIso === undefined ? Number.NaN : Date.parse(instantIso);
   const instant = new Date(Number.isNaN(parsed) ? Date.now() : parsed);
   for (const locale of ZONE_LABEL_LOCALES) {

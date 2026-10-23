@@ -14,10 +14,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "cn";
 import { useChartSession } from "@/components/chart/context";
 import { ChartQuote } from "@/components/chart/quote";
-import { ChartAskChatGPTButton, ChartSavePdfButton } from "@/components/chart/actions";
+import {
+  ChartAskChatGPTButton,
+  ChartSavePdfButton,
+} from "@/components/chart/actions";
 import { ChartSignHouseCharts } from "@/components/chart/sign-house-chart";
-import { ChartDashaTimelines, ChartKpDashaTimeline } from "@/components/chart/dasha-timeline";
-import { ChartKpCaption, ChartKpCuspTable, ChartKpTable } from "@/components/chart/kp-table";
+import {
+  ChartDashaTimelines,
+  ChartKpDashaTimeline,
+} from "@/components/chart/dasha-timeline";
+import {
+  ChartKpCaption,
+  ChartKpCuspTable,
+  ChartKpTable,
+} from "@/components/chart/kp-table";
 import { ChartKpCircularChart } from "@/components/chart/kp-circular-chart";
 
 function ChartCalculating() {
@@ -65,9 +75,9 @@ function ChartJaiminiTables() {
         <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
           <h3 className="font-heading text-base font-medium">Chara Karakas</h3>
           <ChartQuote>
-            Chara Karakas introduce the cast of your chart. The planet furthest along in its journey
-            becomes your Atmakaraka, representing your own soul, and the next strongest steps in as
-            your advisor.
+            Chara Karakas introduce the cast of your chart. The planet furthest
+            along in its journey becomes your Atmakaraka, representing your own
+            soul, and the next strongest steps in as your advisor.
           </ChartQuote>
           <Table>
             <TableHeader>
@@ -87,18 +97,22 @@ function ChartJaiminiTables() {
           </Table>
         </section>
         <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
-          <h3 className="font-heading text-base font-medium">Karakamsha and Upapada</h3>
+          <h3 className="font-heading text-base font-medium">
+            Karakamsha and Upapada
+          </h3>
           <ChartQuote>
-            Karakamsha points to what you came here to become: it is read for purpose and
-            livelihood. Upapada is about the person you share life with, so astrologers read it
-            first for marriage.
+            Karakamsha points to what you came here to become: it is read for
+            purpose and livelihood. Upapada is about the person you share life
+            with, so astrologers read it first for marriage.
           </ChartQuote>
           <Table>
             <TableBody tone="muted">
               <TableRow>
                 <TableHead>Karakamsha</TableHead>
                 <TableCell>
-                  {result.jaimini.karakamsha === "" ? "—" : result.jaimini.karakamsha}
+                  {result.jaimini.karakamsha === ""
+                    ? "—"
+                    : result.jaimini.karakamsha}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -115,8 +129,8 @@ function ChartJaiminiTables() {
         <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
           <h3 className="font-heading text-base font-medium">Arudha Pada</h3>
           <ChartQuote>
-            Arudha pada shows how you are seen. A house says what is true in your life, while its
-            arudha says what the world believes about it.
+            Arudha pada shows how you are seen. A house says what is true in
+            your life, while its arudha says what the world believes about it.
           </ChartQuote>
           <Table>
             <TableHeader>
@@ -136,17 +150,22 @@ function ChartJaiminiTables() {
           </Table>
         </section>
         <section className="border-border/70 bg-card/40 flex flex-col gap-4 rounded-xl border p-6">
-          <h3 className="font-heading text-base font-medium">Drishti and Argala</h3>
+          <h3 className="font-heading text-base font-medium">
+            Drishti and Argala
+          </h3>
           <ChartQuote>
-            Drishti shows which parts of your chart are in conversation with each other. Argala
-            tells you who is holding a door open for a house and who is standing in its doorway.
+            Drishti shows which parts of your chart are in conversation with
+            each other. Argala tells you who is holding a door open for a house
+            and who is standing in its doorway.
           </ChartQuote>
           <Table>
             <TableBody tone="muted">
               <TableRow>
                 <TableHead>Rashi Drishti on Lagna</TableHead>
                 <TableCell>
-                  {result.jaimini.drishti.length > 0 ? result.jaimini.drishti.join(", ") : "—"}
+                  {result.jaimini.drishti.length > 0
+                    ? result.jaimini.drishti.join(", ")
+                    : "—"}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -211,7 +230,9 @@ function ChartSavTable() {
   if (!result) {
     return null;
   }
-  const peakByPlanet = new Map(result.sav.rows.map((row) => [row.planet, Math.max(...row.points)]));
+  const peakByPlanet = new Map(
+    result.sav.rows.map((row) => [row.planet, Math.max(...row.points)]),
+  );
   const troughByPlanet = new Map(
     result.sav.rows.map((row) => [row.planet, Math.min(...row.points)]),
   );
@@ -239,7 +260,11 @@ function ChartSavTable() {
                     ? "destructive"
                     : "muted";
               return (
-                <TableCell key={row.planet} tone={tone} className="tabular-nums">
+                <TableCell
+                  key={row.planet}
+                  tone={tone}
+                  className="tabular-nums"
+                >
                   {value}
                 </TableCell>
               );
@@ -277,7 +302,12 @@ function ChartSuccess({ tabListClassName }: { tabListClassName?: string }) {
   return (
     <div className="flex flex-col gap-4">
       <Tabs defaultValue="chart">
-        <TabsList className={cn("max-w-full self-start overflow-x-auto", tabListClassName)}>
+        <TabsList
+          className={cn(
+            "max-w-full self-start overflow-x-auto",
+            tabListClassName,
+          )}
+        >
           <TabsTrigger value="chart">Chart</TabsTrigger>
           <TabsTrigger value="kp">KP Chart</TabsTrigger>
           <TabsTrigger value="dasha">Dasha</TabsTrigger>
@@ -306,9 +336,10 @@ function ChartSuccess({ tabListClassName }: { tabListClassName?: string }) {
         <TabsContent value="sav">
           <h2 className="sr-only">Sarvashtakavarga</h2>
           <ChartQuote>
-            SAV scores each sign by how much support it gives your planets. The highlighted numbers
-            mark the signs that back you up most, and the dimmed ones show where you carry the
-            weight yourself. In red: the sign where that planet runs weakest.
+            SAV scores each sign by how much support it gives your planets. The
+            highlighted numbers mark the signs that back you up most, and the
+            dimmed ones show where you carry the weight yourself. In red: the
+            sign where that planet runs weakest.
           </ChartQuote>
           <ChartSavTable />
         </TabsContent>
@@ -321,18 +352,26 @@ function ChartSuccess({ tabListClassName }: { tabListClassName?: string }) {
   );
 }
 
-export function ChartResultSwitch({ tabListClassName }: { tabListClassName?: string } = {}) {
+export function ChartResultSwitch({
+  tabListClassName,
+}: { tabListClassName?: string } = {}) {
   const {
     state: { status, result },
   } = useChartSession();
   return (
     <div role="status" className="flex flex-col gap-4">
-      {status === "calculating" && result === null ? <ChartCalculating /> : null}
+      {status === "calculating" && result === null ? (
+        <ChartCalculating />
+      ) : null}
       {status === "calculating" && result !== null ? (
-        <p className="text-muted-foreground text-sm">Recalculating with the updated details…</p>
+        <p className="text-muted-foreground text-sm">
+          Recalculating with the updated details…
+        </p>
       ) : null}
       {status === "failure" ? <ChartFailure /> : null}
-      {result !== null ? <ChartSuccess tabListClassName={tabListClassName} /> : null}
+      {result !== null ? (
+        <ChartSuccess tabListClassName={tabListClassName} />
+      ) : null}
     </div>
   );
 }

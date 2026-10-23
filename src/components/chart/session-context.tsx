@@ -75,7 +75,9 @@ const ChartSessionContext = createContext<ChartSessionValue | null>(null);
 export function useChartSession(): ChartSessionValue {
   const value = use(ChartSessionContext);
   if (!value) {
-    throw new Error("Chart result components must be used inside Chart.Provider.");
+    throw new Error(
+      "Chart result components must be used inside Chart.Provider.",
+    );
   }
   return value;
 }
@@ -90,7 +92,8 @@ export function ChartSessionProvider({
   return <ChartSessionContext value={value}>{children}</ChartSessionContext>;
 }
 
-const MISSING_CONNECTION = "Unable to calculate the chart. Check your connection and try again.";
+const MISSING_CONNECTION =
+  "Unable to calculate the chart. Check your connection and try again.";
 
 export function useChartSessionController({
   birth,
@@ -112,7 +115,10 @@ export function useChartSessionController({
     ...defaultDeps,
     ...deps,
   };
-  const [state, dispatch] = useReducer(reduceChartSession, initialChartSessionState);
+  const [state, dispatch] = useReducer(
+    reduceChartSession,
+    initialChartSessionState,
+  );
   const requestId = useRef(0);
 
   const calculate = () => {

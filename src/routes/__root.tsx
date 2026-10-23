@@ -1,4 +1,9 @@
-import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  HeadContent,
+  Outlet,
+  Scripts,
+} from "@tanstack/react-router";
 import appCss from "@/styles/app.css?url";
 import { RootProvider } from "fumadocs-ui/provider/tanstack";
 import { Banner } from "fumadocs-ui/components/banner";

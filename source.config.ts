@@ -4,7 +4,8 @@ import { basename, dirname, extname } from "node:path";
 
 function titleFromPath(path: string): string {
   const filename = basename(path, extname(path));
-  const source = filename.toLowerCase() === "skill" ? basename(dirname(path)) : filename;
+  const source =
+    filename.toLowerCase() === "skill" ? basename(dirname(path)) : filename;
 
   return source
     .split("-")

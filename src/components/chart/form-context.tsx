@@ -45,7 +45,9 @@ const ChartFormContext = createContext<ChartFormValue | null>(null);
 export function useChartForm(): ChartFormValue {
   const value = use(ChartFormContext);
   if (!value) {
-    throw new Error("Chart form components must be used inside Chart.Provider.");
+    throw new Error(
+      "Chart form components must be used inside Chart.Provider.",
+    );
   }
   return value;
 }
@@ -69,12 +71,18 @@ const EMPTY_BIRTH: ChartBirthInput = {
   longitude: Number.NaN,
 };
 
-export function useChartFormController(deps: Partial<ChartFormDeps> = {}): ChartFormValue {
+export function useChartFormController(
+  deps: Partial<ChartFormDeps> = {},
+): ChartFormValue {
   const { loadProfiles, saveProfiles } = { ...defaultDeps, ...deps };
   const [birth, setBirth] = useState<ChartBirthInput>(EMPTY_BIRTH);
   const [selectedPlace, setSelectedPlace] = useState<PlaceOption | null>(null);
-  const [savedProfiles, setSavedProfiles] = useState<BirthProfile[]>(() => loadProfiles());
-  const [fieldErrors, setFieldErrors] = useState<Partial<Record<ChartFieldKey, string>>>({});
+  const [savedProfiles, setSavedProfiles] = useState<BirthProfile[]>(() =>
+    loadProfiles(),
+  );
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<ChartFieldKey, string>>
+  >({});
 
   const clearFieldError = (key: ChartFieldKey) => {
     setFieldErrors((current) => {
@@ -144,7 +152,9 @@ export function useChartFormController(deps: Partial<ChartFormDeps> = {}): Chart
 
   const showFieldErrors = (fields: Partial<Record<ChartFieldKey, string>>) => {
     setFieldErrors(fields);
-    const first = (["name", "date", "time", "place"] as const).find((key) => fields[key]);
+    const first = (["name", "date", "time", "place"] as const).find(
+      (key) => fields[key],
+    );
     if (first !== undefined && typeof document !== "undefined") {
       queueMicrotask(() => {
         document.getElementById(`chart-${first}`)?.focus();

@@ -14,7 +14,8 @@ function Table({
         data-slot="table"
         className={cn(
           "w-full caption-bottom text-sm",
-          size === "sm" && "text-xs [&_th]:h-8 [&_th]:px-2 [&_td]:px-2 [&_td]:py-1",
+          size === "sm" &&
+            "text-xs [&_th]:h-8 [&_th]:px-2 [&_td]:px-2 [&_td]:py-1",
           className,
         )}
         {...props}
@@ -24,7 +25,13 @@ function Table({
 }
 
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
-  return <thead data-slot="table-header" className={cn("[&_tr]:border-b", className)} {...props} />;
+  return (
+    <thead
+      data-slot="table-header"
+      className={cn("[&_tr]:border-b", className)}
+      {...props}
+    />
+  );
 }
 
 function TableBody({
@@ -90,7 +97,9 @@ function TableCell({
   className,
   tone = "default",
   ...props
-}: React.ComponentProps<"td"> & { tone?: "default" | "muted" | "primary" | "destructive" }) {
+}: React.ComponentProps<"td"> & {
+  tone?: "default" | "muted" | "primary" | "destructive";
+}) {
   return (
     <td
       data-slot="table-cell"
@@ -106,7 +115,10 @@ function TableCell({
   );
 }
 
-function TableCaption({ className, ...props }: React.ComponentProps<"caption">) {
+function TableCaption({
+  className,
+  ...props
+}: React.ComponentProps<"caption">) {
   return (
     <caption
       data-slot="table-caption"
@@ -116,4 +128,13 @@ function TableCaption({ className, ...props }: React.ComponentProps<"caption">) 
   );
 }
 
-export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption };
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+};

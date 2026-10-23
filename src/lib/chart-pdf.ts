@@ -14,7 +14,10 @@ export function buildChartPdf(result: ChartResult): Blob {
   let cursorY = 18;
 
   for (const line of buildChartMarkdown(result).split("\n")) {
-    const wrapped = doc.splitTextToSize(line === "" ? " " : line, CONTENT_WIDTH);
+    const wrapped = doc.splitTextToSize(
+      line === "" ? " " : line,
+      CONTENT_WIDTH,
+    );
     if (cursorY + wrapped.length * 4.5 > PAGE_BOTTOM) {
       doc.addPage();
       cursorY = 18;

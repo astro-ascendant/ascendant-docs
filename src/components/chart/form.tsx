@@ -14,14 +14,28 @@ import {
 } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { CityPicker } from "@/components/chart/city-picker";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useChartForm, useChartPlaceSearch, useChartSession } from "@/components/chart/context";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  useChartForm,
+  useChartPlaceSearch,
+  useChartSession,
+} from "@/components/chart/context";
 
 export function ChartFormFrame({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-6">{children}</div>;
 }
 
-function FieldError({ id, message }: { id: string; message: string | undefined }) {
+function FieldError({
+  id,
+  message,
+}: {
+  id: string;
+  message: string | undefined;
+}) {
   if (!message) {
     return null;
   }
@@ -70,7 +84,11 @@ export function ChartNameField() {
 function parseBirthDate(value: string): Date | undefined {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
   if (!match) return undefined;
-  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  const date = new Date(
+    Number(match[1]),
+    Number(match[2]) - 1,
+    Number(match[3]),
+  );
   return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
@@ -96,11 +114,14 @@ export function ChartDateField() {
     actions: { updateBirth },
   } = useChartForm();
   const [open, setOpen] = React.useState(false);
-  const [text, setText] = React.useState(() => formatBirthDate(parseBirthDate(birth.date)));
+  const [text, setText] = React.useState(() =>
+    formatBirthDate(parseBirthDate(birth.date)),
+  );
   React.useEffect(() => {
     setText(formatBirthDate(parseBirthDate(birth.date)));
   }, [birth.date]);
-  const preview = text.trim() === "" ? undefined : (parseDate(text) ?? undefined);
+  const preview =
+    text.trim() === "" ? undefined : (parseDate(text) ?? undefined);
   const today = new Date();
   const error = fieldErrors.date;
 
@@ -139,7 +160,13 @@ export function ChartDateField() {
         <InputGroupAddon align="inline-end">
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger
-              render={<InputGroupButton size="icon-xs" variant="ghost" aria-label="Select date" />}
+              render={
+                <InputGroupButton
+                  size="icon-xs"
+                  variant="ghost"
+                  aria-label="Select date"
+                />
+              }
             >
               <CalendarBlankIcon aria-hidden="true" />
             </PopoverTrigger>
@@ -155,10 +182,15 @@ export function ChartDateField() {
                   }
                 }}
                 captionLayout="dropdown"
-                startMonth={new Date(today.getFullYear() - 120, today.getMonth())}
+                startMonth={
+                  new Date(today.getFullYear() - 120, today.getMonth())
+                }
                 endMonth={today}
                 disabled={{ after: today }}
-                defaultMonth={preview ?? new Date(today.getFullYear() - 30, today.getMonth())}
+                defaultMonth={
+                  preview ??
+                  new Date(today.getFullYear() - 30, today.getMonth())
+                }
               />
             </PopoverContent>
           </Popover>
@@ -227,7 +259,10 @@ export function ChartSexField() {
                 checked={checked}
                 onChange={() =>
                   updateBirth({
-                    sex: option.value === "" ? undefined : (option.value as "Male" | "Female"),
+                    sex:
+                      option.value === ""
+                        ? undefined
+                        : (option.value as "Male" | "Female"),
                   })
                 }
                 className="sr-only"
@@ -297,8 +332,19 @@ export function ChartCalculateButton() {
   } = useChartSession();
   const busy = status === "calculating";
   return (
-    <Button type="button" disabled={busy} aria-busy={busy} onClick={calculate} className="w-fit">
-      {busy ? <CircleNotchIcon className="motion-safe:animate-spin" aria-hidden="true" /> : null}
+    <Button
+      type="button"
+      disabled={busy}
+      aria-busy={busy}
+      onClick={calculate}
+      className="w-fit"
+    >
+      {busy ? (
+        <CircleNotchIcon
+          className="motion-safe:animate-spin"
+          aria-hidden="true"
+        />
+      ) : null}
       Calculate chart
     </Button>
   );

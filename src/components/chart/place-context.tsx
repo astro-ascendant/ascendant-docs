@@ -1,4 +1,11 @@
-import { createContext, use, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  createContext,
+  use,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { searchPlaces, type PlaceOption } from "@/lib/place";
 import { createLatestRequest, type LatestRequestGate } from "./latest-request";
 
@@ -31,7 +38,9 @@ const ChartPlaceContext = createContext<ChartPlaceValue | null>(null);
 export function useChartPlaceSearch(): ChartPlaceValue {
   const value = use(ChartPlaceContext);
   if (!value) {
-    throw new Error("Chart place components must be used inside Chart.Provider.");
+    throw new Error(
+      "Chart place components must be used inside Chart.Provider.",
+    );
   }
   return value;
 }
@@ -76,7 +85,11 @@ export function useChartPlaceSearchController({
         return;
       }
       setPlaceOptions(options);
-      setSearchError(options.length === 0 ? "No places found. Try a different spelling." : "");
+      setSearchError(
+        options.length === 0
+          ? "No places found. Try a different spelling."
+          : "",
+      );
     } catch {
       if (!gate.isCurrent(request.id) || request.signal.aborted) {
         return;

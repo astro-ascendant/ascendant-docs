@@ -21,8 +21,12 @@ const ChartRequest = Schema.Struct({
   date: Schema.optionalKey(Schema.Trim),
   time: Schema.optionalKey(Schema.Trim),
   utcIso: Schema.optionalKey(OffsetMoment),
-  latitude: Schema.Finite.check(Schema.isBetween({ minimum: -90, maximum: 90 })),
-  longitude: Schema.Finite.check(Schema.isBetween({ minimum: -180, maximum: 180 })),
+  latitude: Schema.Finite.check(
+    Schema.isBetween({ minimum: -90, maximum: 90 }),
+  ),
+  longitude: Schema.Finite.check(
+    Schema.isBetween({ minimum: -180, maximum: 180 }),
+  ),
   place: Schema.optionalKey(Schema.Trim),
   name: Schema.optionalKey(Schema.Trim),
   sex: Schema.optionalKey(Schema.Literals(["Male", "Female"])),
@@ -52,8 +56,15 @@ export const getChart = createServerFn({ method: "POST" })
             ? Effect.fail(new MissingMomentError())
             : resolveOffsetMoment(body.utcIso)
           : Effect.gen(function* () {
-              const wall = yield* Schema.decodeUnknownEffect(WallClock)({ date, time });
-              return yield* resolveBirthMoment(wall, body.latitude, body.longitude);
+              const wall = yield* Schema.decodeUnknownEffect(WallClock)({
+                date,
+                time,
+              });
+              return yield* resolveBirthMoment(
+                wall,
+                body.latitude,
+                body.longitude,
+              );
             });
 
         // Calculation engine: astro-ascendant (Effect-first TypeScript,
@@ -73,23 +84,43 @@ export const getChart = createServerFn({ method: "POST" })
           timeZone: "timeZone" in resolved ? resolved.timeZone : null,
         });
       },
-      (effect) => effect.pipe(
-        Effect.catchTags({
-          SchemaError: () => Effect.fail(httpError("Check the birth date, time and coordinates.")),
-          MissingMomentError: () =>
-            Effect.fail(httpError("Send the birth date and time (date: YYYY-MM-DD, time: HH:MM).")),
-          InvalidWallClockError: () =>
-            Effect.fail(httpError("That date and time do not exist. Check the birth date.")),
-          TimeZoneLookupError: () =>
-            Effect.fail(
-              httpError("Could not determine the time zone for this place. Check the coordinates."),
-            ),
-          OffsetLookupError: () =>
-            Effect.fail(httpError("Could not resolve the time zone offset for this place.")),
-          MomentDecodeError: () => Effect.fail(httpError("Could not resolve the birth moment.")),
-          CalculateChartError: (error) => Effect.fail(httpError(error.message)),
-        }),
-      ),
+      (effect) =>
+        effect.pipe(
+          Effect.catchTags({
+            SchemaError: () =>
+              Effect.fail(
+                httpError("Check the birth date, time and coordinates."),
+              ),
+            MissingMomentError: () =>
+              Effect.fail(
+                httpError(
+                  "Send the birth date and time (date: YYYY-MM-DD, time: HH:MM).",
+                ),
+              ),
+            InvalidWallClockError: () =>
+              Effect.fail(
+                httpError(
+                  "That date and time do not exist. Check the birth date.",
+                ),
+              ),
+            TimeZoneLookupError: () =>
+              Effect.fail(
+                httpError(
+                  "Could not determine the time zone for this place. Check the coordinates.",
+                ),
+              ),
+            OffsetLookupError: () =>
+              Effect.fail(
+                httpError(
+                  "Could not resolve the time zone offset for this place.",
+                ),
+              ),
+            MomentDecodeError: () =>
+              Effect.fail(httpError("Could not resolve the birth moment.")),
+            CalculateChartError: (error) =>
+              Effect.fail(httpError(error.message)),
+          }),
+        ),
     );
 
     const exit = await runtime.runPromiseExit(

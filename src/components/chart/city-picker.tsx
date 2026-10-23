@@ -64,7 +64,10 @@ export function CityPicker({
         <ComboboxList>
           {(option: PlaceOption) => (
             <ComboboxItem key={option.id} value={option}>
-              <MapPin className="me-2 size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+              <MapPin
+                className="me-2 size-4 shrink-0 text-muted-foreground"
+                aria-hidden="true"
+              />
               <div className="min-w-0 flex-1">
                 <div className="truncate text-sm">{option.name}</div>
                 {subline(option) !== "" ? (

@@ -33,7 +33,8 @@ export default defineConfig({
             "x-content-type-options": "nosniff",
             "x-frame-options": "SAMEORIGIN",
             "referrer-policy": "strict-origin-when-cross-origin",
-            "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=()",
+            "permissions-policy":
+              "camera=(), microphone=(), geolocation=(), payment=()",
             "content-security-policy-report-only":
               "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'",
           },

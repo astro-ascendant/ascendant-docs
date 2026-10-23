@@ -35,9 +35,17 @@ function periodKey(period: ChartDashaPeriod): string {
   return `${period.mahadasha}-${period.start}`;
 }
 
-function AntardashaTable({ period, now }: { period: ChartDashaPeriod; now: string }) {
+function AntardashaTable({
+  period,
+  now,
+}: {
+  period: ChartDashaPeriod;
+  now: string;
+}) {
   if (period.antardashas.length === 0) {
-    return <p className="text-muted-foreground text-sm">No antardasha periods.</p>;
+    return (
+      <p className="text-muted-foreground text-sm">No antardasha periods.</p>
+    );
   }
   const current = findCurrentPeriodIndex(period.antardashas, now);
   return (
@@ -67,7 +75,13 @@ function AntardashaTable({ period, now }: { period: ChartDashaPeriod; now: strin
   );
 }
 
-function DashaSystemTable({ periods, now }: { periods: ChartDashaPeriod[]; now: string }) {
+function DashaSystemTable({
+  periods,
+  now,
+}: {
+  periods: ChartDashaPeriod[];
+  now: string;
+}) {
   const current = findCurrentPeriodIndex(periods, now);
   if (periods.length === 0) {
     return <p className="text-muted-foreground text-sm">No dasha periods.</p>;
@@ -158,5 +172,7 @@ export function ChartKpDashaTimeline() {
   if (!result) {
     return null;
   }
-  return <DashaSystemTable periods={result.kp.dasha.vimshottari} now={clock()} />;
+  return (
+    <DashaSystemTable periods={result.kp.dasha.vimshottari} now={clock()} />
+  );
 }

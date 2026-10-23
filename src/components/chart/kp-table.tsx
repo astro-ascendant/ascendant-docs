@@ -20,11 +20,12 @@ export function ChartKpCaption() {
   }
   return (
     <ChartQuote>
-      Krishnamurthi Paddhathi is a modern astrological system designed to analyse charts with
-      greater precision. It uses the <ChartCode>{result.kp.astroParams.ayanamsa}</ChartCode>{" "}
-      ayanamsa and the <ChartCode>{result.kp.astroParams.houseSystem}</ChartCode> cusp-based house
-      system. While it can be applied to a wide range of astrological questions, it is particularly
-      effective for questions involving timing.
+      Krishnamurthi Paddhathi is a modern astrological system designed to
+      analyse charts with greater precision. It uses the{" "}
+      <ChartCode>{result.kp.astroParams.ayanamsa}</ChartCode> ayanamsa and the{" "}
+      <ChartCode>{result.kp.astroParams.houseSystem}</ChartCode> cusp-based
+      house system. While it can be applied to a wide range of astrological
+      questions, it is particularly effective for questions involving timing.
     </ChartQuote>
   );
 }
@@ -56,12 +57,20 @@ export function ChartKpCuspTable() {
               <TableCell>{cusp.house}</TableCell>
               <TableCell>{cusp.sign === "" ? "—" : cusp.sign}</TableCell>
               <TableCell>
-                {cusp.longitude === null ? "—" : formatLongitude(cusp.longitude)}
+                {cusp.longitude === null
+                  ? "—"
+                  : formatLongitude(cusp.longitude)}
               </TableCell>
-              <TableCell>{cusp.signLord === "" ? "—" : cusp.signLord}</TableCell>
-              <TableCell>{cusp.starLord === "" ? "—" : cusp.starLord}</TableCell>
+              <TableCell>
+                {cusp.signLord === "" ? "—" : cusp.signLord}
+              </TableCell>
+              <TableCell>
+                {cusp.starLord === "" ? "—" : cusp.starLord}
+              </TableCell>
               <TableCell>{cusp.subLord === "" ? "—" : cusp.subLord}</TableCell>
-              <TableCell>{cusp.subSubLord === "" ? "—" : cusp.subSubLord}</TableCell>
+              <TableCell>
+                {cusp.subSubLord === "" ? "—" : cusp.subSubLord}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -96,7 +105,9 @@ export function ChartKpTable() {
               <TableCell>{row.signLord === "" ? "—" : row.signLord}</TableCell>
               <TableCell>{row.starLord === "" ? "—" : row.starLord}</TableCell>
               <TableCell>{row.subLord === "" ? "—" : row.subLord}</TableCell>
-              <TableCell>{formatSignifyingHouses(row.signifyingHouses)}</TableCell>
+              <TableCell>
+                {formatSignifyingHouses(row.signifyingHouses)}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

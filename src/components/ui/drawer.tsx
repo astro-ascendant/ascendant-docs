@@ -21,7 +21,10 @@ function DrawerClose({ ...props }: DrawerPrimitive.Close.Props) {
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />;
 }
 
-function DrawerOverlay({ className, ...props }: DrawerPrimitive.Backdrop.Props) {
+function DrawerOverlay({
+  className,
+  ...props
+}: DrawerPrimitive.Backdrop.Props) {
   return (
     <DrawerPrimitive.Backdrop
       data-slot="drawer-overlay"
@@ -85,7 +88,11 @@ function DrawerContent({
 
 function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div data-slot="drawer-header" className={cn("flex flex-col gap-1.5", className)} {...props} />
+    <div
+      data-slot="drawer-header"
+      className={cn("flex flex-col gap-1.5", className)}
+      {...props}
+    />
   );
 }
 
@@ -93,7 +100,10 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="drawer-footer"
-      className={cn("mt-auto flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)}
+      className={cn(
+        "mt-auto flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+        className,
+      )}
       {...props}
     />
   );
@@ -103,13 +113,19 @@ function DrawerTitle({ className, ...props }: DrawerPrimitive.Title.Props) {
   return (
     <DrawerPrimitive.Title
       data-slot="drawer-title"
-      className={cn("font-heading text-base leading-none font-medium", className)}
+      className={cn(
+        "font-heading text-base leading-none font-medium",
+        className,
+      )}
       {...props}
     />
   );
 }
 
-function DrawerDescription({ className, ...props }: DrawerPrimitive.Description.Props) {
+function DrawerDescription({
+  className,
+  ...props
+}: DrawerPrimitive.Description.Props) {
   return (
     <DrawerPrimitive.Description
       data-slot="drawer-description"

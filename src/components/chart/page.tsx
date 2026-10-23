@@ -24,7 +24,13 @@ function Wordmark() {
       aria-label="Ascendant home"
       className="focus-visible:ring-ring inline-flex shrink-0 items-center rounded-sm focus-visible:ring-2 focus-visible:outline-none"
     >
-      <img src={wordmark} alt="Ascendant" width={973} height={200} className="h-6 w-auto" />
+      <img
+        src={wordmark}
+        alt="Ascendant"
+        width={973}
+        height={200}
+        className="h-6 w-auto"
+      />
     </a>
   );
 }
@@ -34,11 +40,19 @@ function formatLongDate(value: string): string {
   if (!match) {
     return value === "" ? "—" : value;
   }
-  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  const date = new Date(
+    Number(match[1]),
+    Number(match[2]) - 1,
+    Number(match[3]),
+  );
   if (Number.isNaN(date.getTime())) {
     return value;
   }
-  return date.toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" });
+  return date.toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 }
 
 /** 24-hour input to a 12-hour clock, e.g. 09:45 becomes 9:45 AM. */
@@ -63,7 +77,8 @@ function formatZoneHint(
   if (offset === null) {
     return undefined;
   }
-  const label = timeZone === null ? null : formatTimeZoneLabel(timeZone, instantIso);
+  const label =
+    timeZone === null ? null : formatTimeZoneLabel(timeZone, instantIso);
   return label === null ? `UTC${offset}` : `${label} (UTC${offset})`;
 }
 
@@ -83,11 +98,19 @@ function MetaFact({
 }) {
   return (
     <div className="flex max-w-full min-w-0 items-center gap-1.5">
-      <Icon aria-hidden="true" className="text-muted-foreground size-3.5 shrink-0" />
+      <Icon
+        aria-hidden="true"
+        className="text-muted-foreground size-3.5 shrink-0"
+      />
       <dt className="sr-only">{label}</dt>
-      <dd className="text-muted-foreground truncate text-sm tabular-nums" title={title ?? value}>
+      <dd
+        className="text-muted-foreground truncate text-sm tabular-nums"
+        title={title ?? value}
+      >
         {value}
-        {hint ? <span className="text-muted-foreground ms-1.5">{hint}</span> : null}
+        {hint ? (
+          <span className="text-muted-foreground ms-1.5">{hint}</span>
+        ) : null}
       </dd>
     </div>
   );
@@ -128,7 +151,13 @@ function useChartSummary(): { items: SummaryItem[] } | null {
 }
 
 /** Hairline-divided stat row: one grid, space and a single divider line. */
-function KpiStrip({ items, className }: { items: SummaryItem[]; className?: string }) {
+function KpiStrip({
+  items,
+  className,
+}: {
+  items: SummaryItem[];
+  className?: string;
+}) {
   return (
     <dl
       className={cn(
@@ -141,7 +170,10 @@ function KpiStrip({ items, className }: { items: SummaryItem[]; className?: stri
           <dt className="text-muted-foreground text-[11px] font-medium tracking-[0.14em] uppercase">
             {item.label}
           </dt>
-          <dd className="text-foreground mt-1 truncate text-sm tabular-nums" title={item.value}>
+          <dd
+            className="text-foreground mt-1 truncate text-sm tabular-nums"
+            title={item.value}
+          >
             {item.value}
           </dd>
         </div>
@@ -174,8 +206,10 @@ export function ChartPage() {
   const birth = result?.birth ?? null;
   const hasBirth = birth !== null;
   const showResults = status !== "empty";
-  const placeLabel = birth !== null ? birth.place.split(",")[0]?.trim() || "—" : "—";
-  const placeTitle = birth !== null && birth.place !== placeLabel ? birth.place : undefined;
+  const placeLabel =
+    birth !== null ? birth.place.split(",")[0]?.trim() || "—" : "—";
+  const placeTitle =
+    birth !== null && birth.place !== placeLabel ? birth.place : undefined;
 
   return (
     <div className="bg-background text-foreground relative min-h-[100dvh]">
@@ -220,7 +254,11 @@ export function ChartPage() {
                     icon={ClockIcon}
                     label="Birth time"
                     value={formatClockTime(birth.time)}
-                    hint={formatZoneHint(birth.utcOffset, birth.timeZone, birth.utcIso)}
+                    hint={formatZoneHint(
+                      birth.utcOffset,
+                      birth.timeZone,
+                      birth.utcIso,
+                    )}
                   />
                   <MetaFact
                     icon={MapPinIcon}
@@ -231,8 +269,8 @@ export function ChartPage() {
                 </dl>
               ) : (
                 <p className="text-muted-foreground mt-2 max-w-prose text-sm leading-relaxed text-pretty sm:text-base">
-                  Create your horoscope and uncover personalised insights about your career,
-                  relationships, timing, and life patterns with{" "}
+                  Create your horoscope and uncover personalised insights about
+                  your career, relationships, timing, and life patterns with{" "}
                   <span className="text-primary font-semibold whitespace-nowrap">
                     <ChatGptIcon
                       aria-hidden="true"
@@ -265,17 +303,22 @@ export function ChartPage() {
         <div className="mx-auto w-full max-w-173 px-4 py-8 sm:py-10 lg:max-w-4xl">
           {showResults ? (
             <>
-              <Chart.ResultSwitch tabListClassName={isMobile ? MOBILE_TAB_LIST : undefined} />
+              <Chart.ResultSwitch
+                tabListClassName={isMobile ? MOBILE_TAB_LIST : undefined}
+              />
               {/* Clearance for the floating tab bar; only where it floats. */}
               {isMobile ? <div aria-hidden="true" className="h-16" /> : null}
             </>
           ) : (
             <section className="border-border/70 bg-card/40 flex flex-col items-start gap-4 rounded-xl border p-6 sm:p-8">
               <div className="flex flex-col gap-1.5">
-                <h2 className="font-heading text-base font-medium">No horoscope yet?</h2>
+                <h2 className="font-heading text-base font-medium">
+                  No horoscope yet?
+                </h2>
                 <p className="text-muted-foreground max-w-prose text-sm text-pretty">
-                  Enter a birth date, time and place to generate a Rashi chart, Navamsha chart, KP
-                  chart, Vimshottari dasha, Jaimini karakas and Sarvashtakavarga.
+                  Enter a birth date, time and place to generate a Rashi chart,
+                  Navamsha chart, KP chart, Vimshottari dasha, Jaimini karakas
+                  and Sarvashtakavarga.
                 </p>
               </div>
               <Button type="button" onClick={() => setEditorOpen(true)}>

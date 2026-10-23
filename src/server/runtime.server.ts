@@ -6,11 +6,15 @@ const ChartLayer = Layer.mergeAll(
   Swisseph.SwissephLayer,
 );
 
-const runtime =
-  ((globalThis as typeof globalThis & {
+const runtime = ((
+  globalThis as typeof globalThis & {
     __ascendantChartRuntime?: ReturnType<
-      typeof ManagedRuntime.make<AstroParams.AstroParams | Ephemeris.Ephemeris, never>
+      typeof ManagedRuntime.make<
+        AstroParams.AstroParams | Ephemeris.Ephemeris,
+        never
+      >
     >;
-  }).__ascendantChartRuntime ??= ManagedRuntime.make(ChartLayer));
+  }
+).__ascendantChartRuntime ??= ManagedRuntime.make(ChartLayer));
 
 export { runtime };

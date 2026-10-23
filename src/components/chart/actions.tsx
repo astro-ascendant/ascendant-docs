@@ -29,7 +29,11 @@ export function ChartAskChatGPTButton() {
       className="flex-1 whitespace-nowrap sm:flex-none"
       onClick={askChatGPT}
     >
-      <ChatGptIcon data-icon="inline-start" aria-hidden="true" className="size-5" />
+      <ChatGptIcon
+        data-icon="inline-start"
+        aria-hidden="true"
+        className="size-5"
+      />
       Ask ChatGPT
     </Button>
   );

@@ -34,7 +34,15 @@ const PLANET_ORDER = [
   "Ketu",
 ] as const;
 
-const SAV_PLANETS = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"] as const;
+const SAV_PLANETS = [
+  "Sun",
+  "Moon",
+  "Mars",
+  "Mercury",
+  "Jupiter",
+  "Venus",
+  "Saturn",
+] as const;
 
 const RASHIS = [
   "Aries",
@@ -60,7 +68,9 @@ type KarakamshaResult = Effect.Success<ReturnType<typeof Karakamsha.calculate>>;
 type UpapadaResult = Effect.Success<ReturnType<typeof Upapada.calculate>>;
 type DrishtiResult = Effect.Success<ReturnType<typeof RashiDrishti.calculate>>;
 type ArgalaResult = Effect.Success<ReturnType<typeof Argala.calculate>>;
-export type ArudhaMappingResult = Effect.Success<ReturnType<typeof ArudhaPada.calculate>>;
+export type ArudhaMappingResult = Effect.Success<
+  ReturnType<typeof ArudhaPada.calculate>
+>;
 
 /** Optional calculations, already resolved from their Effect results. */
 export interface ChartMappingOptional {
@@ -104,7 +114,10 @@ export function toChartResult(input: ChartMappingInput): ChartResult {
       longitude: lagna.longitude,
       house: 1,
     },
-    kp: readKpChart(kpCalculation, toDashaPeriods(optional.kpVimshottari ?? [])),
+    kp: readKpChart(
+      kpCalculation,
+      toDashaPeriods(optional.kpVimshottari ?? []),
+    ),
     divisions: readDivisions(calculation, calculation.placements.planets),
     dasha: {
       vimshottari: toDashaPeriods(optional.vimshottari ?? []),
@@ -117,7 +130,10 @@ export function toChartResult(input: ChartMappingInput): ChartResult {
 }
 
 function findD1(calculation: Chart.ChartCalculation): Chart.Chart {
-  return calculation.charts.find((chart) => chart.division === 1) ?? calculation.charts[0];
+  return (
+    calculation.charts.find((chart) => chart.division === 1) ??
+    calculation.charts[0]
+  );
 }
 
 export function d1Lagna(calculation: Chart.ChartCalculation): {
@@ -126,8 +142,9 @@ export function d1Lagna(calculation: Chart.ChartCalculation): {
 } {
   const d1 = findD1(calculation);
   const lagnaHouse =
-    HOUSES.map((houseNumber) => d1.houses[houseNumber]).find((house) => house.lagna !== null) ??
-    d1.houses[1];
+    HOUSES.map((houseNumber) => d1.houses[houseNumber]).find(
+      (house) => house.lagna !== null,
+    ) ?? d1.houses[1];
   return {
     sign: lagnaHouse.sign,
     longitude: lagnaHouse.lagna?.longitude ?? null,
@@ -146,17 +163,18 @@ const NAKSHATRA_LORD_CYCLE = [
   "Saturn",
   "Mercury",
 ] as const;
-const VIMSHOTTARI_YEARS: Record<(typeof NAKSHATRA_LORD_CYCLE)[number], number> = {
-  Ketu: 7,
-  Venus: 20,
-  Sun: 6,
-  Moon: 10,
-  Mars: 7,
-  Rahu: 18,
-  Jupiter: 16,
-  Saturn: 19,
-  Mercury: 17,
-};
+const VIMSHOTTARI_YEARS: Record<(typeof NAKSHATRA_LORD_CYCLE)[number], number> =
+  {
+    Ketu: 7,
+    Venus: 20,
+    Sun: 6,
+    Moon: 10,
+    Mars: 7,
+    Rahu: 18,
+    Jupiter: 16,
+    Saturn: 19,
+    Mercury: 17,
+  };
 
 const KP_SIGN_LORDS = [
   "Mars",
@@ -180,19 +198,23 @@ function kpSignLordOf(longitude: number): string {
 
 function kpStarLordOf(longitude: number): string {
   const position = normalizeLongitude(longitude);
-  const starIndex = Math.floor(position / NAKSHATRA_SPAN) % NAKSHATRA_LORD_CYCLE.length;
+  const starIndex =
+    Math.floor(position / NAKSHATRA_SPAN) % NAKSHATRA_LORD_CYCLE.length;
   return NAKSHATRA_LORD_CYCLE[starIndex] ?? "";
 }
 
 function kpSubLord(longitude: number): string {
   const position = normalizeLongitude(longitude);
-  const starIndex = Math.floor(position / NAKSHATRA_SPAN) % NAKSHATRA_LORD_CYCLE.length;
+  const starIndex =
+    Math.floor(position / NAKSHATRA_SPAN) % NAKSHATRA_LORD_CYCLE.length;
   const starLord = NAKSHATRA_LORD_CYCLE[starIndex] ?? "Ketu";
   const ratio = (position % NAKSHATRA_SPAN) / NAKSHATRA_SPAN;
   const start = NAKSHATRA_LORD_CYCLE.indexOf(starLord);
   let elapsed = 0;
   for (let offset = 0; offset < NAKSHATRA_LORD_CYCLE.length; offset += 1) {
-    const planet = NAKSHATRA_LORD_CYCLE[(start + offset) % NAKSHATRA_LORD_CYCLE.length] ?? starLord;
+    const planet =
+      NAKSHATRA_LORD_CYCLE[(start + offset) % NAKSHATRA_LORD_CYCLE.length] ??
+      starLord;
     const width = VIMSHOTTARI_YEARS[planet] / 120;
     if (ratio < elapsed + width) {
       return planet;
@@ -206,7 +228,9 @@ function titleCase(value: string): string {
   return value
     .toLowerCase()
     .split("_")
-    .map((word) => (word.length > 0 ? word[0].toUpperCase() + word.slice(1) : word))
+    .map((word) =>
+      word.length > 0 ? word[0].toUpperCase() + word.slice(1) : word,
+    )
     .join(" ");
 }
 
@@ -266,21 +290,25 @@ function readDivisions(
   return calculation.charts.map((chart) => {
     const division = chart.division;
     const planetHouse = new Map<string, number>();
-    const houses: ChartResult["divisions"][number]["houses"] = HOUSES.map((houseNumber) => {
-      const house = chart.houses[houseNumber];
-      const occupants = house.planets.map((planet) => {
-        planetHouse.set(planet.name, houseNumber);
-        return planet.name;
-      });
-      return {
-        number: houseNumber,
-        sign: house.sign,
-        cusp: house.cusp ?? null,
-        lord: house.signLord ?? "",
-        occupants,
-        significators: (house.significations ?? []).filter((entry) => entry !== ""),
-      };
-    });
+    const houses: ChartResult["divisions"][number]["houses"] = HOUSES.map(
+      (houseNumber) => {
+        const house = chart.houses[houseNumber];
+        const occupants = house.planets.map((planet) => {
+          planetHouse.set(planet.name, houseNumber);
+          return planet.name;
+        });
+        return {
+          number: houseNumber,
+          sign: house.sign,
+          cusp: house.cusp ?? null,
+          lord: house.signLord ?? "",
+          occupants,
+          significators: (house.significations ?? []).filter(
+            (entry) => entry !== "",
+          ),
+        };
+      },
+    );
     const isSourceDivision = division === 1;
     const placements = HOUSES.flatMap((houseNumber) =>
       chart.houses[houseNumber].planets.map((planet) => {
@@ -294,7 +322,9 @@ function readDivisions(
           // reuse projected signs and houses, so only D1 rows carry them.
           star: isSourceDivision ? (source?.star.name ?? "") : "",
           pada: isSourceDivision ? (source?.star.pada ?? null) : null,
-          state: planet.is_retrograde ? "Retrograde" : dignityLabel(planet.in_sign),
+          state: planet.is_retrograde
+            ? "Retrograde"
+            : dignityLabel(planet.in_sign),
         };
       }),
     );
@@ -302,7 +332,9 @@ function readDivisions(
   });
 }
 
-function signifyingHousesOf(signification: Chart.PlanetSignification | undefined): number[] {
+function signifyingHousesOf(
+  signification: Chart.PlanetSignification | undefined,
+): number[] {
   if (signification === undefined) {
     return [];
   }
@@ -401,7 +433,9 @@ function readKpChart(
 function readJaimini(optional: ChartMappingOptional): ChartResult["jaimini"] {
   const karakas: ChartResult["jaimini"]["karakas"] = [];
   if (optional.karakas) {
-    for (const [role, holders] of Object.entries(optional.karakas.assignments)) {
+    for (const [role, holders] of Object.entries(
+      optional.karakas.assignments,
+    )) {
       for (const holder of holders) {
         karakas.push({ role, planet: holder.planet });
       }
@@ -417,8 +451,12 @@ function readJaimini(optional: ChartMappingOptional): ChartResult["jaimini"] {
     })),
     drishti: [...(optional.drishti?.targets ?? [])],
     argala: {
-      supporting: (optional.argala?.supporting ?? []).map((relation) => relation.sign),
-      obstructing: (optional.argala?.obstructing ?? []).map((relation) => relation.sign),
+      supporting: (optional.argala?.supporting ?? []).map(
+        (relation) => relation.sign,
+      ),
+      obstructing: (optional.argala?.obstructing ?? []).map(
+        (relation) => relation.sign,
+      ),
     },
   };
 }

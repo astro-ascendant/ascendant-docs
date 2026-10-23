@@ -37,8 +37,12 @@ export const Route = createFileRoute("/docs/$")({
       meta: [
         title ? { title: `${title} - Ascendant` } : undefined,
         description ? { name: "description", content: description } : undefined,
-        title ? { property: "og:title", content: `${title} - Ascendant` } : undefined,
-        description ? { property: "og:description", content: description } : undefined,
+        title
+          ? { property: "og:title", content: `${title} - Ascendant` }
+          : undefined,
+        description
+          ? { property: "og:description", content: description }
+          : undefined,
       ].filter((tag) => tag !== undefined),
     };
   },
@@ -87,7 +91,10 @@ const clientLoader = browserCollections.docs.createClientLoader({
         <DocsDescription>{frontmatter.description}</DocsDescription>
         <div className="flex flex-row gap-2 items-center border-b -mt-4 pb-6">
           <MarkdownCopyButton markdownUrl={markdownUrl} />
-          <ViewOptionsPopover markdownUrl={markdownUrl} githubUrl={getGitHubUrl(path)} />
+          <ViewOptionsPopover
+            markdownUrl={markdownUrl}
+            githubUrl={getGitHubUrl(path)}
+          />
         </div>
         <DocsBody>
           <MDX components={useMDXComponents()} />
@@ -110,11 +117,15 @@ function getGitHubUrl(path: string) {
 }
 
 function Page() {
-  const { path, pageTree, markdownUrl } = useFumadocsLoader(Route.useLoaderData());
+  const { path, pageTree, markdownUrl } = useFumadocsLoader(
+    Route.useLoaderData(),
+  );
 
   return (
     <DocsLayout {...baseOptions()} tree={pageTree}>
-      <Suspense>{clientLoader.useContent(path, { markdownUrl, path })}</Suspense>
+      <Suspense>
+        {clientLoader.useContent(path, { markdownUrl, path })}
+      </Suspense>
     </DocsLayout>
   );
 }

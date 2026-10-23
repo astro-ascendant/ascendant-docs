@@ -14,7 +14,8 @@
 
 :root {
   --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono:
+    "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-serif: "Libre Baskerville", Georgia, serif;
   --font-heading: var(--font-sans);
 
@@ -73,7 +74,8 @@
   --border-hairline: 0.5px;
   --shadow-color: oklch(0 0 0 / 0.05);
   --shadow-1: 0 0 0 1px var(--shadow-color);
-  --shadow-2: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color);
+  --shadow-2:
+    0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color);
   --shadow-3:
     0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color),
     0 3px 3px -1.5px var(--shadow-color);
@@ -176,7 +178,8 @@
   --radius: 0.625rem;
   --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
   --font-serif: "Libre Baskerville", Georgia, serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono:
+    "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 html {
@@ -234,7 +237,8 @@ body {
   --color-paper: var(--paper);
   --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
   --font-heading: var(--font-sans);
-  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono:
+    "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-serif: "Libre Baskerville", Georgia, serif;
   --color-gray-1: var(--gray-1);
   --color-gray-2: var(--gray-2);
@@ -353,7 +357,12 @@ body {
   bottom: 0;
   height: 1px;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.9),
+    transparent
+  );
   opacity: 0;
   transform: scaleX(0);
   transition:

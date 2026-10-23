@@ -12,7 +12,8 @@ export const appName = "Ascendant";
  */
 function resolveSiteUrl(): string {
   const configured = (import.meta.env.VITE_SITE_URL ?? "").trim();
-  const origin = configured === "" ? "https://astro-ascendant.vercel.app" : configured;
+  const origin =
+    configured === "" ? "https://astro-ascendant.vercel.app" : configured;
   return origin.replace(/\/+$/, "");
 }
 

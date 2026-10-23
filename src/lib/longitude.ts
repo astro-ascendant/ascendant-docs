@@ -40,10 +40,17 @@ export function degreeInSign(longitude: number): number {
  * it. A missing or non-finite longitude renders as an empty string.
  */
 export function formatLongitude(longitude: number | null | undefined): string {
-  if (longitude === null || longitude === undefined || !Number.isFinite(longitude)) {
+  if (
+    longitude === null ||
+    longitude === undefined ||
+    !Number.isFinite(longitude)
+  ) {
     return "";
   }
-  const totalMinutes = Math.min(Math.round(degreeInSign(longitude) * 60), 29 * 60 + 59);
+  const totalMinutes = Math.min(
+    Math.round(degreeInSign(longitude) * 60),
+    29 * 60 + 59,
+  );
   const degrees = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
   return `${degrees}°${String(minutes).padStart(2, "0")}'`;
