@@ -140,9 +140,6 @@ export function calculateChart(
   });
 
   return program.pipe(
-    Effect.catchDefect((defect) =>
-      Effect.fail(new CalculateChartError({ message: describeError(defect) })),
-    ),
     Effect.mapError((error) =>
       error instanceof CalculateChartError
         ? error
