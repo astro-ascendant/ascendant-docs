@@ -74,10 +74,30 @@ type EligibleBrahmaPlanet = typeof EligibleBrahmaPlanets.Type;
 ```ts
 const AntarDasha: Schema.Struct<{
   readonly mahadasha: Schema.Literals<
-    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    readonly [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Mercury",
+      "Jupiter",
+      "Venus",
+      "Saturn",
+      "Rahu",
+      "Ketu",
+    ]
   >;
   readonly antardasha: Schema.Literals<
-    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    readonly [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Mercury",
+      "Jupiter",
+      "Venus",
+      "Saturn",
+      "Rahu",
+      "Ketu",
+    ]
   >;
   readonly start: Schema.DateTimeUtc;
   readonly end: Schema.DateTimeUtc;
@@ -114,7 +134,9 @@ const Brahma: Schema.Struct<{
 
 ```ts
 const BrahmaCandidateScore: Schema.Struct<{
-  readonly planet: Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus"]>;
+  readonly planet: Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus"]
+  >;
   readonly sign: Schema.Literals<
     readonly [
       "Aries",
@@ -132,7 +154,15 @@ const BrahmaCandidateScore: Schema.Struct<{
     ]
   >;
   readonly dignity: Schema.Literals<
-    readonly ["EXALTED", "MOOLA_TRIKONA", "OWN", "FRIEND", "NEUTRAL", "ENEMY", "DEBILITATED"]
+    readonly [
+      "EXALTED",
+      "MOOLA_TRIKONA",
+      "OWN",
+      "FRIEND",
+      "NEUTRAL",
+      "ENEMY",
+      "DEBILITATED",
+    ]
   >;
   readonly dignityBala: Schema.Finite;
   readonly charaKarakaRoles: Schema.$Array<
@@ -273,17 +303,47 @@ const CharaDashaProvenance: Schema.Struct<{
 const CurrentDasha: Schema.Struct<{
   readonly mahadasha: Schema.Struct<{
     readonly mahadasha: Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >;
     readonly start: Schema.DateTimeUtc;
     readonly end: Schema.DateTimeUtc;
     readonly antardashas: Schema.$Array<
       Schema.Struct<{
         readonly mahadasha: Schema.Literals<
-          readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+          readonly [
+            "Sun",
+            "Moon",
+            "Mars",
+            "Mercury",
+            "Jupiter",
+            "Venus",
+            "Saturn",
+            "Rahu",
+            "Ketu",
+          ]
         >;
         readonly antardasha: Schema.Literals<
-          readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+          readonly [
+            "Sun",
+            "Moon",
+            "Mars",
+            "Mercury",
+            "Jupiter",
+            "Venus",
+            "Saturn",
+            "Rahu",
+            "Ketu",
+          ]
         >;
         readonly start: Schema.DateTimeUtc;
         readonly end: Schema.DateTimeUtc;
@@ -292,10 +352,30 @@ const CurrentDasha: Schema.Struct<{
   }>;
   readonly antardasha: Schema.Struct<{
     readonly mahadasha: Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >;
     readonly antardasha: Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >;
     readonly start: Schema.DateTimeUtc;
     readonly end: Schema.DateTimeUtc;
@@ -418,17 +498,47 @@ const EligibleBrahmaPlanets: Schema.Literals<
 ```ts
 const MahaDasha: Schema.Struct<{
   readonly mahadasha: Schema.Literals<
-    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    readonly [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Mercury",
+      "Jupiter",
+      "Venus",
+      "Saturn",
+      "Rahu",
+      "Ketu",
+    ]
   >;
   readonly start: Schema.DateTimeUtc;
   readonly end: Schema.DateTimeUtc;
   readonly antardashas: Schema.$Array<
     Schema.Struct<{
       readonly mahadasha: Schema.Literals<
-        readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+        readonly [
+          "Sun",
+          "Moon",
+          "Mars",
+          "Mercury",
+          "Jupiter",
+          "Venus",
+          "Saturn",
+          "Rahu",
+          "Ketu",
+        ]
       >;
       readonly antardasha: Schema.Literals<
-        readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+        readonly [
+          "Sun",
+          "Moon",
+          "Mars",
+          "Mercury",
+          "Jupiter",
+          "Venus",
+          "Saturn",
+          "Rahu",
+          "Ketu",
+        ]
       >;
       readonly start: Schema.DateTimeUtc;
       readonly end: Schema.DateTimeUtc;
@@ -504,7 +614,17 @@ const RashiBala: Schema.Struct<{
   readonly planetCount: Schema.Int;
   readonly aspectingPlanets: Schema.$Array<
     Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >
   >;
   readonly total: Schema.Finite;
@@ -650,17 +770,47 @@ const SthiraDashaProvenance: Schema.Struct<{
 const VimshottariDasha: Schema.$Array<
   Schema.Struct<{
     readonly mahadasha: Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >;
     readonly start: Schema.DateTimeUtc;
     readonly end: Schema.DateTimeUtc;
     readonly antardashas: Schema.$Array<
       Schema.Struct<{
         readonly mahadasha: Schema.Literals<
-          readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+          readonly [
+            "Sun",
+            "Moon",
+            "Mars",
+            "Mercury",
+            "Jupiter",
+            "Venus",
+            "Saturn",
+            "Rahu",
+            "Ketu",
+          ]
         >;
         readonly antardasha: Schema.Literals<
-          readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+          readonly [
+            "Sun",
+            "Moon",
+            "Mars",
+            "Mercury",
+            "Jupiter",
+            "Venus",
+            "Saturn",
+            "Rahu",
+            "Ketu",
+          ]
         >;
         readonly start: Schema.DateTimeUtc;
         readonly end: Schema.DateTimeUtc;

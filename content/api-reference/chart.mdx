@@ -41,7 +41,8 @@ const generate: (input: ChartParams, divisions?: readonly (1 | 2 | 3 | 4 | 7 | 9
 ```ts
 const getDivisionalTarget: (
   longitude: number,
-  division: 1 | 2 | 3 | 4 | 7 | 9 | 10 | 12 | 16 | 20 | 24 | 27 | 30 | 40 | 45 | 60,
+  division:
+    1 | 2 | 3 | 4 | 7 | 9 | 10 | 12 | 16 | 20 | 24 | 27 | 30 | 40 | 45 | 60,
 ) => Effect.Effect<
   {
     signIndex: number;
@@ -59,7 +60,9 @@ const getDivisionalTarget: (
 const project: (
   placements: Placements,
   divisions?:
-    | readonly (1 | 2 | 3 | 4 | 7 | 9 | 10 | 12 | 16 | 20 | 24 | 27 | 30 | 40 | 45 | 60)[]
+    | readonly (
+        1 | 2 | 3 | 4 | 7 | 9 | 10 | 12 | 16 | 20 | 24 | 27 | 30 | 40 | 45 | 60
+      )[]
     | undefined,
   sex?: "Female" | "Male" | undefined,
 ) => Effect.Effect<[Chart, ...Chart[]], ChartCalculationError, never>;
@@ -232,7 +235,9 @@ const ChartParams: Schema.Struct<{
   }>;
   readonly latitude: Schema.Finite;
   readonly longitude: Schema.Finite;
-  readonly sex: Schema.optionalKey<Schema.Literals<readonly ["Male", "Female"]>>;
+  readonly sex: Schema.optionalKey<
+    Schema.Literals<readonly ["Male", "Female"]>
+  >;
 }>;
 ```
 
@@ -288,7 +293,15 @@ const HOUSE_SIGNIFICATIONS: {
     "physical features",
     "livelihood",
   ];
-  readonly 2: readonly ["wealth", "food", "right eye", "face", "speech", "family", "property"];
+  readonly 2: readonly [
+    "wealth",
+    "food",
+    "right eye",
+    "face",
+    "speech",
+    "family",
+    "property",
+  ];
   readonly 3: readonly [
     "courage",
     "firmness",
@@ -297,7 +310,15 @@ const HOUSE_SIGNIFICATIONS: {
     "heroism",
     "mental strength",
   ];
-  readonly 4: readonly ["house", "home", "land", "mother", "vehicle", "happiness", "learning"];
+  readonly 4: readonly [
+    "house",
+    "home",
+    "land",
+    "mother",
+    "vehicle",
+    "happiness",
+    "learning",
+  ];
   readonly 5: readonly [
     "intellect",
     "children",
@@ -306,7 +327,15 @@ const HOUSE_SIGNIFICATIONS: {
     "traditional law",
     "virtuous acts",
   ];
-  readonly 6: readonly ["debt", "wounds", "disease", "enemy", "sin", "fear", "humiliation"];
+  readonly 6: readonly [
+    "debt",
+    "wounds",
+    "disease",
+    "enemy",
+    "sin",
+    "fear",
+    "humiliation",
+  ];
   readonly 7: readonly [
     "desire",
     "love",
@@ -326,7 +355,14 @@ const HOUSE_SIGNIFICATIONS: {
     "death",
     "obstacle",
   ];
-  readonly 9: readonly ["guru", "father", "worship", "virtue", "spiritual initiation", "fortune"];
+  readonly 9: readonly [
+    "guru",
+    "father",
+    "worship",
+    "virtue",
+    "spiritual initiation",
+    "fortune",
+  ];
   readonly 10: readonly [
     "livelihood",
     "work",
@@ -368,25 +404,67 @@ const Houses: Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>;
 
 ```ts
 const HouseSignificators: Schema.Struct<{
-  readonly house: Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>;
+  readonly house: Schema.Literals<
+    readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  >;
   readonly level1: Schema.$Array<
     Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >
   >;
   readonly level2: Schema.$Array<
     Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >
   >;
   readonly level3: Schema.$Array<
     Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >
   >;
   readonly level4: Schema.$Array<
     Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >
   >;
 }>;
@@ -488,14 +566,32 @@ const Placements: Schema.Struct<{
 ```ts
 const Planet: Schema.Struct<{
   readonly name: Schema.Literals<
-    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    readonly [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Mercury",
+      "Jupiter",
+      "Venus",
+      "Saturn",
+      "Rahu",
+      "Ketu",
+    ]
   >;
   readonly longitude: Schema.brand<Schema.Finite, "Longitude">;
   readonly degree: Schema.brand<Schema.Finite, "Degree">;
   readonly is_retrograde: Schema.Boolean;
   readonly in_sign: Schema.$Array<
     Schema.Literals<
-      readonly ["EXALTED", "MOOLA_TRIKONA", "OWN", "FRIEND", "NEUTRAL", "ENEMY", "DEBILITATED"]
+      readonly [
+        "EXALTED",
+        "MOOLA_TRIKONA",
+        "OWN",
+        "FRIEND",
+        "NEUTRAL",
+        "ENEMY",
+        "DEBILITATED",
+      ]
     >
   >;
   readonly sign: Schema.Struct<{
@@ -526,7 +622,15 @@ const Planet: Schema.Struct<{
 
 ```ts
 const PlanetDignity: Schema.Literals<
-  readonly ["EXALTED", "MOOLA_TRIKONA", "OWN", "FRIEND", "NEUTRAL", "ENEMY", "DEBILITATED"]
+  readonly [
+    "EXALTED",
+    "MOOLA_TRIKONA",
+    "OWN",
+    "FRIEND",
+    "NEUTRAL",
+    "ENEMY",
+    "DEBILITATED",
+  ]
 >;
 ```
 
@@ -534,7 +638,17 @@ const PlanetDignity: Schema.Literals<
 
 ```ts
 const Planets: Schema.Literals<
-  readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+  readonly [
+    "Sun",
+    "Moon",
+    "Mars",
+    "Mercury",
+    "Jupiter",
+    "Venus",
+    "Saturn",
+    "Rahu",
+    "Ketu",
+  ]
 >;
 ```
 
@@ -543,17 +657,45 @@ const Planets: Schema.Literals<
 ```ts
 const PlanetSignification: Schema.Struct<{
   readonly planet: Schema.Literals<
-    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    readonly [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Mercury",
+      "Jupiter",
+      "Venus",
+      "Saturn",
+      "Rahu",
+      "Ketu",
+    ]
   >;
   readonly agent: Schema.optionalKey<
     Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >
   >;
-  readonly level1: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
-  readonly level2: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
-  readonly level3: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
-  readonly level4: Schema.$Array<Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>>;
+  readonly level1: Schema.$Array<
+    Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>
+  >;
+  readonly level2: Schema.$Array<
+    Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>
+  >;
+  readonly level3: Schema.$Array<
+    Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>
+  >;
+  readonly level4: Schema.$Array<
+    Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>
+  >;
 }>;
 ```
 
@@ -563,7 +705,17 @@ const PlanetSignification: Schema.Struct<{
 const PlanetsLagna: Schema.Union<
   readonly [
     Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >,
     Schema.Literal<"Lagna">,
   ]
@@ -680,7 +832,17 @@ const SourceLagna: Schema.Struct<{
       ]
     >;
     readonly lord: Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >;
     readonly pada: Schema.Literals<readonly [1, 2, 3, 4]>;
   }>;
@@ -692,7 +854,17 @@ const SourceLagna: Schema.Struct<{
 ```ts
 const SourcePlanet: Schema.Struct<{
   readonly name: Schema.Literals<
-    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    readonly [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Mercury",
+      "Jupiter",
+      "Venus",
+      "Saturn",
+      "Rahu",
+      "Ketu",
+    ]
   >;
   readonly longitude: Schema.brand<Schema.Finite, "Longitude">;
   readonly is_retrograde: Schema.Boolean;
@@ -729,7 +901,17 @@ const SourcePlanet: Schema.Struct<{
       ]
     >;
     readonly lord: Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >;
     readonly pada: Schema.Literals<readonly [1, 2, 3, 4]>;
   }>;
@@ -772,7 +954,17 @@ const Star: Schema.Struct<{
     ]
   >;
   readonly lord: Schema.Literals<
-    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    readonly [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Mercury",
+      "Jupiter",
+      "Venus",
+      "Saturn",
+      "Rahu",
+      "Ketu",
+    ]
   >;
   readonly pada: Schema.Literals<readonly [1, 2, 3, 4]>;
 }>;

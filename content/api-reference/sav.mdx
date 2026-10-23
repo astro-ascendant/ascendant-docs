@@ -77,7 +77,9 @@ class SAVCalculationError extends SAVCalculationError_base {}
 ```ts
 const AshtakavargaEntities: Schema.Union<
   readonly [
-    Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>,
+    Schema.Literals<
+      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+    >,
     Schema.Literal<"Lagna">,
   ]
 >;
@@ -136,7 +138,17 @@ const AshtakavargaTotals: Schema.Struct<{
 const BhinnaAshtakavarga: Schema.$Record<
   Schema.Union<
     readonly [
-      Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>,
+      Schema.Literals<
+        readonly [
+          "Sun",
+          "Moon",
+          "Mars",
+          "Mercury",
+          "Jupiter",
+          "Venus",
+          "Saturn",
+        ]
+      >,
       Schema.Literal<"Lagna">,
     ]
   >,
@@ -176,7 +188,9 @@ const Pinda: Schema.Struct<{
 
 ```ts
 const ReducedAshtakavarga: Schema.$Record<
-  Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>,
+  Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+  >,
   Schema.$Record<
     Schema.Literals<
       readonly [
@@ -203,7 +217,9 @@ const ReducedAshtakavarga: Schema.$Record<
 
 ```ts
 const ShodhyaPinda: Schema.$Record<
-  Schema.Literals<readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]>,
+  Schema.Literals<
+    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+  >,
   Schema.Struct<{
     readonly rashi_pinda: Schema.Int;
     readonly graha_pinda: Schema.Int;

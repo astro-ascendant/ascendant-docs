@@ -55,7 +55,16 @@ function normalize360(degrees: number): Longitude;
 ```ts
 const sampleAt: (
   julianDay: number,
-  planet: "Jupiter" | "Ketu" | "Mars" | "Mercury" | "Moon" | "Rahu" | "Saturn" | "Sun" | "Venus",
+  planet:
+    | "Jupiter"
+    | "Ketu"
+    | "Mars"
+    | "Mercury"
+    | "Moon"
+    | "Rahu"
+    | "Saturn"
+    | "Sun"
+    | "Venus",
   ayanamsa:
     | "Aldebaran15Tau"
     | "Aryabhata"
@@ -196,7 +205,17 @@ const TransitKind: Schema.Literals<
 ```ts
 const TransitRequest: Schema.Struct<{
   readonly planet: Schema.Literals<
-    readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+    readonly [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Mercury",
+      "Jupiter",
+      "Venus",
+      "Saturn",
+      "Rahu",
+      "Ketu",
+    ]
   >;
   readonly from: Schema.Struct<{
     readonly moment: Schema.Struct<{
@@ -208,9 +227,13 @@ const TransitRequest: Schema.Struct<{
   readonly count: Schema.Int;
   readonly direction: Schema.Literals<readonly ["forward", "backward"]>;
   readonly kinds: Schema.NonEmptyArray<
-    Schema.Literals<readonly ["sign-ingress", "cusp-crossing", "longitude-hit", "station"]>
+    Schema.Literals<
+      readonly ["sign-ingress", "cusp-crossing", "longitude-hit", "station"]
+    >
   >;
-  readonly targetLongitude: Schema.optionalKey<Schema.brand<Schema.Finite, "Longitude">>;
+  readonly targetLongitude: Schema.optionalKey<
+    Schema.brand<Schema.Finite, "Longitude">
+  >;
   readonly house: Schema.optionalKey<
     Schema.Literals<readonly [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]>
   >;
@@ -218,7 +241,9 @@ const TransitRequest: Schema.Struct<{
   readonly precisionMinutes: Schema.optionalKey<Schema.Finite>;
   readonly includeCharts: Schema.optionalKey<
     Schema.$Array<
-      Schema.Literals<readonly [1, 2, 3, 4, 7, 9, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60]>
+      Schema.Literals<
+        readonly [1, 2, 3, 4, 7, 9, 10, 12, 16, 20, 24, 27, 30, 40, 45, 60]
+      >
     >
   >;
 }>;

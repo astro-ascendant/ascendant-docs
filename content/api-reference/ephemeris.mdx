@@ -30,7 +30,9 @@ class EphemerisError extends EphemerisError_base {}
 ### `NativePlanetaryPosition`
 
 ```ts
-interface NativePlanetaryPosition extends Schema.Schema.Type<typeof NativePlanetaryPosition> {}
+interface NativePlanetaryPosition extends Schema.Schema.Type<
+  typeof NativePlanetaryPosition
+> {}
 ```
 
 ### `PositionCacheOptions`
@@ -48,7 +50,17 @@ interface PositionCacheOptions {
 
 ```ts
 const CelestialBody: Schema.Literals<
-  readonly ["Sun", "Moon", "Mars", "Mercury", "Venus", "Jupiter", "Saturn", "TrueNode", "MeanNode"]
+  readonly [
+    "Sun",
+    "Moon",
+    "Mars",
+    "Mercury",
+    "Venus",
+    "Jupiter",
+    "Saturn",
+    "TrueNode",
+    "MeanNode",
+  ]
 >;
 ```
 

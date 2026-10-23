@@ -22,7 +22,9 @@ function layer(options: Options): Layer.Layer<Service, never, never>;
 ### `layerConfig`
 
 ```ts
-function layerConfig(config: Config.Wrap<Options>): Layer.Layer<Service, Config.ConfigError, never>;
+function layerConfig(
+  config: Config.Wrap<Options>,
+): Layer.Layer<Service, Config.ConfigError, never>;
 ```
 
 ## Classes

@@ -41,7 +41,9 @@ const calculate: (placements: Placements) => Effect.Effect<
 ### `compareExactDegrees`
 
 ```ts
-const compareExactDegrees: ((right: ExactDegree) => (left: ExactDegree) => number) &
+const compareExactDegrees: ((
+  right: ExactDegree,
+) => (left: ExactDegree) => number) &
   ((left: ExactDegree, right: ExactDegree) => number);
 ```
 
@@ -196,7 +198,15 @@ const Assignments: Schema.$Record<
   Schema.NonEmptyArray<
     Schema.Struct<{
       readonly planet: Schema.Literals<
-        readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+        readonly [
+          "Sun",
+          "Moon",
+          "Mars",
+          "Mercury",
+          "Jupiter",
+          "Venus",
+          "Saturn",
+        ]
       >;
       readonly degree: Schema.brand<Schema.Finite, "Degree">;
     }>
@@ -327,7 +337,17 @@ const Relation: Schema.Struct<{
   >;
   readonly planets: Schema.$Array<
     Schema.Literals<
-      readonly ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]
+      readonly [
+        "Sun",
+        "Moon",
+        "Mars",
+        "Mercury",
+        "Jupiter",
+        "Venus",
+        "Saturn",
+        "Rahu",
+        "Ketu",
+      ]
     >
   >;
 }>;
