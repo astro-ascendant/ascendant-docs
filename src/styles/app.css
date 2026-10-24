@@ -486,33 +486,42 @@ body {
   opacity: 1;
 }
 
+/* Planet glyphs and their ticks are replaced by the lettered marks in
+   WheelMarks; the library's own nodes, degrees and aspect glyphs are unused. */
+.kp-costar-chart .astro-planet-symbol,
+.kp-costar-chart .astro-planet-retrograde,
+.kp-costar-chart .astro-planet-indicator,
 .kp-costar-chart .astro-marker {
-  stroke: var(--muted-foreground);
-  stroke-opacity: 0.5;
+  display: none;
 }
 
-.kp-costar-chart .astro-planet-symbol {
-  font-family: "Apple Symbols", "Segoe UI Symbol", serif;
-  font-size: 25px;
+.kp-chart-planet-tick {
+  stroke: var(--kp-line-strong);
+  stroke-width: 1px;
 }
 
-/* The library renders integer degrees right next to the glyph; at this size
-   they collide, and the Planets table already carries exact positions. */
+.kp-chart-planet-label {
+  fill: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.kp-chart-planet-retrograde {
+  fill: var(--muted-foreground);
+  font-size: 0.68em;
+  font-weight: 500;
+}
+
 .kp-costar-chart .astro-planet-degree {
   display: none;
 }
 
-.kp-costar-chart .astro-planet-retrograde {
-  fill: var(--muted-foreground);
-  font-family: var(--font-sans);
-}
-
 /* The library draws a static, non-radial arrow; WheelMarks replaces it. */
 .kp-costar-chart .astro-asc-arrow {
-  display: none;
-}
-
-.kp-costar-chart .astro-planet-indicator {
   display: none;
 }
 
@@ -551,8 +560,8 @@ body {
     letter-spacing: 0.1em;
   }
 
-  .kp-costar-chart .astro-planet-symbol {
-    font-size: 27px;
+  .kp-chart-planet-label {
+    font-size: 15px;
   }
 
   .kp-chart-house-number,
@@ -567,8 +576,8 @@ body {
     letter-spacing: 0.06em;
   }
 
-  .kp-costar-chart .astro-planet-symbol {
-    font-size: 30px;
+  .kp-chart-planet-label {
+    font-size: 18px;
   }
 
   .kp-chart-house-number,
