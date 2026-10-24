@@ -1,23 +1,30 @@
-import type { ChartResult } from "@/lib/chart";
+import type { ChartBirthInput, ChartResult } from "@/lib/chart";
+import type { ChartFailure } from "@/lib/chart-errors";
 
 export type ChartStatus = "empty" | "calculating" | "failure" | "success";
 
 export interface ChartSessionState {
   readonly status: ChartStatus;
   readonly result: ChartResult | null;
-  readonly errors: readonly string[];
+  /**
+   * What the reader asked for. Kept through a failure so the report header
+   * still names the chart that did not cast, and the editor stays reachable.
+   */
+  readonly attempt: ChartBirthInput | null;
+  readonly failure: ChartFailure | null;
 }
 
 export type ChartSessionEvent =
-  | { readonly type: "start" }
+  | { readonly type: "start"; readonly birth: ChartBirthInput }
   | { readonly type: "succeed"; readonly result: ChartResult }
-  | { readonly type: "fail"; readonly errors: readonly string[] }
+  | { readonly type: "fail"; readonly failure: ChartFailure }
   | { readonly type: "reset" };
 
 export const initialChartSessionState: ChartSessionState = {
   status: "empty",
   result: null,
-  errors: [],
+  attempt: null,
+  failure: null,
 };
 
 /**
@@ -30,11 +37,26 @@ export function reduceChartSession(
 ): ChartSessionState {
   switch (event.type) {
     case "start":
-      return { ...state, status: "calculating", errors: [] };
+      return {
+        ...state,
+        status: "calculating",
+        attempt: event.birth,
+        failure: null,
+      };
     case "succeed":
-      return { status: "success", result: event.result, errors: [] };
+      return {
+        status: "success",
+        result: event.result,
+        attempt: state.attempt,
+        failure: null,
+      };
     case "fail":
-      return { status: "failure", result: null, errors: event.errors };
+      return {
+        ...state,
+        status: "failure",
+        result: null,
+        failure: event.failure,
+      };
     case "reset":
       return initialChartSessionState;
   }

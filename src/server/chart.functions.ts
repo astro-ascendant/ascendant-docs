@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { Data, Effect, Exit, Option, Schema } from "effect";
+import { CHART_ERROR_MESSAGES } from "@/lib/chart-errors";
 import {
   MissingMomentError,
   OffsetMoment,
@@ -37,7 +38,7 @@ export const getChart = createServerFn({ method: "POST" })
     try {
       return Schema.decodeUnknownSync(ChartRequest)(input);
     } catch {
-      throw new Error("Check the birth date, time and coordinates.");
+      throw new Error(CHART_ERROR_MESSAGES.invalidRequest);
     }
   })
   .handler(async ({ data }) => {
@@ -88,35 +89,17 @@ export const getChart = createServerFn({ method: "POST" })
         effect.pipe(
           Effect.catchTags({
             SchemaError: () =>
-              Effect.fail(
-                httpError("Check the birth date, time and coordinates."),
-              ),
+              Effect.fail(httpError(CHART_ERROR_MESSAGES.invalidRequest)),
             MissingMomentError: () =>
-              Effect.fail(
-                httpError(
-                  "Send the birth date and time (date: YYYY-MM-DD, time: HH:MM).",
-                ),
-              ),
+              Effect.fail(httpError(CHART_ERROR_MESSAGES.missingMoment)),
             InvalidWallClockError: () =>
-              Effect.fail(
-                httpError(
-                  "That date and time do not exist. Check the birth date.",
-                ),
-              ),
+              Effect.fail(httpError(CHART_ERROR_MESSAGES.impossibleMoment)),
             TimeZoneLookupError: () =>
-              Effect.fail(
-                httpError(
-                  "Could not determine the time zone for this place. Check the coordinates.",
-                ),
-              ),
+              Effect.fail(httpError(CHART_ERROR_MESSAGES.unknownTimeZone)),
             OffsetLookupError: () =>
-              Effect.fail(
-                httpError(
-                  "Could not resolve the time zone offset for this place.",
-                ),
-              ),
+              Effect.fail(httpError(CHART_ERROR_MESSAGES.unresolvedOffset)),
             MomentDecodeError: () =>
-              Effect.fail(httpError("Could not resolve the birth moment.")),
+              Effect.fail(httpError(CHART_ERROR_MESSAGES.unresolvedMoment)),
             CalculateChartError: (error) =>
               Effect.fail(httpError(error.message)),
           }),

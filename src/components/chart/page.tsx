@@ -71,9 +71,9 @@ function formatClockTime(value: string): string {
 /** The zone the chart was cast against, e.g. IST. The numeric offset is omitted. */
 function formatZoneHint(
   timeZone: string | null,
-  instantIso: string,
+  instantIso: string | null,
 ): string | undefined {
-  if (timeZone === null) {
+  if (timeZone === null || instantIso === null) {
     return undefined;
   }
   return formatTimeZoneLabel(timeZone, instantIso) ?? undefined;
@@ -154,6 +154,19 @@ function useChartSummary(): { items: SummaryItem[] } | null {
   };
 }
 
+/**
+ * What the header shows about the birth: the resolved result when there is
+ * one, or the submitted details when the calculation failed.
+ */
+interface ReportBirth {
+  name: string;
+  date: string;
+  time: string;
+  place: string;
+  timeZone: string | null;
+  utcIso: string | null;
+}
+
 /** Hairline-divided stat row: one grid, space and a single divider line. */
 function KpiStrip({
   items,
@@ -203,12 +216,19 @@ const MOBILE_TAB_LIST =
  */
 export function ChartPage() {
   const {
-    state: { status, result },
+    state: { status, result, attempt },
   } = useChartSession();
   const summary = useChartSummary();
   const isMobile = useIsMobile();
   const [editorOpen, setEditorOpen] = useState(false);
-  const birth = result?.birth ?? null;
+  // A failed calculation has no result, so the header reads the submitted
+  // details instead: the reader keeps their place and the way back in.
+  const birth: ReportBirth | null =
+    result !== null
+      ? result.birth
+      : attempt !== null
+        ? { ...attempt, timeZone: null, utcIso: null }
+        : null;
   const hasBirth = birth !== null;
   const showResults = status !== "empty";
   const placeLabel =
@@ -322,6 +342,7 @@ export function ChartPage() {
                   isMobile ? MOBILE_TAB_LIST : undefined
                 }
                 tabListFill={isMobile}
+                onEditDetails={() => setEditorOpen(true)}
               />
               {/* Clearance for the floating tab bar; only where it floats. */}
               {isMobile ? <div aria-hidden="true" className="h-16" /> : null}

@@ -1,4 +1,6 @@
+import { WarningCircleIcon } from "@phosphor-icons/react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -45,17 +47,41 @@ function ChartCalculating() {
   );
 }
 
-function ChartFailure() {
+function ChartFailure({ onEditDetails }: { onEditDetails?: () => void }) {
   const {
-    state: { errors },
+    state: { failure },
+    actions: { calculate },
   } = useChartSession();
+  // The retry rethrows so the calculate button can fall back to idle; here
+  // there is no button state to reset, so the rejection stops at the click.
+  const retry = () => {
+    void calculate().catch(() => {});
+  };
   return (
-    <Alert variant="destructive">
-      <AlertTitle>Calculation did not complete</AlertTitle>
+    <Alert variant="destructive" className="gap-0.5">
+      <WarningCircleIcon aria-hidden="true" />
+      <AlertTitle>{failure?.title ?? "The chart didn't calculate"}</AlertTitle>
       <AlertDescription>
-        {errors.length > 0
-          ? errors.join(" ")
-          : "Unable to calculate the chart. Check your connection and try again."}
+        <p>
+          {failure?.message ??
+            "Something went wrong while casting this chart. Try again, and if it keeps happening, check the birth date, time and place."}
+        </p>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <Button type="button" variant="secondary" size="sm" onClick={retry}>
+            Try again
+          </Button>
+          {onEditDetails ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="text-foreground"
+              onClick={onEditDetails}
+            >
+              Edit details
+            </Button>
+          ) : null}
+        </div>
       </AlertDescription>
     </Alert>
   );
@@ -368,10 +394,12 @@ export function ChartResultSwitch({
   tabListClassName,
   tabListContainerClassName,
   tabListFill,
+  onEditDetails,
 }: {
   tabListClassName?: string;
   tabListContainerClassName?: string;
   tabListFill?: boolean;
+  onEditDetails?: () => void;
 } = {}) {
   const {
     state: { status, result },
@@ -391,7 +419,9 @@ export function ChartResultSwitch({
           Recalculating with the updated details…
         </p>
       ) : null}
-      {status === "failure" ? <ChartFailure /> : null}
+      {status === "failure" ? (
+        <ChartFailure onEditDetails={onEditDetails} />
+      ) : null}
       {result !== null ? (
         <ChartSuccess
           tabListClassName={tabListClassName}

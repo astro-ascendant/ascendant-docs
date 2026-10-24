@@ -1,5 +1,6 @@
 import { createContext, use, useReducer, useRef, type ReactNode } from "react";
 import { buildChartPdf } from "@/lib/chart-pdf";
+import { describeChartError } from "@/lib/chart-errors";
 import { getChart } from "@/server/chart.functions";
 import {
   buildChartPromptUrl,
@@ -93,9 +94,6 @@ export function ChartSessionProvider({
   return <ChartSessionContext value={value}>{children}</ChartSessionContext>;
 }
 
-const MISSING_CONNECTION =
-  "Unable to calculate the chart. Check your connection and try again.";
-
 export function useChartSessionController({
   birth,
   onInvalid,
@@ -131,7 +129,7 @@ export function useChartSessionController({
     }
     const id = requestId.current + 1;
     requestId.current = id;
-    dispatch({ type: "start" });
+    dispatch({ type: "start", birth });
 
     try {
       const result = await requestChart(birth);
@@ -146,11 +144,8 @@ export function useChartSessionController({
       if (requestId.current !== id) {
         return;
       }
-      console.error(error);
-      dispatch({
-        type: "fail",
-        errors: [error instanceof Error ? error.message : MISSING_CONNECTION],
-      });
+      console.error("Chart calculation failed", error);
+      dispatch({ type: "fail", failure: describeChartError(error) });
       throw error;
     }
   };
