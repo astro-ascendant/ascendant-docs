@@ -382,7 +382,7 @@ function ChartSuccess({
           <ChartSavTable />
         </TabsContent>
       </Tabs>
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="flex flex-row items-center gap-2 sm:gap-3">
         <ChartAskChatGPTButton />
         <ChartSavePdfButton />
       </div>

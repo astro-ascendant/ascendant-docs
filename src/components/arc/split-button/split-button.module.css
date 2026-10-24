@@ -272,6 +272,23 @@
   }
 }
 
+/* Below 400px the action row still keeps both buttons on one line: the pair
+   gives up horizontal padding and a slice of the menu half before the label
+   would clip. */
+@media (max-width: 399px) {
+  .primary {
+    padding: 0 var(--space-2);
+  }
+
+  .trigger {
+    width: 30px;
+  }
+
+  .primaryContent {
+    gap: var(--space-1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .group,
   .primary,
