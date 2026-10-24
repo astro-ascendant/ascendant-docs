@@ -1,9 +1,8 @@
 import * as React from "react";
 import type { ReactNode } from "react";
 import { parseDate } from "chrono-node";
-import { CalendarBlankIcon, CircleNotchIcon } from "@phosphor-icons/react";
+import { CalendarBlankIcon } from "@phosphor-icons/react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,7 +12,9 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CityPicker } from "@/components/chart/city-picker";
+import { ActionButton } from "@/components/arc/action-button/action-button";
 import {
   Popover,
   PopoverContent,
@@ -240,38 +241,29 @@ export function ChartSexField() {
   return (
     <fieldset className="m-0 flex flex-col border-0 p-0">
       <legend className="mb-1.5 text-sm font-medium">Gender</legend>
-      <div className="bg-input/50 grid min-h-9 grid-cols-3 gap-1 rounded-full p-1">
-        {SEX_OPTIONS.map((option) => {
-          const checked = selected === option.value;
-          return (
-            <label
+      <Tabs
+        value={selected}
+        onValueChange={(value) =>
+          updateBirth({
+            sex: value === "" ? undefined : (value as "Male" | "Female"),
+          })
+        }
+      >
+        <TabsList
+          aria-label="Gender"
+          className="w-full items-stretch group-data-horizontal/tabs:h-auto"
+        >
+          {SEX_OPTIONS.map((option) => (
+            <TabsTrigger
               key={option.label}
-              className={`flex cursor-pointer items-center justify-center rounded-full px-2 py-1 text-center text-xs leading-tight transition-colors focus-within:ring-2 focus-within:ring-ring ${
-                checked
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              value={option.value}
+              className="h-auto min-w-0 flex-1 px-2 py-1.5 text-center text-xs leading-tight whitespace-normal"
             >
-              <input
-                type="radio"
-                name="chart-sex"
-                value={option.value}
-                checked={checked}
-                onChange={() =>
-                  updateBirth({
-                    sex:
-                      option.value === ""
-                        ? undefined
-                        : (option.value as "Male" | "Female"),
-                  })
-                }
-                className="sr-only"
-              />
               {option.label}
-            </label>
-          );
-        })}
-      </div>
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
     </fieldset>
   );
 }
@@ -327,25 +319,15 @@ export function ChartPlaceField() {
 
 export function ChartCalculateButton() {
   const {
-    state: { status },
     actions: { calculate },
   } = useChartSession();
-  const busy = status === "calculating";
   return (
-    <Button
-      type="button"
-      disabled={busy}
-      aria-busy={busy}
-      onClick={calculate}
+    <ActionButton
+      label="Calculate chart"
+      pendingLabel="Calculating"
+      successLabel="Chart ready"
+      onAction={calculate}
       className="w-fit"
-    >
-      {busy ? (
-        <CircleNotchIcon
-          className="motion-safe:animate-spin"
-          aria-hidden="true"
-        />
-      ) : null}
-      Calculate chart
-    </Button>
+    />
   );
 }

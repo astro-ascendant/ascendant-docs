@@ -391,11 +391,7 @@ export function formatDashaDate(iso: string): string {
   return `${date.getUTCDate()} ${SHORT_MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
-function pluralize(value: number, one: string, many: string): string {
-  return `${value} ${value === 1 ? one : many}`;
-}
-
-/** Calendar-aware span like "10 yrs", "1 yr 4 mos", "18 days". */
+/** Calendar-aware span like "10Y", "1Y 4M", "1Y 4M 12D", "18D". */
 export function formatDashaDuration(startIso: string, endIso: string): string {
   const start = new Date(startIso);
   const end = new Date(endIso);
@@ -421,15 +417,15 @@ export function formatDashaDuration(startIso: string, endIso: string): string {
   }
   const parts: string[] = [];
   if (years > 0) {
-    parts.push(pluralize(years, "yr", "yrs"));
+    parts.push(`${years}Y`);
   }
   if (months > 0) {
-    parts.push(pluralize(months, "mo", "mos"));
+    parts.push(`${months}M`);
   }
-  if (days > 0 && years === 0) {
-    parts.push(pluralize(days, "day", "days"));
+  if (days > 0) {
+    parts.push(`${days}D`);
   }
-  return parts.slice(0, 2).join(" ");
+  return parts.join(" ");
 }
 
 /** Index of the period covering now, or -1. */

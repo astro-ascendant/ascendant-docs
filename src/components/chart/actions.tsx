@@ -1,6 +1,7 @@
+import { FilePdfIcon } from "@phosphor-icons/react";
+import { Button } from "@/components/arc/button/button";
 import { ChatGptIcon } from "@/components/chart/chatgpt-icon";
 import { useChartSession } from "@/components/chart/context";
-import { Button } from "@/components/ui/button";
 
 export function ChartSavePdfButton() {
   const {
@@ -13,6 +14,7 @@ export function ChartSavePdfButton() {
       className="flex-1 whitespace-nowrap sm:flex-none"
       onClick={savePdf}
     >
+      <FilePdfIcon aria-hidden="true" className="size-5" />
       Save as PDF
     </Button>
   );
@@ -25,15 +27,11 @@ export function ChartAskChatGPTButton() {
   return (
     <Button
       type="button"
-      variant="inverted"
+      variant="primary"
       className="flex-1 whitespace-nowrap sm:flex-none"
       onClick={askChatGPT}
     >
-      <ChatGptIcon
-        data-icon="inline-start"
-        aria-hidden="true"
-        className="size-5"
-      />
+      <ChatGptIcon aria-hidden="true" className="size-5" />
       Ask ChatGPT
     </Button>
   );

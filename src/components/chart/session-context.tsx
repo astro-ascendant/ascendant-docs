@@ -15,7 +15,7 @@ import {
 } from "./session-state";
 
 export interface ChartSessionActions {
-  calculate: () => void;
+  calculate: () => Promise<void>;
   savePdf: () => void;
   askChatGPT: () => void;
 }
@@ -121,38 +121,37 @@ export function useChartSessionController({
   );
   const requestId = useRef(0);
 
-  const calculate = () => {
+  const calculate = async () => {
     const validation = validateChartInput(birth);
     if (!validation.ok) {
       onInvalid(validation.fields);
       dispatch({ type: "reset" });
-      return;
+      throw new Error("Chart details are incomplete.");
     }
     const id = requestId.current + 1;
     requestId.current = id;
     dispatch({ type: "start" });
 
-    void (async () => {
-      try {
-        const result = await requestChart(birth);
-        if (requestId.current !== id) {
-          return;
-        }
-        dispatch({ type: "succeed", result });
-        if (birth.name.trim() !== "") {
-          onSavedProfile(birth);
-        }
-      } catch (error) {
-        if (requestId.current !== id) {
-          return;
-        }
-        console.error(error);
-        dispatch({
-          type: "fail",
-          errors: [error instanceof Error ? error.message : MISSING_CONNECTION],
-        });
+    try {
+      const result = await requestChart(birth);
+      if (requestId.current !== id) {
+        return;
       }
-    })();
+      dispatch({ type: "succeed", result });
+      if (birth.name.trim() !== "") {
+        onSavedProfile(birth);
+      }
+    } catch (error) {
+      if (requestId.current !== id) {
+        return;
+      }
+      console.error(error);
+      dispatch({
+        type: "fail",
+        errors: [error instanceof Error ? error.message : MISSING_CONNECTION],
+      });
+      throw error;
+    }
   };
 
   const savePdf = () => {

@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/arc/tabs/tabs";
 import { cn } from "cn";
 import { useChartSession } from "@/components/chart/context";
 import { ChartQuote } from "@/components/chart/quote";
@@ -201,7 +201,7 @@ function ChartKpTabs() {
   }
   return (
     <Tabs defaultValue="wheel">
-      <TabsList className="max-w-full self-start overflow-x-auto">
+      <TabsList containerClassName="max-w-full self-start">
         <TabsTrigger value="wheel">Circular Chart</TabsTrigger>
         <TabsTrigger value="planets">Planets</TabsTrigger>
         <TabsTrigger value="cusps">Cusps</TabsTrigger>
@@ -237,7 +237,7 @@ function ChartSavTable() {
     result.sav.rows.map((row) => [row.planet, Math.min(...row.points)]),
   );
   return (
-    <Table>
+    <Table className="text-[11px] sm:text-sm [&_td]:px-2 [&_td]:py-2 [&_th]:h-auto [&_th]:px-2 [&_th]:py-2 sm:[&_td]:px-3 sm:[&_td]:py-3 sm:[&_th]:h-12 sm:[&_th]:px-3">
       <TableHeader>
         <TableRow>
           <TableHead>Sign</TableHead>
@@ -292,7 +292,17 @@ function ChartSavTable() {
   );
 }
 
-function ChartSuccess({ tabListClassName }: { tabListClassName?: string }) {
+function ChartSuccess({
+  tabListClassName,
+  tabListContainerClassName,
+  tabListFill,
+  onTabChange,
+}: {
+  tabListClassName?: string;
+  tabListContainerClassName?: string;
+  tabListFill?: boolean;
+  onTabChange?: () => void;
+}) {
   const {
     state: { result },
   } = useChartSession();
@@ -301,39 +311,41 @@ function ChartSuccess({ tabListClassName }: { tabListClassName?: string }) {
   }
   return (
     <div className="flex flex-col gap-4">
-      <Tabs defaultValue="chart">
+      <Tabs defaultValue="chart" onValueChange={onTabChange}>
         <TabsList
-          className={cn(
-            "max-w-full self-start overflow-x-auto",
-            tabListClassName,
+          fill={tabListFill}
+          containerClassName={cn(
+            "max-w-full self-start",
+            tabListContainerClassName,
           )}
+          className={tabListClassName}
         >
           <TabsTrigger value="chart">Chart</TabsTrigger>
-          <TabsTrigger value="kp">KP Chart</TabsTrigger>
+          <TabsTrigger value="kp">KP</TabsTrigger>
           <TabsTrigger value="dasha">Dasha</TabsTrigger>
           <TabsTrigger value="jaimini">Jaimini</TabsTrigger>
           <TabsTrigger value="sav">SAV</TabsTrigger>
         </TabsList>
-        <TabsContent value="chart">
+        <TabsContent value="chart" className="max-md:mt-0!">
           <h2 className="sr-only">Rashi and Navamsha charts</h2>
           <ChartSignHouseCharts />
         </TabsContent>
-        <TabsContent value="kp">
+        <TabsContent value="kp" className="max-md:mt-0!">
           <div className="flex flex-col gap-4">
             <h2 className="sr-only">KP chart</h2>
             <ChartKpCaption />
             <ChartKpTabs />
           </div>
         </TabsContent>
-        <TabsContent value="dasha">
+        <TabsContent value="dasha" className="max-md:mt-0!">
           <h2 className="sr-only">Dasha periods</h2>
           <ChartDashaTimelines />
         </TabsContent>
-        <TabsContent value="jaimini">
+        <TabsContent value="jaimini" className="max-md:mt-0!">
           <h2 className="sr-only">Jaimini</h2>
           <ChartJaiminiTables />
         </TabsContent>
-        <TabsContent value="sav">
+        <TabsContent value="sav" className="flex flex-col gap-4 max-md:mt-0!">
           <h2 className="sr-only">Sarvashtakavarga</h2>
           <ChartQuote>
             SAV scores each sign by how much support it gives your planets. The
@@ -354,10 +366,21 @@ function ChartSuccess({ tabListClassName }: { tabListClassName?: string }) {
 
 export function ChartResultSwitch({
   tabListClassName,
-}: { tabListClassName?: string } = {}) {
+  tabListContainerClassName,
+  tabListFill,
+}: {
+  tabListClassName?: string;
+  tabListContainerClassName?: string;
+  tabListFill?: boolean;
+} = {}) {
   const {
     state: { status, result },
   } = useChartSession();
+  // Each outer tab is a fresh view of the report, so start it from the top
+  // instead of leaving the reader halfway down the previous analysis.
+  const handleTabChange = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  };
   return (
     <div role="status" className="flex flex-col gap-4">
       {status === "calculating" && result === null ? (
@@ -370,7 +393,12 @@ export function ChartResultSwitch({
       ) : null}
       {status === "failure" ? <ChartFailure /> : null}
       {result !== null ? (
-        <ChartSuccess tabListClassName={tabListClassName} />
+        <ChartSuccess
+          tabListClassName={tabListClassName}
+          tabListContainerClassName={tabListContainerClassName}
+          tabListFill={tabListFill}
+          onTabChange={handleTabChange}
+        />
       ) : null}
     </div>
   );

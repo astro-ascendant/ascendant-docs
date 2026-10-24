@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 /** Notion-style quote: serif body behind a left rule, used for method captions. */
 export function ChartQuote({ children }: { children: ReactNode }) {
   return (
-    <blockquote className="border-foreground/60 m-0! border-l-2 pl-3 font-serif text-sm leading-relaxed">
+    <blockquote className="border-foreground/60 m-0! border-l-2 pl-3 font-serif text-[13px] leading-snug sm:text-sm sm:leading-relaxed">
       {children}
     </blockquote>
   );

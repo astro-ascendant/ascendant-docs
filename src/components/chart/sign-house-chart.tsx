@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/arc/tabs/tabs";
 import { ChartQuote } from "@/components/chart/quote";
 import {
   buildDivisionView,
@@ -184,11 +184,11 @@ function SignHouseChart({ division }: { division: number }) {
 export function ChartSignHouseCharts() {
   return (
     <Tabs defaultValue="D1">
-      <TabsList className="max-w-full self-start overflow-x-auto">
+      <TabsList containerClassName="max-w-full self-start">
         <TabsTrigger value="D1">D1 · Rashi</TabsTrigger>
         <TabsTrigger value="D9">D9 · Navamsha</TabsTrigger>
       </TabsList>
-      <TabsContent value="D1">
+      <TabsContent value="D1" className="flex flex-col gap-4">
         <ChartQuote>
           D1 is your chart as the sky was at the moment of birth. Every other
           division in this report zooms into it, so start here for the whole
@@ -197,7 +197,7 @@ export function ChartSignHouseCharts() {
         </ChartQuote>
         <SignHouseChart division={1} />
       </TabsContent>
-      <TabsContent value="D9">
+      <TabsContent value="D9" className="flex flex-col gap-4">
         <ChartQuote>
           D9 is the chart of what ripens underneath the surface. Astrologers
           read it for marriage and for the true strength of a planet, since a
