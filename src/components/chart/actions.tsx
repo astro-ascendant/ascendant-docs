@@ -11,7 +11,7 @@ export function ChartSavePdfButton() {
     <Button
       type="button"
       variant="secondary"
-      className="max-[359px]:gap-1! max-[359px]:px-2! flex-1 whitespace-nowrap"
+      className="max-[359px]:gap-1! max-[359px]:px-2! flex-1 whitespace-nowrap sm:flex-none"
       onClick={savePdf}
     >
       <FilePdfIcon aria-hidden="true" className="size-5" />
@@ -28,7 +28,7 @@ export function ChartAskChatGPTButton() {
     <Button
       type="button"
       variant="primary"
-      className="max-[359px]:gap-1! max-[359px]:px-2! flex-1 whitespace-nowrap"
+      className="max-[359px]:gap-1! max-[359px]:px-2! flex-1 whitespace-nowrap sm:flex-none"
       onClick={askChatGPT}
     >
       <ChatGptIcon aria-hidden="true" className="size-5" />
