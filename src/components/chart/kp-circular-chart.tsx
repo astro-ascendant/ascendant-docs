@@ -10,6 +10,9 @@ const CENTER = SIZE / 2;
 const SIGN_RING_OUTER = 290;
 const SIGN_RING_INNER = 250;
 const HOUSE_NUMBER_RADIUS = 192;
+const HOUSE_LINE_INNER = 201;
+/** Outer edge of the house field, where the sign band's inner ring sits. */
+const HOUSE_LINE_OUTER = SIGN_RING_INNER;
 const ASC_INNER_RADIUS = 196;
 const ASC_OUTER_RADIUS = 250;
 const PLANET_LABEL_RADIUS = 223;
@@ -149,6 +152,24 @@ function WheelMarks({ data }: { data: ChartData }) {
     return { house: house.house, x, y };
   });
 
+  /**
+   * The library stops each cusp at r=245, five units short of the sign band's
+   * inner circle, leaving a gap. Redraw them so they meet that circle.
+   */
+  const cusps = houses.map((house) => {
+    const angle = normalize(house.longitude + rotation);
+    const [x1, y1] = point(angle, HOUSE_LINE_INNER);
+    const [x2, y2] = point(angle, HOUSE_LINE_OUTER);
+    return {
+      house: house.house,
+      angle: [1, 4, 7, 10].includes(house.house),
+      x1,
+      y1,
+      x2,
+      y2,
+    };
+  });
+
   const byId = new Map(data.bodies.map((body) => [body.id, body]));
   const planets = spreadBodies(data.bodies, houses).flatMap((entry) => {
     const body = byId.get(entry.id);
@@ -204,6 +225,18 @@ function WheelMarks({ data }: { data: ChartData }) {
         r={SIGN_RING_INNER}
         className="kp-chart-sign-ring"
       />
+      {cusps.map((cusp) => (
+        <line
+          key={cusp.house}
+          x1={cusp.x1}
+          y1={cusp.y1}
+          x2={cusp.x2}
+          y2={cusp.y2}
+          className={
+            cusp.angle ? "kp-chart-cusp-line angle" : "kp-chart-cusp-line"
+          }
+        />
+      ))}
       {numbers.map((entry) => (
         <text
           key={entry.house}

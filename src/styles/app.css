@@ -480,16 +480,18 @@ body {
 }
 
 .kp-costar-chart .astro-house-line {
-  stroke: var(--kp-line);
-  stroke-dasharray: none;
-  stroke-width: 1px;
-  opacity: 1;
+  /* Redrawn in the overlay so the ends meet the outer house circle. */
+  stroke: none;
 }
 
-.kp-costar-chart .astro-house-line.angle {
+.kp-costar-chart .kp-chart-cusp-line {
+  stroke: var(--kp-line);
+  stroke-width: 1px;
+}
+
+.kp-costar-chart .kp-chart-cusp-line.angle {
   stroke: var(--kp-line-strong);
   stroke-width: 1px;
-  opacity: 1;
 }
 
 /* Planet glyphs and their ticks are replaced by the lettered marks in
