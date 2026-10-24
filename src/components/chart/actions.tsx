@@ -1,5 +1,6 @@
 import { FilePdfIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/arc/button/button";
+import { SplitButton } from "@/components/arc/split-button/split-button";
 import { ChatGptIcon } from "@/components/chart/chatgpt-icon";
 import { useChartSession } from "@/components/chart/context";
 
@@ -11,7 +12,7 @@ export function ChartSavePdfButton() {
     <Button
       type="button"
       variant="secondary"
-      className="max-[359px]:gap-1! max-[359px]:px-2! flex-1 whitespace-nowrap sm:flex-none"
+      className="w-full max-[359px]:gap-1! max-[359px]:px-2! whitespace-nowrap sm:w-auto"
       onClick={savePdf}
     >
       <FilePdfIcon aria-hidden="true" className="size-5" />
@@ -22,17 +23,18 @@ export function ChartSavePdfButton() {
 
 export function ChartAskChatGPTButton() {
   const {
-    actions: { askChatGPT },
+    actions: { askAI },
   } = useChartSession();
   return (
-    <Button
-      type="button"
-      variant="primary"
-      className="max-[359px]:gap-1! max-[359px]:px-2! flex-1 whitespace-nowrap sm:flex-none"
-      onClick={askChatGPT}
-    >
-      <ChatGptIcon aria-hidden="true" className="size-5" />
-      Ask ChatGPT
-    </Button>
+    <SplitButton
+      label="Ask ChatGPT"
+      onClick={() => askAI("chatgpt")}
+      icon={<ChatGptIcon aria-hidden="true" className="size-5" />}
+      className="w-full sm:w-auto"
+      actions={[
+        { label: "Ask Claude", onSelect: () => askAI("claude") },
+        { label: "Ask Gemini", onSelect: () => askAI("gemini") },
+      ]}
+    />
   );
 }

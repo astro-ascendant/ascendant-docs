@@ -522,7 +522,7 @@ function antardashaMarkdownTable(period: ChartDashaPeriod): string {
   );
 }
 
-export function buildChatGptPromptUrl(result: ChartResult): string {
+export function buildChartPrompt(result: ChartResult): string {
   const currentIndex = findCurrentPeriodIndex(result.dasha.vimshottari);
   const currentMahadasha =
     currentIndex === -1 ? undefined : result.dasha.vimshottari[currentIndex];
@@ -556,7 +556,7 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
     }
     return "—";
   };
-  const prompt = [
+  return [
     "Read the skill here: https://raw.githubusercontent.com/astro-ascendant/skills/refs/heads/main/skills/ascendant/SKILL.md",
     "https://github.com/astro-ascendant/skills/tree/main/skills/ascendant/references",
     "",
@@ -619,5 +619,22 @@ export function buildChatGptPromptUrl(result: ChartResult): string {
       ? antardashaMarkdownTable(currentMahadasha)
       : "_No current antardasha._",
   ].join("\n");
-  return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
+}
+
+export type ChartPromptProvider = "chatgpt" | "claude" | "gemini";
+
+export function buildChartPromptUrl(
+  result: ChartResult,
+  provider: ChartPromptProvider = "chatgpt",
+): string {
+  const prompt = encodeURIComponent(buildChartPrompt(result));
+  switch (provider) {
+    case "claude":
+      return `https://claude.ai/new?q=${prompt}`;
+    case "gemini":
+      // The Gemini app has no prompt parameter; AI Studio does.
+      return `https://aistudio.google.com/prompts/new_chat?prompt=${prompt}`;
+    default:
+      return `https://chatgpt.com/?q=${prompt}`;
+  }
 }

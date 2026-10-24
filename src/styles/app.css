@@ -106,10 +106,20 @@
   --text-sm: 0.875rem;
   --leading-body: 1.4;
   --duration-fast: 0.16s;
+  --duration-instant: 0.12s;
+  --duration-standard: 0.24s;
+  --duration-spring: 0.32s;
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
   --shadow-resting: 0 1px 2px oklch(0% 0 0 / 0.035);
+  --shadow-floating: 0 12px 32px oklch(0% 0 0 / 0.12);
+  --radius-panel: 1rem;
   --surface: var(--card);
+  --surface-raised: var(--popover);
   --surface-muted: var(--muted);
+  --border-subtle: var(--border);
+  --danger: var(--destructive);
   --text-muted: var(--muted-foreground);
   --text-secondary: var(--muted-foreground);
   --accent-strong: var(--foreground);
@@ -197,6 +207,7 @@
 
   --shadow-color: oklch(0 0 0 / 0.18);
   --shadow-resting: 0 1px 2px oklch(0% 0 0 / 0.18);
+  --shadow-floating: 0 16px 40px oklch(0% 0 0 / 0.5);
   --radius: 0.625rem;
   --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
   --font-serif: "Libre Baskerville", Georgia, serif;

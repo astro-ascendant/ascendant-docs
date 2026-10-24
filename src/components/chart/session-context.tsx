@@ -2,10 +2,11 @@ import { createContext, use, useReducer, useRef, type ReactNode } from "react";
 import { buildChartPdf } from "@/lib/chart-pdf";
 import { getChart } from "@/server/chart.functions";
 import {
-  buildChatGptPromptUrl,
+  buildChartPromptUrl,
   validateChartInput,
   type ChartBirthInput,
   type ChartFieldKey,
+  type ChartPromptProvider,
   type ChartResult,
 } from "@/lib/chart";
 import {
@@ -17,7 +18,7 @@ import {
 export interface ChartSessionActions {
   calculate: () => Promise<void>;
   savePdf: () => void;
-  askChatGPT: () => void;
+  askAI: (provider: ChartPromptProvider) => void;
 }
 
 export interface ChartSessionValue {
@@ -30,7 +31,7 @@ export interface ChartSessionDeps {
   requestChart: (birth: ChartBirthInput) => Promise<ChartResult>;
   clock: () => string;
   savePdf: (result: ChartResult) => void;
-  askChatGPT: (result: ChartResult) => void;
+  askAI: (result: ChartResult, provider: ChartPromptProvider) => void;
 }
 
 function requestChart(birth: ChartBirthInput): Promise<ChartResult> {
@@ -59,15 +60,15 @@ function downloadPdf(result: ChartResult): void {
   URL.revokeObjectURL(url);
 }
 
-function openChatGpt(result: ChartResult): void {
-  window.open(buildChatGptPromptUrl(result), "_blank", "noopener");
+function openPrompt(result: ChartResult, provider: ChartPromptProvider): void {
+  window.open(buildChartPromptUrl(result, provider), "_blank", "noopener");
 }
 
 const defaultDeps: ChartSessionDeps = {
   requestChart,
   clock: () => new Date().toISOString(),
   savePdf: downloadPdf,
-  askChatGPT: openChatGpt,
+  askAI: openPrompt,
 };
 
 const ChartSessionContext = createContext<ChartSessionValue | null>(null);
@@ -110,7 +111,7 @@ export function useChartSessionController({
     requestChart,
     clock,
     savePdf: savePdfFile,
-    askChatGPT: openPrompt,
+    askAI: openPrompt,
   } = {
     ...defaultDeps,
     ...deps,
@@ -160,15 +161,15 @@ export function useChartSessionController({
     }
   };
 
-  const askChatGPT = () => {
+  const askAI = (provider: ChartPromptProvider) => {
     if (state.result !== null) {
-      openPrompt(state.result);
+      openPrompt(state.result, provider);
     }
   };
 
   return {
     state,
-    actions: { calculate, savePdf, askChatGPT },
+    actions: { calculate, savePdf, askAI },
     clock,
   };
 }
