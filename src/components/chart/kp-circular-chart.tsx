@@ -264,7 +264,7 @@ function WheelMarks({ data }: { data: ChartData }) {
             {planet.label}
             {planet.retrograde ? (
               <tspan className="kp-chart-planet-retrograde" dy="-4">
-                r
+                R
               </tspan>
             ) : null}
           </text>
