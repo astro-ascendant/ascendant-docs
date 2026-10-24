@@ -324,7 +324,7 @@ export function ChartCalculateButton() {
   return (
     <ActionButton
       label="Create Horoscope"
-      pendingLabel="Calculating"
+      pendingLabel="Creating Horoscope"
       successLabel="Chart ready"
       onAction={calculate}
       className="w-fit"

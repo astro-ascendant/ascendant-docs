@@ -7,6 +7,8 @@ import { useChartSession } from "@/components/chart/context";
 
 const SIZE = 600;
 const CENTER = SIZE / 2;
+const SIGN_RING_OUTER = 290;
+const SIGN_RING_INNER = 250;
 const HOUSE_NUMBER_RADIUS = 192;
 const ASC_INNER_RADIUS = 196;
 const ASC_OUTER_RADIUS = 250;
@@ -186,6 +188,22 @@ function WheelMarks({ data }: { data: ChartData }) {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 h-full w-full"
     >
+      {/*
+        The library's sign band is one almost-closed path, so its stroke leaves
+        a stray radial seam at 0°. Redraw the band as two plain circles.
+      */}
+      <circle
+        cx={CENTER}
+        cy={CENTER}
+        r={SIGN_RING_OUTER}
+        className="kp-chart-sign-ring"
+      />
+      <circle
+        cx={CENTER}
+        cy={CENTER}
+        r={SIGN_RING_INNER}
+        className="kp-chart-sign-ring"
+      />
       {numbers.map((entry) => (
         <text
           key={entry.house}

@@ -441,18 +441,24 @@ body {
   color: var(--foreground);
 }
 
-.kp-costar-chart svg circle[r="250"] {
+.kp-costar-chart > svg:first-of-type circle[r="250"] {
   fill: var(--muted);
 }
 
-.kp-costar-chart svg circle[r="243"],
-.kp-costar-chart svg circle[r="206"] {
+.kp-costar-chart > svg:first-of-type circle[r="243"],
+.kp-costar-chart > svg:first-of-type circle[r="206"] {
   fill: var(--background);
 }
 
 .kp-costar-chart .astro-zodiac-ring {
+  /* The annulus path is redrawn as circles to drop its radial seam at 0°. */
+  stroke: none;
+}
+
+.kp-costar-chart .kp-chart-sign-ring {
+  fill: none;
   stroke: var(--kp-line);
-  stroke-opacity: 1;
+  stroke-width: 1px;
 }
 
 .kp-costar-chart .astro-text-zodiac-wheel line {
