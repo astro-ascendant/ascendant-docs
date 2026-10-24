@@ -402,6 +402,181 @@ body {
   }
 }
 
+/* KP circular chart: Co-Star style wheel drawn by @astrologer/react-chart.
+   The library ships a coloured palette and two hardcoded disc fills, so the
+   whole wheel is re-themed here from the site's own tokens. */
+.kp-costar-chart {
+  --astro-color-bg: transparent;
+  --astro-color-paper: var(--card);
+  --astro-color-text: var(--foreground);
+  --astro-color-sun: var(--foreground);
+  --astro-color-moon: var(--foreground);
+  --astro-color-mercury: var(--foreground);
+  --astro-color-venus: var(--foreground);
+  --astro-color-mars: var(--foreground);
+  --astro-color-jupiter: var(--foreground);
+  --astro-color-saturn: var(--foreground);
+  --astro-color-uranus: var(--foreground);
+  --astro-color-neptune: var(--foreground);
+  --astro-color-pluto: var(--foreground);
+  --astro-color-chiron: var(--foreground);
+  --astro-color-mean-node: var(--foreground);
+  --astro-color-true-node: var(--foreground);
+  --astro-color-mean-lilith: var(--foreground);
+  --astro-color-vertex: var(--foreground);
+  --astro-color-anti-vertex: var(--foreground);
+  --astro-color-pars-fortunae: var(--foreground);
+  --astro-color-aspect-conj: var(--muted-foreground);
+  --astro-color-aspect-opp: var(--muted-foreground);
+  --astro-color-aspect-trine: var(--muted-foreground);
+  --astro-color-aspect-square: var(--muted-foreground);
+  --astro-color-aspect-sextile: var(--muted-foreground);
+  --astro-color-aspect-minor: var(--muted-foreground);
+  --astro-color-fire: var(--foreground);
+  --astro-color-earth: var(--foreground);
+  --astro-color-air: var(--foreground);
+  --astro-color-water: var(--foreground);
+  --kp-line: color-mix(in oklab, var(--foreground) 16%, transparent);
+  --kp-line-strong: color-mix(in oklab, var(--foreground) 36%, transparent);
+  color: var(--foreground);
+}
+
+.kp-costar-chart svg circle[r="250"] {
+  fill: var(--muted);
+}
+
+.kp-costar-chart svg circle[r="243"],
+.kp-costar-chart svg circle[r="206"] {
+  fill: var(--background);
+}
+
+.kp-costar-chart .astro-zodiac-ring {
+  stroke: var(--kp-line);
+  stroke-opacity: 1;
+}
+
+.kp-costar-chart .astro-text-zodiac-wheel line {
+  stroke: var(--kp-line);
+}
+
+.kp-costar-chart .astro-zodiac-label {
+  fill: var(--muted-foreground);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.kp-costar-chart .astro-house-ring {
+  stroke: var(--kp-line);
+  stroke-opacity: 1;
+}
+
+.kp-costar-chart .astro-house-line {
+  stroke: var(--kp-line);
+  stroke-dasharray: none;
+  stroke-width: 1px;
+  opacity: 1;
+}
+
+.kp-costar-chart .astro-house-line.angle {
+  stroke: var(--kp-line-strong);
+  stroke-width: 1px;
+  opacity: 1;
+}
+
+.kp-costar-chart .astro-marker {
+  stroke: var(--muted-foreground);
+  stroke-opacity: 0.5;
+}
+
+.kp-costar-chart .astro-planet-symbol {
+  font-family: "Apple Symbols", "Segoe UI Symbol", serif;
+  font-size: 25px;
+}
+
+/* The library renders integer degrees right next to the glyph; at this size
+   they collide, and the Planets table already carries exact positions. */
+.kp-costar-chart .astro-planet-degree {
+  display: none;
+}
+
+.kp-costar-chart .astro-planet-retrograde {
+  fill: var(--muted-foreground);
+  font-family: var(--font-sans);
+}
+
+/* The library draws a static, non-radial arrow; WheelMarks replaces it. */
+.kp-costar-chart .astro-asc-arrow {
+  display: none;
+}
+
+.kp-costar-chart .astro-planet-indicator {
+  display: none;
+}
+
+.kp-chart-house-number {
+  fill: var(--muted-foreground);
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  opacity: 0.75;
+}
+
+.kp-chart-asc-line {
+  stroke: var(--foreground);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  opacity: 0.8;
+}
+
+.kp-chart-asc-label {
+  fill: var(--muted-foreground);
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+/* The wheel shrinks with the viewport, so scale its type up as it narrows.
+   Chart width is viewport minus page padding, capped at 36rem. */
+@media (max-width: 520px) {
+  .kp-costar-chart .astro-zodiac-label {
+    font-size: 14px;
+    letter-spacing: 0.1em;
+  }
+
+  .kp-costar-chart .astro-planet-symbol {
+    font-size: 27px;
+  }
+
+  .kp-chart-house-number,
+  .kp-chart-asc-label {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .kp-costar-chart .astro-zodiac-label {
+    font-size: 15px;
+    letter-spacing: 0.06em;
+  }
+
+  .kp-costar-chart .astro-planet-symbol {
+    font-size: 30px;
+  }
+
+  .kp-chart-house-number,
+  .kp-chart-asc-label {
+    font-size: 14px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .banner-arrow {
     transition: none;

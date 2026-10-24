@@ -14,6 +14,8 @@
     "sync:api": "bun run scripts/sync-api.ts"
   },
   "dependencies": {
+    "@astrologer/astro-core": "^1.0.1",
+    "@astrologer/react-chart": "^1.0.1",
     "@base-ui/react": "^1.9.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
