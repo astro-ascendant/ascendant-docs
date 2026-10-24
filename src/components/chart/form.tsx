@@ -323,7 +323,7 @@ export function ChartCalculateButton() {
   } = useChartSession();
   return (
     <ActionButton
-      label="Calculate chart"
+      label="Create Horoscope"
       pendingLabel="Calculating"
       successLabel="Chart ready"
       onAction={calculate}
