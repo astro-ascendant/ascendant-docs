@@ -202,7 +202,7 @@ function ChartKpTabs() {
   return (
     <Tabs defaultValue="wheel">
       <TabsList containerClassName="max-w-full self-start">
-        <TabsTrigger value="wheel">Circular Chart</TabsTrigger>
+        <TabsTrigger value="wheel">Chart</TabsTrigger>
         <TabsTrigger value="planets">Planets</TabsTrigger>
         <TabsTrigger value="cusps">Cusps</TabsTrigger>
         <TabsTrigger value="dasha">Dasha</TabsTrigger>
